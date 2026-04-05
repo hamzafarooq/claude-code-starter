@@ -9,7 +9,9 @@ Taught by **Hamza Farooq** — Founder at Traversaal.ai · UCLA Anderson · ex-G
 
 ## What this repo is
 
-This is the central repository for the course. Each module has its own folder or linked repo. Start here, then follow the links for each session.
+This is the **official central repository** for [Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice). All course code, templates, and resources live here. If you're a student, bookmark this page — come back here first whenever you need code from class.
+
+Each module has its own folder or linked repo. Start here, then follow the links for each session.
 
 ---
 
@@ -36,10 +38,20 @@ Set up Claude Code, configure your workspace, and go from blank page to a full P
 
 **Code examples from class:**
 
-| Repo | What it is |
-|------|------------|
-| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Rewrites AI-sounding text to sound human — built live in class |
-| [seo-writer](https://github.com/hamzafarooq/seo-writer) | SEO-optimized content generator — second live demo from class |
+See [Built with Claude Code](#built-with-claude-code) below for all repos showcased in this course.
+
+---
+
+## Built with Claude Code
+
+These are real apps built using Claude Code — demoed live in class and available for you to explore, fork, and learn from.
+
+| Repo | What it does | Built with |
+|------|-------------|------------|
+| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Rewrites AI-sounding text to sound human | Claude Code |
+| [seo-writer](https://github.com/hamzafarooq/seo-writer) | SEO-optimized content generator | Claude Code |
+
+> More repos will be added here as the course progresses.
 
 ---
 
