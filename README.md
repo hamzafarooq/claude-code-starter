@@ -11,10 +11,10 @@ Taught by Hamza Farooq, Founder at Traversaal.ai, UCLA Anderson, ex-Google.
 
 ```bash
 git clone https://github.com/hamzafarooq/claude-code-starter.git
-cd claude-code-starter/claude-code-in-practice/module-1
+cd claude-code-starter/module-1
 ```
 
-Open [claude-code-in-practice/module-1/README.md](claude-code-in-practice/module-1/README.md) and follow the setup guide from there.
+Open [module-1/README.md](module-1/README.md) and follow the setup guide from there.
 
 ---
 
@@ -26,7 +26,7 @@ All course code, templates, and skills live here. If you're taking the course, t
 
 ## Course modules
 
-### [Module 1: From idea to shipped product](claude-code-in-practice/module-1/README.md)
+### [Module 1: From idea to shipped product](module-1/README.md)
 
 You'll set up Claude Code, write a `CLAUDE.md` that gives Claude context about your project, install two skills, and ship something by the end.
 
@@ -36,9 +36,9 @@ Assignments:
 3. Go from idea to PRD to MVP
 
 Files:
-- [claude-code-in-practice/module-1/README.md](claude-code-in-practice/module-1/README.md) - setup guide and assignments
-- [claude-code-in-practice/module-1/CLAUDE.md](claude-code-in-practice/module-1/CLAUDE.md) - starter template
-- [claude-code-in-practice/module-1/.claude/skills/](claude-code-in-practice/module-1/.claude/skills/prd-generator/SKILL.md)
+- [module-1/README.md](module-1/README.md) - setup guide and assignments
+- [module-1/CLAUDE.md](module-1/CLAUDE.md) - starter template
+- [module-1/.claude/skills/](module-1/.claude/skills/prd-generator/SKILL.md)
 
 ---
 

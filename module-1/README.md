@@ -11,7 +11,7 @@ Instructor: Hamza Farooq, Traversaal.ai
 
 ```bash
 git clone https://github.com/hamzafarooq/claude-code-starter.git
-cd claude-code-starter/claude-code-in-practice/module-1
+cd claude-code-starter/module-1
 ```
 
 ### Install Claude Code
