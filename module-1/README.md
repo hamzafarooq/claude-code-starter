@@ -1,39 +1,37 @@
-# Module 1 — From Idea to Shipped Product
+# Module 1: From idea to shipped product
 
-**Course:** [Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice)
-**Instructor:** Hamza Farooq · Traversaal.ai
+Course: [Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice)
+Instructor: Hamza Farooq, Traversaal.ai
 
 ---
 
-## Getting Started
+## Setup
 
-### Step 1 — Clone this repo
-
-Open your terminal and run:
+### Clone the repo
 
 ```bash
 git clone https://github.com/hamzafarooq/claude-code-starter.git
 cd claude-code-starter/module-1
 ```
 
-### Step 2 — Install Claude Code
+### Install Claude Code
 
 ```bash
 npm install -g @anthropic/claude-code
 ```
 
-No Node.js? Download the LTS version from [nodejs.org](https://nodejs.org), then re-run the command above.
+No Node.js? Download the LTS version from [nodejs.org](https://nodejs.org), then run the command above.
 
-Verify it worked:
+Check it worked:
 ```bash
 claude --version
 ```
 
-### Step 3 — Set up your API key
+### Set up your API key
 
-1. Go to [console.anthropic.com](https://console.anthropic.com) → **API Keys** → **Create Key**
-2. Copy the key (starts with `sk-ant-...`)
-3. Set it in your terminal:
+1. Go to [console.anthropic.com](https://console.anthropic.com), create an account
+2. Go to API Keys and create a new key
+3. Copy it (starts with `sk-ant-...`)
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-your-key-here
@@ -45,81 +43,80 @@ echo 'export ANTHROPIC_API_KEY=sk-ant-your-key-here' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-### Step 4 — Start Claude Code
+Don't commit this key to GitHub.
+
+### Start Claude Code
 
 From inside the `module-1` folder:
 ```bash
 claude
 ```
 
-You're ready. Now work through the three assignments below.
+You're ready. Work through the three assignments below.
 
 ---
 
-## Assignment 1 — Set Up Your CLAUDE.md
+## Assignment 1: Set up your CLAUDE.md
 
-`CLAUDE.md` is the most important file in your workspace. Claude reads it automatically at the start of every session. It tells Claude who you are, what your project is, and how to work with you — so you don't have to repeat yourself every time.
+`CLAUDE.md` is a plain text file Claude reads at the start of every session. It tells Claude who you are, what your project is, and how to work with you. Without it, Claude treats every project the same. With it, you stop repeating yourself.
 
-**Think of it as a standing briefing memo you write once.**
+Write it once, improve it over time.
 
-### What a good CLAUDE.md covers
+### What to put in it
 
-1. **Who you are** — your role, what you care about, what you don't need explained
-2. **What your project is** — one sentence, current phase, key stakeholders
-3. **How Claude should respond** — tone, length, format preferences
-4. **Your conventions** — where files live, how you write user stories, what sections every PRD needs
+A good `CLAUDE.md` answers four questions:
+1. Who are you? Your role, what you care about, what you don't need explained
+2. What's the project? One sentence, current stage, key stakeholders
+3. How should Claude respond? Tone, length, format
+4. What are your conventions? Where files live, how you write user stories, required PRD sections
 
-### Your task
+### How to create it
 
-Open Claude Code in this folder and run:
+Open Claude Code in this folder and type:
 
 ```
 I'm a product manager. Help me create a CLAUDE.md file for my project. Ask me the questions you need to write a good one.
 ```
 
-Claude will ask you a few questions and generate the file for you. Answer honestly — this file will shape every session going forward.
+Claude will ask a few questions and generate the file. A starter template is also in this folder at [CLAUDE.md](CLAUDE.md) if you'd rather edit directly.
 
-A starter template is included in this folder: [CLAUDE.md](CLAUDE.md). You can edit it directly instead if you prefer.
+### Check that it's working
 
-### How to verify it's working
-
-After saving your `CLAUDE.md`, start a new session and ask:
+Start a new session and ask:
 
 ```
 What do you know about this project based on what you've read?
 ```
 
-Claude should accurately describe your project and role. If it doesn't, open `CLAUDE.md` and fill in the placeholder sections.
+Claude should describe your project and role accurately. If it doesn't, open `CLAUDE.md` and fill in the blank sections.
 
 ---
 
-## Assignment 2 — Install Your Skills
+## Assignment 2: Install your skills
 
-Skills are reusable behaviors stored in `.claude/skills/`. You trigger them with a `/skill-name` command. Instead of typing the same long prompt every time, you type one word.
+Skills are reusable instructions stored in `.claude/skills/`. You trigger them with a `/skill-name` command. Instead of typing the same long prompt every session, you type one word.
 
-Two skills are already included in this folder:
-- `/prd-generator` — generates a full structured PRD from a brief description
-- `/user-story-writer` — converts rough feature ideas into user stories with acceptance criteria
+Two skills are already in this folder:
+- `/prd-generator` - generates a structured PRD from a brief description
+- `/user-story-writer` - converts rough feature ideas into user stories with acceptance criteria
 
-### Your task
+### What to do
 
-**1. Test the PRD generator:**
+Test the PRD generator:
 ```
 /prd-generator
 ```
-Follow the prompts. Give Claude a real feature idea — something your team is actually working on or considering.
+Give it a real feature idea, something your team is actually working on.
 
-**2. Test the user story writer:**
+Test the user story writer:
 ```
 /user-story-writer
 ```
-Describe the same feature informally. See how Claude structures it into stories.
+Describe the same feature informally and see how Claude structures it.
 
-**3. Review the skill files:**
+Then open [.claude/skills/prd-generator/SKILL.md](.claude/skills/prd-generator/SKILL.md) and read it. This is exactly what Claude follows when you run the command. You can edit it to match your team's format.
 
-Open [.claude/skills/prd-generator/SKILL.md](.claude/skills/prd-generator/SKILL.md) and read it. This is exactly what Claude follows when you run `/prd-generator`. You can edit it to match your team's PRD format.
-
-### How skills are structured
+### Where the files live
 
 ```
 module-1/
@@ -132,78 +129,72 @@ module-1/
             └── SKILL.md
 ```
 
-> **Mac tip:** Folders starting with `.` are hidden by default. Press `Cmd + Shift + .` in Finder to show them.
+Mac tip: folders starting with `.` are hidden by default. Press `Cmd + Shift + .` in Finder to show them.
 
 ---
 
-## Assignment 3 — From Idea to PRD to MVP
+## Assignment 3: From idea to PRD to MVP
 
-Now put it all together. You'll take a real product idea through the full workflow: from rough concept to a structured PRD to a working prototype.
+Take a real product idea through the full workflow: rough concept to structured PRD to working prototype.
 
-### Part A — Pick your idea
+### Part A: Pick your idea
 
-Choose a product or feature idea. It can be:
-- Something your team is currently planning
-- A problem you've noticed in your own work
-- Anything you'd actually want to exist
-
-Keep it small enough to ship in a week. Examples from class:
+Choose something small enough to ship in a week. It should be a real problem, not a made-up exercise. Examples from class:
 - A tool that rewrites AI-generated text to sound more human
 - An SEO content generator for blog posts
-- A meeting notes → Jira ticket converter
+- A converter that turns meeting notes into Jira tickets
 
-### Part B — Generate your PRD
+### Part B: Generate the PRD
 
-Run `/prd-generator` and fill in the details for your idea. When Claude finishes, ask:
+Run `/prd-generator` and answer the questions for your idea.
 
+When Claude finishes, ask:
 ```
 Save this PRD to docs/prd.md
 ```
 
-Then review it and ask:
+Then ask:
 ```
 What are the three riskiest assumptions in this PRD?
 ```
 
-### Part C — Break it into stories
+### Part C: Break it into stories
 
-Run `/user-story-writer` and describe the must-have features from your PRD. Ask Claude to prioritize them:
+Run `/user-story-writer` with the must-have features from your PRD.
 
+Ask Claude to prioritize:
 ```
 Which of these stories should be in the first sprint?
 ```
 
-### Part D — Build the MVP
+### Part D: Build the MVP
 
-Tell Claude what you want to build:
-
+Tell Claude what you want:
 ```
-Based on this PRD, help me build the simplest possible version of this product. Ask me what tools and constraints I'm working with.
+Based on this PRD, help me build the simplest version of this product. Ask me what tools and constraints I'm working with.
 ```
 
-Claude will ask clarifying questions and then start building with you. You don't need to write any code.
+Claude will ask a few clarifying questions, then start building with you. You don't need to write any code.
 
-### What to submit
+### What to share
 
-Share a link to your:
-1. `docs/prd.md` — your completed PRD
-2. The working MVP (a URL, a file, or a screenshot)
-
-Post it in the course Slack channel.
+Post in the course Slack channel:
+1. Your `docs/prd.md`
+2. The working MVP (a URL, file, or screenshot)
 
 ---
 
-## Reference — Useful Prompts for PMs
+## Prompts worth saving
 
 | What you want | What to type |
 |---|---|
-| Generate a full PRD | `/prd-generator` |
+| Generate a PRD | `/prd-generator` |
 | Write user stories | `/user-story-writer` |
 | Find gaps in a spec | `"Review docs/prd.md and tell me what's missing"` |
 | Prep for engineering | `"What questions will engineers ask about this PRD?"` |
-| Create a sprint plan | `"Turn the must-have stories into a 2-week sprint plan"` |
+| Build a sprint plan | `"Turn the must-have stories into a 2-week sprint plan"` |
 | Write for execs | `"Rewrite this as 3 bullets for a VP with 10 seconds"` |
-| Check for edge cases | `"What edge cases am I missing in this flow?"` |
+| Stress-test a flow | `"What edge cases am I missing here?"` |
 
 ---
 
@@ -216,11 +207,11 @@ Run `npm install -g @anthropic/claude-code` again. Check Node.js is installed: `
 The file must be named exactly `CLAUDE.md` (all caps) in the same folder where you ran `claude`.
 
 **Skill not triggering**
-Check that the path is `.claude/skills/<name>/SKILL.md` and the frontmatter `name:` matches what you typed after `/`.
+Check that the path is `.claude/skills/<name>/SKILL.md` and the `name:` in the frontmatter matches what you typed after `/`.
 
-**Claude responses are too long**
-Add to your CLAUDE.md: `"Keep all responses under 200 words unless I ask for more."`
+**Responses are too long**
+Add this to your CLAUDE.md: `Keep all responses under 200 words unless I ask for more.`
 
 ---
 
-*[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Taught by Hamza Farooq · Traversaal.ai*
+*[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai*
