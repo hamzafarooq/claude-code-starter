@@ -39,8 +39,25 @@ Assignments:
 
 Files:
 - [module-1/README.md](module-1/README.md) - setup guide and assignments
-- [module-1/CLAUDE.md](module-1/CLAUDE.md) - starter template
+- [module-1/CLAUDE-template.md](module-1/CLAUDE-template.md) - starter template
 - [module-1/.claude/skills/](module-1/.claude/skills/prd-generator/SKILL.md)
+
+---
+
+### [Module 2: How the web works — and how to read code you didn't write](module-2/README.md)
+
+You'll learn what frontend, backend, and AI backend mean (with a live demo), build a custom skill that reads GitHub repos, set up Brave MCP for live browsing, and use it all to understand a real codebase.
+
+Assignments:
+1. Build the `/explain-me-a-repo` skill
+2. Set up Brave MCP
+3. Use the skill on a live GitHub repo
+
+Files:
+- [module-2/README.md](module-2/README.md) - assignment guide
+- [module-2/CLAUDE-template.md](module-2/CLAUDE-template.md) - starter template
+- [module-2/demo/index.html](module-2/demo/index.html) - frontend/backend/AI backend live demo
+- [module-2/.claude/skills/explain-me-a-repo/SKILL.md](module-2/.claude/skills/explain-me-a-repo/SKILL.md)
 
 ---
 

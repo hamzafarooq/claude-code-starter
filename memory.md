@@ -21,7 +21,7 @@ Update this file after major changes or decisions.
 | Module | Status | Git tag | Notes |
 |--------|--------|---------|-------|
 | Module 1 | Complete | `v1.0` | Assignments 1a, 1b, 1c. Skills: prd-generator, user-story-writer |
-| Module 2 | Not started | — | — |
+| Module 2 | In progress | — | Assignments 2a (explain-me-a-repo skill), 2b (Brave MCP setup), 2c (apply to lennys-podcast-transcripts repo). Demo: frontend/backend/AI backend |
 
 ---
 
@@ -31,6 +31,7 @@ Update this file after major changes or decisions.
 |-------|---------|----------|--------|
 | prd-generator | `/prd-generator` | `module-1/.claude/skills/prd-generator/SKILL.md` | Live |
 | user-story-writer | `/user-story-writer` | `module-1/.claude/skills/user-story-writer/SKILL.md` | Live |
+| explain-me-a-repo | `/explain-me-a-repo` | `module-2/.claude/skills/explain-me-a-repo/SKILL.md` | Live — requires Brave MCP for live browsing |
 
 ---
 
@@ -45,7 +46,8 @@ Update this file after major changes or decisions.
 
 ## Open items
 
-- [ ] Add Module 2 folder and materials after next cohort session
+- [x] Add Module 2 folder and materials
+- [ ] Review Module 2 against the deck and refine after next cohort session
 - [ ] Update version tag to `v2.0` when Module 2 is complete
 - [ ] Consider adding a `docs/` folder at root for cross-module reference material
 
