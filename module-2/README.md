@@ -49,20 +49,20 @@ The skill: **`/explain-me-a-repo`** — paste a GitHub URL and Claude gives you 
 
 ### Step 1: Copy the skill into your project
 
-The skill file is already in this folder at:
+The command file is already in this folder at:
 
 ```
-module-2/.claude/skills/explain-me-a-repo/SKILL.md
+module-2/.claude/commands/explain-me-a-repo.md
 ```
 
-Copy the `.claude/` folder into whichever project folder you're working in, or run Claude from the `module-2/` folder directly.
+> **Important:** Claude only loads `.claude/` from the folder it's launched in. Copy the entire `module-2/.claude/` folder into your project root, or launch Claude from inside `module-2/` directly.
 
-### Step 2: Read the skill file
+### Step 2: Read the command file
 
-Open [.claude/skills/explain-me-a-repo/SKILL.md](.claude/skills/explain-me-a-repo/SKILL.md) and read it. Notice:
-- The `name:` field is what you type after `/`
-- The `description:` tells Claude when to use it
-- The body is the instruction set Claude follows
+Open [.claude/commands/explain-me-a-repo.md](.claude/commands/explain-me-a-repo.md) and read it. Notice:
+- The filename is what you type after `/` (e.g. `explain-me-a-repo.md` → `/explain-me-a-repo`)
+- The body is the instruction set Claude follows when you invoke it
+- `$ARGUMENTS` at the bottom captures anything you type after the command name
 
 ### Step 3: Test it (without MCP first)
 
@@ -147,6 +147,65 @@ You should see Brave browser tools listed (browser_navigate, browser_snapshot, e
 
 ---
 
+## Live demo: Watch Brave MCP run autonomously
+
+This is the part to show in class. Once MCP is connected, Claude controls a real browser — no clicking required from you.
+
+**What "autonomous" means here:** Claude decides on its own which pages to visit, when to take a snapshot, when to go deeper, and when it has enough information to answer. You give it one instruction; it drives.
+
+### Try it yourself
+
+Paste this prompt into Claude:
+
+```
+Navigate to https://github.com/hamzafarooq/lennys-podcast-transcripts,
+explore the repo structure, open the episodes/ folder to see how transcripts
+are organized, then tell me: how many episodes are there, what metadata is
+stored per episode, and what topics are covered in the index?
+```
+
+**What you'll see Claude do automatically:**
+1. Open the repo homepage in Brave
+2. Take a snapshot to read the page layout and README
+3. Navigate into `episodes/` to inspect the folder structure
+4. Navigate into `index/` to read the topic files
+5. Synthesize everything into a direct answer — without you doing anything
+
+### Why this matters for PMs
+
+Before MCP, Claude could only answer based on what it was trained on. With Brave MCP, Claude can read live pages, follow links, and explore file trees — the same way you would, but faster. This is what makes `/explain-me-a-repo` work on repos Claude has never seen before.
+
+### Try a second prompt to push it further
+
+```
+Now navigate to the index/product-management.md file in that repo and
+summarize the top 5 most referenced product management topics across episodes.
+```
+
+Claude will navigate directly to that file path on GitHub and read the raw content.
+
+### Another example: researching YouTube videos
+
+Brave MCP isn't limited to GitHub. Claude can navigate any public website — including YouTube. The `/youtube-researcher` skill (included in this module) uses Brave to search YouTube and return a structured list of relevant videos on any topic.
+
+Try it:
+
+```
+/youtube-researcher
+```
+
+When prompted, enter a topic like `"product-led growth"` or `"how to run a discovery sprint"`. Claude will navigate to YouTube, read the search results, and return a ranked list with titles, channels, view counts, and links — without you opening a browser tab.
+
+The skill file is at:
+
+```
+module-2/.claude/skills/youtube-researcher/SKILL.md
+```
+
+Read it to see how it works, then customize the output format for your own use case.
+
+---
+
 ## Assignment 2c: Use /explain-me-a-repo on a real repo
 
 Now that Brave MCP is connected, Claude can actually browse GitHub instead of guessing.
@@ -212,6 +271,7 @@ Claude will read the actual files and give you specific instructions for your ma
 | What you want | What to type |
 |---|---|
 | Explain a GitHub repo | `/explain-me-a-repo` |
+| Research YouTube videos on a topic | `/youtube-researcher` |
 | Understand a file | `"Read [filename] and explain what it does in plain English"` |
 | Find where something happens | `"Where in this codebase does [X] happen?"` |
 | Prep questions for an engineer | `"What would an engineer need to know before building on top of this?"` |
@@ -221,8 +281,8 @@ Claude will read the actual files and give you specific instructions for your ma
 
 ## Troubleshooting
 
-**Skill not triggering**
-Check that `.claude/skills/explain-me-a-repo/SKILL.md` exists in your working folder and the `name:` field matches exactly.
+**Skill or command not triggering**
+Skills and commands only work if the `.claude/` folder is in the **root directory where you launch Claude** — not a parent or sibling folder. If you're running Claude from your own project, copy the entire `module-2/.claude/` folder into that project's root. If you're running Claude from inside `module-2/`, you're already in the right place.
 
 **Brave MCP not connecting**
 Restart Claude Code and check `~/.claude/settings.json` is valid JSON. Run `cat ~/.claude/settings.json` to inspect it.
