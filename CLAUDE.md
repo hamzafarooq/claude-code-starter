@@ -1,12 +1,14 @@
 # Claude Code in Practice — Course Repo
 
 ## Who I am
-- Hamza Farooq, course instructor at Traversaal.ai
-- Background: ex-Google, UCLA Anderson, founder
-- I build and maintain course materials for PMs learning Claude Code
-- I'm comfortable with product thinking and git; not deep on frontend code
+
+- Yousuf, student of Claude Code in Practice for PM course
+- Background: Solution Architect, Engineeing Practices Lead
+- I am following course materials for PMs learning Claude Code
+- I'm comfortable with APIs, backend and big picture thinking, not so deep on frontend
 
 ## What this repo is
+
 Course materials for "Claude Code in Practice" (taught on Maven) — a course that teaches product managers to ship real things using Claude Code without relying on engineering.
 
 - Current phase: Active (live cohorts running)
@@ -14,6 +16,7 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 - Maven course: https://maven.com/boring-bot/claude-code-in-practice
 
 ## Repo structure
+
 ```
 /
 ├── CLAUDE.md               ← you are here (root context for Claude)
@@ -32,6 +35,7 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 ```
 
 ## Conventions
+
 - One folder per module: `module-1/`, `module-2/`, etc.
 - Each module has its own `README.md` (student assignment guide) and `CLAUDE-template.md`
 - Skills live in `module-N/.claude/skills/<name>/SKILL.md`
@@ -40,6 +44,7 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 - `course-modules/` is gitignored (slide decks and raw HTML exports)
 
 ## How Claude should respond
+
 - Be concise — I don't need long explanations
 - When editing course content, match the tone of the existing files: plain English, instructional, PM-friendly
 - When I ask you to write something, write it directly
@@ -47,6 +52,7 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 - If something is unclear, ask rather than assume
 
 ## What I use Claude Code for in this repo
+
 - Draft and update module README files and assignment guides
 - Write and refine skill files (SKILL.md)
 - Maintain the root README (setup guide, module list, app table)
