@@ -33,6 +33,7 @@ module-2/demo/index.html
 Open it by double-clicking the file, or drag it into your browser. Enter your API key in the top right and ask it a question.
 
 **What you'll see:**
+
 - **Frontend (Layer 1):** The form you type into. HTML, CSS, and JavaScript running in your browser.
 - **Backend (Layer 2):** A simulated server log showing what happens when your request is received — validation, formatting, routing.
 - **AI Backend (Layer 3):** A real call to Claude's API. The response comes back through the backend and renders in the frontend.
@@ -60,6 +61,7 @@ module-2/.claude/commands/explain-me-a-repo.md
 ### Step 2: Read the command file
 
 Open [.claude/commands/explain-me-a-repo.md](.claude/commands/explain-me-a-repo.md) and read it. Notice:
+
 - The filename is what you type after `/` (e.g. `explain-me-a-repo.md` → `/explain-me-a-repo`)
 - The body is the instruction set Claude follows when you invoke it
 - `$ARGUMENTS` at the bottom captures anything you type after the command name
@@ -79,6 +81,7 @@ Claude will do its best using its training knowledge. In Assignment 2b you'll gi
 ### Step 4: Customize it
 
 Edit the SKILL.md to change the output format. For example:
+
 - Add a "Red flags" section for things that would concern a PM
 - Change the format to match your team's documentation style
 - Make it shorter or more technical
@@ -98,13 +101,13 @@ Download from [brave.com](https://brave.com) if you don't already have it.
 Open your terminal and run:
 
 ```bash
-npx @anthropic/mcp-server-brave-search
+npx -y @brave/brave-search-mcp-server
 ```
 
 Or install it globally:
 
 ```bash
-npm install -g @anthropic-ai/mcp-server-brave
+npm install -g @brave/brave-search-mcp-server
 ```
 
 ### Step 3: Add MCP to Claude Code settings
@@ -120,10 +123,12 @@ Add the following (merge with any existing content):
 ```json
 {
   "mcpServers": {
-    "brave-devtools": {
+    "brave-search": {
       "command": "npx",
-      "args": ["@browserbasehq/mcp-browserbase"],
-      "env": {}
+      "args": ["-y", "@brave/brave-search-mcp-server"],
+      "env": {
+        "BRAVE_API_KEY": "YOUR_API_KEY_HERE"
+      }
     }
   }
 }
@@ -165,6 +170,7 @@ stored per episode, and what topics are covered in the index?
 ```
 
 **What you'll see Claude do automatically:**
+
 1. Open the repo homepage in Brave
 2. Take a snapshot to read the page layout and README
 3. Navigate into `episodes/` to inspect the folder structure
@@ -223,6 +229,7 @@ https://github.com/hamzafarooq/lennys-podcast-transcripts
 ```
 
 Claude will:
+
 1. Navigate to the repo in a browser
 2. Read the README and browse the file structure
 3. Return a structured write-up
@@ -242,6 +249,7 @@ Based on this repo, what would the product requirements be if we wanted to turn 
 ### What to share
 
 Post in the course Slack:
+
 1. Your `docs/repo-summary.md`
 2. One thing that surprised you about the repo
 
@@ -268,14 +276,14 @@ Claude will read the actual files and give you specific instructions for your ma
 
 ## Prompts worth saving
 
-| What you want | What to type |
-|---|---|
-| Explain a GitHub repo | `/explain-me-a-repo` |
-| Research YouTube videos on a topic | `/youtube-researcher` |
-| Understand a file | `"Read [filename] and explain what it does in plain English"` |
-| Find where something happens | `"Where in this codebase does [X] happen?"` |
-| Prep questions for an engineer | `"What would an engineer need to know before building on top of this?"` |
-| Turn repo into a PRD | `"Based on this repo, write a PRD for a web version"` |
+| What you want                      | What to type                                                            |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| Explain a GitHub repo              | `/explain-me-a-repo`                                                    |
+| Research YouTube videos on a topic | `/youtube-researcher`                                                   |
+| Understand a file                  | `"Read [filename] and explain what it does in plain English"`           |
+| Find where something happens       | `"Where in this codebase does [X] happen?"`                             |
+| Prep questions for an engineer     | `"What would an engineer need to know before building on top of this?"` |
+| Turn repo into a PRD               | `"Based on this repo, write a PRD for a web version"`                   |
 
 ---
 
@@ -295,4 +303,4 @@ Install Node.js from [nodejs.org](https://nodejs.org) first.
 
 ---
 
-*[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai*
+_[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai_
