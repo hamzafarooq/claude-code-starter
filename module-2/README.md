@@ -100,28 +100,21 @@ Open your terminal and run:
 npm install -g @playwright/mcp
 ```
 
-### Step 2: Add MCP to Claude Code settings
+### Step 2: Register the MCP server with Claude Code
 
-Open (or create) your Claude Code settings file:
+Run this command in your terminal (while Claude Code is **not** running):
 
+```bash
+claude mcp add playwright npx @playwright/mcp
 ```
-~/.claude/settings.json
-```
 
-Add the following (merge with any existing content):
+This updates `~/.claude/settings.json` automatically — no manual JSON editing needed.
 
-```json
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp"]
-    }
-  }
-}
-```
+> **What this does:** `claude mcp add <name> <command> [args]` registers a new MCP server by name. The name (`playwright`) is what Claude uses to identify it internally.
 
 ### Step 3: Restart Claude Code and verify
+
+Claude Code does not have a plugin reload command — MCP servers are loaded at startup only. You must do a full restart:
 
 Stop Claude Code (`Ctrl+C`) and restart it:
 
