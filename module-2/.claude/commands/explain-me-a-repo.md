@@ -2,10 +2,10 @@ If a GitHub repo URL was not provided, ask the user for one now.
 
 Then:
 
-1. Use Brave Search MCP to search for the repo — `brave_web_search`
-2. Search for: `github [owner]/[repo] README`
-3. Search for: `github [owner]/[repo] folder structure`
-4. Search for: `[repo name] installation getting started`
+1. Use Playwright MCP to navigate to the repo — `mcp__playwright__browser_navigate`
+2. Navigate to the GitHub URL directly (e.g. `https://github.com/owner/repo`)
+3. Take a snapshot with `mcp__playwright__browser_snapshot` to read the README and file tree
+4. Navigate to the file list (click "Code" or browse folders as needed) and take another snapshot
 
 Produce the following write-up directly — no preamble:
 

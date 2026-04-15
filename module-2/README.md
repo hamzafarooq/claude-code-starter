@@ -9,7 +9,7 @@ Instructor: Hamza Farooq, Traversaal.ai
 
 - What frontend, backend, and AI backend actually mean (with a live demo)
 - How to build your own Claude skill from scratch
-- How to connect Claude Code to the web using Brave MCP
+- How to connect Claude Code to the web using Playwright MCP
 - How to understand any GitHub repo without reading every line of code
 
 By the end of this module, you'll be able to hand Claude a GitHub link and get a full briefing on what it does.
@@ -88,53 +88,33 @@ Edit the SKILL.md to change the output format. For example:
 
 ---
 
-## Assignment 2b: Set up Brave MCP
+## Assignment 2b: Set up Playwright MCP
 
-MCP (Model Context Protocol) lets Claude use external tools — including a real browser. Once you set up Brave MCP, Claude can navigate to URLs, read pages, and browse repos live.
+MCP (Model Context Protocol) lets Claude use external tools — including a real browser. Once you set up Playwright MCP, Claude can navigate to URLs, read pages, and browse repos live.
 
-### Step 1: Install Brave Browser
-
-Download from [brave.com](https://brave.com) if you don't already have it.
-
-### Step 2: Install the Brave MCP server
+### Step 1: Install the Playwright MCP server
 
 Open your terminal and run:
 
 ```bash
-npx -y @brave/brave-search-mcp-server
+npm install -g @playwright/mcp
 ```
 
-Or install it globally:
+### Step 2: Register the MCP server with Claude Code
+
+Run this command in your terminal (while Claude Code is **not** running):
 
 ```bash
-npm install -g @brave/brave-search-mcp-server
+claude mcp add playwright npx @playwright/mcp
 ```
 
-### Step 3: Add MCP to Claude Code settings
+This updates `~/.claude/settings.json` automatically — no manual JSON editing needed.
 
-Open (or create) your Claude Code settings file:
+> **What this does:** `claude mcp add <name> <command> [args]` registers a new MCP server by name. The name (`playwright`) is what Claude uses to identify it internally.
 
-```
-~/.claude/settings.json
-```
+### Step 3: Restart Claude Code and verify
 
-Add the following (merge with any existing content):
-
-```json
-{
-  "mcpServers": {
-    "brave-search": {
-      "command": "npx",
-      "args": ["-y", "@brave/brave-search-mcp-server"],
-      "env": {
-        "BRAVE_API_KEY": "YOUR_API_KEY_HERE"
-      }
-    }
-  }
-}
-```
-
-### Step 4: Restart Claude Code and verify
+Claude Code does not have a plugin reload command — MCP servers are loaded at startup only. You must do a full restart:
 
 Stop Claude Code (`Ctrl+C`) and restart it:
 
@@ -148,11 +128,11 @@ Type this to confirm MCP is connected:
 List the MCP tools available to you.
 ```
 
-You should see Brave browser tools listed (browser_navigate, browser_snapshot, etc.).
+You should see Playwright browser tools listed (browser_navigate, browser_snapshot, etc.).
 
 ---
 
-## Live demo: Watch Brave MCP run autonomously
+## Live demo: Watch Playwright MCP run autonomously
 
 This is the part to show in class. Once MCP is connected, Claude controls a real browser — no clicking required from you.
 
@@ -179,7 +159,7 @@ stored per episode, and what topics are covered in the index?
 
 ### Why this matters for PMs
 
-Before MCP, Claude could only answer based on what it was trained on. With Brave MCP, Claude can read live pages, follow links, and explore file trees — the same way you would, but faster. This is what makes `/explain-me-a-repo` work on repos Claude has never seen before.
+Before MCP, Claude could only answer based on what it was trained on. With Playwright MCP, Claude can read live pages, follow links, and explore file trees — the same way you would, but faster. This is what makes `/explain-me-a-repo` work on repos Claude has never seen before.
 
 ### Try a second prompt to push it further
 
@@ -192,7 +172,7 @@ Claude will navigate directly to that file path on GitHub and read the raw conte
 
 ### Another example: researching YouTube videos
 
-Brave MCP isn't limited to GitHub. Claude can navigate any public website — including YouTube. The `/youtube-researcher` skill (included in this module) uses Brave to search YouTube and return a structured list of relevant videos on any topic.
+Playwright MCP isn't limited to GitHub. Claude can navigate any public website — including YouTube. The `/youtube-researcher` skill (included in this module) uses Playwright to search YouTube and return a structured list of relevant videos on any topic.
 
 Try it:
 
@@ -292,7 +272,7 @@ Claude will read the actual files and give you specific instructions for your ma
 **Skill or command not triggering**
 Skills and commands only work if the `.claude/` folder is in the **root directory where you launch Claude** — not a parent or sibling folder. If you're running Claude from your own project, copy the entire `module-2/.claude/` folder into that project's root. If you're running Claude from inside `module-2/`, you're already in the right place.
 
-**Brave MCP not connecting**
+**Playwright MCP not connecting**
 Restart Claude Code and check `~/.claude/settings.json` is valid JSON. Run `cat ~/.claude/settings.json` to inspect it.
 
 **Claude can't access the URL**
