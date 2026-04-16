@@ -12,6 +12,8 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 > Taught by **Hamza Farooq** — Founder at Traversaal.ai · UCLA Anderson · ex-Google
 
+[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-16%20at%2002.26.25.png)](https://maven.com/boring-bot/claude-code-in-practice)
+
 ---
 
 ## 🚀 Get Started
@@ -291,5 +293,7 @@ The file must be named exactly `CLAUDE.md` (all caps) in the folder where you ra
 Check the path is `.claude/skills/<name>/SKILL.md` and the `name:` field in the frontmatter matches what you typed after `/`.
 
 ---
+
+[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-16%20at%2002.26.25.png)](https://maven.com/boring-bot/claude-code-in-practice)
 
 *[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai*
