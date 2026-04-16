@@ -118,6 +118,34 @@ Learn what sub-agents are, when to use them vs. skills, and build a library of 5
 
 ---
 
+## 🧩 Skills Library
+
+Skills are triggered with a `/command`. You install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
+
+| Skill | Command | What it does | Module |
+|-------|---------|-------------|--------|
+| PRD Generator | `/prd-generator` | Asks for a feature name, problem, target user, and constraints — then writes a full 9-section PRD with risks, acceptance criteria, and open questions | [Module 1](module-1/.claude/skills/prd-generator/SKILL.md) |
+| User Story Writer | `/user-story-writer` | Turns a rough feature idea into prioritised user stories with Given/When/Then acceptance criteria, edge cases, and open questions | [Module 1](module-1/.claude/skills/user-story-writer/SKILL.md) |
+| YouTube Deep Dive | `/youtube-deepdive` | Takes one or more YouTube URLs, visits each with Brave MCP, and returns a structured highlight report: timestamps, key moments, and top comments — so you skip to the best parts | [Module 2](module-2/.claude/skills/youtube-deepdive/SKILL.md) |
+| YouTube Researcher | `/youtube-researcher` | Searches YouTube on any topic and returns a ranked table of videos with titles, channels, view counts, and a top-pick recommendation | [Module 2](module-2/.claude/skills/youtube-researcher/SKILL.md) |
+| Explain Me a Repo | `/explain-me-a-repo` | Takes a GitHub URL, navigates to it with Brave MCP, and produces a structured repo write-up: what it does, how it's built, key files, and who it's for | [Module 2](module-2/.claude/commands/explain-me-a-repo.md) |
+
+---
+
+## 🤖 Sub-Agents Library
+
+Sub-agents are specialists Claude delegates to automatically — no `/command` needed. When your request matches an agent's description, Claude hands it off, runs it in a separate context, and returns only the findings. All agents live in `.claude/agents/<name>.md`.
+
+| Agent | Model | What it does | Module |
+|-------|-------|-------------|--------|
+| `research-agent` | Opus | Searches the web and returns structured findings: key facts, sources, and gaps. Triggers on any research, competitor analysis, or market context request | [Module 3](module-3/.claude/agents/research-agent.md) |
+| `prd-reviewer` | Sonnet | Reads any PRD and returns exactly 3 risks (rated HIGH/MED/LOW), 3 missing edge cases, and 1 scope creep flag — no summaries, no praise | [Module 3](module-3/.claude/agents/prd-reviewer.md) |
+| `code-reviewer` | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files | [Module 3](module-3/.claude/agents/code-reviewer.md) |
+| `data-analyst` | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend | [Module 3](module-3/.claude/agents/data-analyst.md) |
+| `copy-writer` | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words | [Module 3](module-3/.claude/agents/copy-writer.md) |
+
+---
+
 ## 🛠️ Built with Claude Code
 
 Full-stack apps built live in class. Fork them, break them, learn from them.
