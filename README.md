@@ -5,7 +5,7 @@
 Build production apps, write PRDs with AI, and go from idea to deployed product using Claude Code. No coding background required.
 
 [![Maven Course](https://img.shields.io/badge/Maven-Enroll%20Now-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
-[![Modules](https://img.shields.io/badge/Modules-2-brightgreen?style=for-the-badge)](#-course-modules)
+[![Modules](https://img.shields.io/badge/Modules-3-brightgreen?style=for-the-badge)](#-course-modules)
 [![Apps Built](https://img.shields.io/badge/Apps%20Built-3-orange?style=for-the-badge)](#-built-with-claude-code)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
@@ -90,6 +90,31 @@ Learn what frontend, backend, and AI backend actually mean, build a custom skill
 - [module-2/CLAUDE-template.md](module-2/CLAUDE-template.md) — starter template
 - [module-2/demo/index.html](module-2/demo/index.html) — frontend/backend/AI backend live demo
 - [module-2/.claude/skills/explain-me-a-repo/SKILL.md](module-2/.claude/skills/explain-me-a-repo/SKILL.md)
+
+---
+
+### [Module 3: Sub-Agents — Your Team of Specialists](module-3/README.md)
+
+Learn what sub-agents are, when to use them vs. skills, and build a library of 5 specialist agents. Culminates in a three-stage automated pipeline: competitor research → PRD → spec review — in one prompt.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 3a. Build `research-agent` | Web search specialist that returns clean structured findings |
+| 3b. Build `prd-reviewer` | Reads any PRD and returns risks, edge cases, and scope creep flag |
+| 3c. Build a pipeline | Chain research-agent → write PRD → prd-reviewer in a single prompt |
+| 3d. Build `code-reviewer` | Read-only code audit for security and logic errors |
+| 3e. Add `data-analyst` + `copy-writer` (optional) | Complete your specialist library |
+
+**Agents included:**
+- `research-agent` — Opus + web search, structured findings
+- `prd-reviewer` — Sonnet, reads and audits any PRD
+- `code-reviewer` — Sonnet, read-only security and logic review
+- `data-analyst` — Sonnet, stats and anomaly detection from data files
+- `copy-writer` — Haiku, fast in-app copy with 3 tone options
+
+**Files:**
+- [module-3/README.md](module-3/README.md) — assignment guide
+- [module-3/.claude/agents/](module-3/.claude/agents/research-agent.md) — all 5 agent files
 
 ---
 
