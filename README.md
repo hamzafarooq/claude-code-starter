@@ -69,6 +69,7 @@ Apps built live in class. Fork them, break them, learn from them.
 |------|-------------|
 | [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Rewrites AI-generated text to sound human |
 | [seo-writer](https://github.com/hamzafarooq/seo-writer) | Generates SEO-optimized blog content |
+| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Generates LinkedIn content to grow your audience |
 
 More get added as the course runs.
 
