@@ -67,9 +67,9 @@ Apps built live in class. Fork them, break them, learn from them.
 
 | Repo | What it does |
 |------|-------------|
-| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Rewrites AI-generated text to sound human |
-| [seo-writer](https://github.com/hamzafarooq/seo-writer) | Generates SEO-optimized blog content |
-| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Generates LinkedIn content to grow your audience |
+| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human — sits inside Word as a sidebar, rewrites one paragraph at a time, and shows exactly what patterns were removed |
+| [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
+| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
 
 More get added as the course runs.
 
