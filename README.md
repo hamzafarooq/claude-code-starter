@@ -171,7 +171,7 @@ Three different ways to extend Claude Code. Here's when to use each one:
 
 ## 🛠️ Built with Claude Code
 
-Full-stack apps built live in class. Fork them, break them, learn from them.
+These are real, full-stack applications you can try out today — built live in class using Claude Code, with no engineering team. Fork them, break them, learn from them.
 
 | App | What it does |
 |-----|-------------|
