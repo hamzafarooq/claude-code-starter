@@ -169,6 +169,24 @@ Three different ways to extend Claude Code. Here's when to use each one:
 
 ---
 
+## 🌐 Playwright vs MCP — What's the Difference?
+
+Both let Claude interact with a browser. Here's when to use each:
+
+| | Playwright | MCP (e.g. Brave MCP) |
+|--|-----------|----------------------|
+| **What it is** | A code library that automates browsers via scripts | A live browser Claude controls in real time through a protocol |
+| **How it works** | You (or Claude) writes code that drives the browser — clicks, fills forms, scrapes pages | Claude connects to a running browser and takes actions directly, no code required |
+| **Best for** | Repeatable, scheduled, or high-volume browser tasks (scraping, regression testing, form automation) | One-off research, reading live pages, visiting URLs during a conversation |
+| **Requires coding?** | Yes — Python or JavaScript scripts | No — Claude drives it through natural language |
+| **Speed** | Fast at scale, runs headless | Slower, real browser with a visible UI |
+| **When you'd use it** | "Scrape 500 product pages every night" or "Run login tests on every deploy" | "Visit this GitHub repo and summarise it" or "Read the top 3 results for this search" |
+| **In this course** | Not covered (engineering territory) | Used in Module 2 for `/explain-me-a-repo` and `/youtube-deepdive` |
+
+**Simple rule of thumb:** Use MCP when you want Claude to browse something *now*, in conversation. Use Playwright when you need browser automation to run reliably at scale or on a schedule — that's usually an engineering task.
+
+---
+
 ## 🛠️ Built with Claude Code
 
 These are real, full-stack applications you can try out today — built live in class using Claude Code, with no engineering team. Fork them, break them, learn from them.
