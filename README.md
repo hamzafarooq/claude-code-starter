@@ -148,6 +148,27 @@ Sub-agents are specialists Claude delegates to automatically — no `/command` n
 
 ---
 
+## 🧠 Skills vs Sub-Agents vs Agents — What's the Difference?
+
+Three different ways to extend Claude Code. Here's when to use each one:
+
+| | Skill | Sub-Agent | Agent |
+|--|-------|-----------|-------|
+| **What it is** | A prompt template you invoke with a `/command` | A specialist Claude spins up automatically and delegates to | A fully autonomous Claude instance with its own tools, model, and instructions |
+| **How it's triggered** | You type `/skill-name` | Claude decides when to use it based on your request | Triggered by Claude or called explicitly via the Agent tool |
+| **Who controls it** | You — you call it deliberately | Claude — it decides when to hand off | Claude or the system |
+| **Memory/context** | Shares the main conversation context | Runs in a separate context, returns only results | Fully isolated context with its own tool access |
+| **Best for** | Repeatable tasks you always want to run the same way (PRD generation, user stories) | Background specialists that shouldn't clutter your main thread (research, code review, data analysis) | Complex multi-step tasks that need dedicated focus or different model/tool access |
+| **Lives in** | `.claude/skills/<name>/SKILL.md` | `.claude/agents/<name>.md` | `.claude/agents/<name>.md` (same file format as sub-agents) |
+| **Example** | `/prd-generator` — you run it, Claude fills in a PRD | `research-agent` — Claude uses it when you ask for competitor research | A pipeline agent that runs research → writes PRD → reviews PRD autonomously |
+
+**Simple rule of thumb:**
+- Use a **skill** when you want to run the same prompt yourself, on demand.
+- Use a **sub-agent** when you want Claude to automatically hand off specialist work (and you don't want the details in your main chat).
+- An **agent** is the underlying mechanism — sub-agents *are* agents, just scoped to delegate-and-return behavior. You'll hear both terms used interchangeably.
+
+---
+
 ## 🛠️ Built with Claude Code
 
 Full-stack apps built live in class. Fork them, break them, learn from them.
