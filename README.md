@@ -113,6 +113,7 @@ Learn what sub-agents are, when to use them vs. skills, and build a library of 5
 - `code-reviewer` — Sonnet, read-only security and logic review
 - `data-analyst` — Sonnet, stats and anomaly detection from data files
 - `copy-writer` — Haiku, fast in-app copy with 3 tone options
+- `deck-builder` — Sonnet, researches a topic and produces a McKinsey-style deck for non-technical audiences
 
 **Files:**
 - [module-3/README.md](module-3/README.md) — assignment guide
@@ -145,6 +146,7 @@ Sub-agents are specialists Claude delegates to automatically — no `/command` n
 | `code-reviewer` | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files | [Module 3](module-3/.claude/agents/code-reviewer.md) |
 | `data-analyst` | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend | [Module 3](module-3/.claude/agents/data-analyst.md) |
 | `copy-writer` | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words | [Module 3](module-3/.claude/agents/copy-writer.md) |
+| `deck-builder` | Sonnet | Researches a topic using Brave MCP (Reddit, Medium, YouTube) and produces a McKinsey-style presentation deck with speaker notes — designed for non-technical audiences | [Module 3](module-3/.claude/agents/deck-builder.md) |
 
 ---
 
