@@ -70,7 +70,7 @@ More apps get added as the course runs.
 
 Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
 
-**32 skills across 6 categories.** Copy the SKILL.md file into your project's `.claude/skills/<name>/` folder to install.
+**34 skills across 7 categories.** Copy the SKILL.md file into your project's `.claude/skills/<name>/` folder to install.
 
 ---
 
@@ -154,51 +154,14 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 ---
 
-## 🧑‍🏫 Skills Recommended by Andrej Karpathy & Boris Cherny
+### 🏆 Best Practices (from the experts)
 
-These aren't slash commands — they're **CLAUDE.md guidelines** that shape how Claude behaves across every conversation. Add them to your project's `CLAUDE.md` to get Claude working the way the best practitioners use it.
+Inspired by how the best practitioners actually use Claude Code. These skills enforce those principles directly in your workflow.
 
----
-
-### Andrej Karpathy's Guidelines
-
-> **Credit:** [Andrej Karpathy](https://x.com/karpathy) (AI researcher, former OpenAI & Tesla) shared these observations in a January 2026 post on X about the pitfalls he encountered after shifting from manual coding to 80% agent-driven development. They were distilled into a reusable CLAUDE.md file by [Forrest Chang](https://github.com/forrestchang) — see [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills).
-
-**Think before coding**
-> "State your assumptions explicitly. If uncertain, ask. If multiple interpretations exist, present them — don't pick silently. If a simpler approach exists, say so. Push back when warranted. If something is unclear, stop. Name what's confusing. Ask."
-
-**Simplicity first**
-> "No features beyond what was asked. No abstractions for single-use code. No 'flexibility' or 'configurability' that wasn't requested. No error handling for impossible scenarios. If you write 200 lines and it could be 50, rewrite it."
-
-**Surgical changes**
-> "Don't 'improve' adjacent code, comments, or formatting. Don't refactor things that aren't broken. Match existing style, even if you'd do it differently. If you notice unrelated dead code, mention it — don't delete it."
-
-**Goal-driven execution**
-> "Define success criteria. Loop until verified. For multi-step tasks, state a brief plan with steps and verification checkpoints."
-
----
-
-### Boris Cherny's Workflow
-
-> **Credit:** [Boris Cherny](https://github.com/bcherny) is the creator of Claude Code at Anthropic. These tips come from his public posts and [howborisusesclaudecode.com](https://howborisusesclaudecode.com/) — his own documentation of how he uses the tool he built. Boris runs 10–15 Claude sessions simultaneously and has shipped more with Claude Code than anyone.
-
-**Plan first, always**
-Enter plan mode (`Shift+Tab` twice) before any complex task. Pour your energy into the plan. Only let Claude write code once the plan is approved. Rewind failed attempts instead of correcting mid-session.
-
-**CLAUDE.md is a living document**
-Keep CLAUDE.md under 100 lines. Add every mistake Claude makes so it never repeats. Update it weekly as a team. Check it into git so everyone benefits.
-
-**Give Claude a verification mechanism**
-Always give Claude a way to verify its own work — tests, a browser, logs, a build command. Without verification, Claude can't close the feedback loop.
-
-**Build skills for anything repeated**
-If you do something more than once, make it a skill. Store commands in `.claude/commands/`, check them into git.
-
-**Use parallel sessions for big tasks**
-Run multiple Claude sessions with separate git worktrees for large refactors or migrations. Use `claude --worktree my_worktree` to avoid conflicts.
-
-**Pre-approve safe commands**
-Add common read-only and safe commands to your allowlist via `/permissions` with wildcard syntax to eliminate repetitive permission prompts.
+| Skill | Command | What it does | Credit |
+|-------|---------|-------------|--------|
+| Karpathy Review | `/karpathy-review` | Reviews code or a plan against Karpathy's 4 principles: explicit assumptions, simplicity, surgical changes, verifiable goals | [SKILL.md](.claude/skills/karpathy-review/SKILL.md) · inspired by [Andrej Karpathy](https://x.com/karpathy), adapted by [Forrest Chang](https://github.com/forrestchang/andrej-karpathy-skills) |
+| Boris Plan | `/boris-plan` | Writes a complete plan with assumptions, steps, scope, and verification — waits for your approval before touching a single file | [SKILL.md](.claude/skills/boris-plan/SKILL.md) · based on [Boris Cherny's](https://github.com/bcherny) plan-first workflow at [howborisusesclaudecode.com](https://howborisusesclaudecode.com/) |
 
 ---
 
@@ -496,6 +459,8 @@ You're in. Head to [module-1/README.md](module-1/README.md) for your first assig
 | Summarize for an exec | `/exec-summary` |
 | Eval a skill | `/skill-evaluator` |
 | Pre-deploy check | `/deploy-checklist` |
+| Review code against Karpathy's principles | `/karpathy-review` |
+| Plan a task before touching any files | `/boris-plan` |
 | Final code review | `/verify-work` |
 | Write tests | `/test-writer` |
 | Find gaps in a spec | `"Review docs/prd.md and tell me what's missing"` |
