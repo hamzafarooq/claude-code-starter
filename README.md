@@ -5,7 +5,7 @@
 Build production apps, write PRDs with AI, and go from idea to deployed product using Claude Code. No coding background required.
 
 [![Maven Course](https://img.shields.io/badge/Maven-Enroll%20Now-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
-[![Modules](https://img.shields.io/badge/Modules-3-brightgreen?style=for-the-badge)](#-course-modules)
+[![Modules](https://img.shields.io/badge/Modules-4-brightgreen?style=for-the-badge)](#-course-modules)
 [![Apps Built](https://img.shields.io/badge/Apps%20Built-3-orange?style=for-the-badge)](#-built-with-claude-code)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
@@ -119,6 +119,29 @@ Learn what sub-agents are, when to use them vs. skills, and build a library of 5
 - [module-3/README.md](module-3/README.md) — assignment guide
 - [module-3/.claude/agents/](module-3/.claude/agents/research-agent.md) — all 5 agent files
 
+### [Module 4: Ship It — Evaluate, Deploy, and Own the Full Loop](module-4/README.md)
+
+Write evals for your skills, deploy your app to a live URL, and learn how to convert a Claude Code Skills pipeline into a production server using the Anthropic API directly.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 4a. Write evals | Build a ground truth table and run `/skill-evaluator` until you hit 8/10 |
+| 4b. Deploy to Vercel | Get your app to a live URL in 5 commands |
+| 4c. Skills in production | Convert a Claude Code pipeline into a Python/FastAPI app using the Anthropic SDK |
+
+**Skills included:**
+- `/skill-evaluator` — scores a Skill's output against ground truth, identifies failure patterns
+- `/deploy-checklist` — runs pre-deploy checks before pushing to Vercel or Fly.io
+
+**Demo app:**
+- `MeetingMemo` — converts raw meeting notes into a structured standup update; built live in class in 30 minutes
+
+**Files:**
+- [module-4/README.md](module-4/README.md) — assignment guide
+- [module-4/CLAUDE-template.md](module-4/CLAUDE-template.md) — starter template for deploy-ready projects
+- [module-4/code-reference.md](module-4/code-reference.md) — all code from the slides in one place
+- [module-4/.claude/skills/](module-4/.claude/skills/) — skill files
+
 ---
 
 ## 🧩 Skills Library
@@ -132,6 +155,8 @@ Skills are triggered with a `/command`. You install them once; Claude runs them 
 | YouTube Deep Dive | `/youtube-deepdive` | Takes one or more YouTube URLs, visits each with Brave MCP, and returns a structured highlight report: timestamps, key moments, and top comments — so you skip to the best parts | [Module 2](module-2/.claude/skills/youtube-deepdive/SKILL.md) |
 | YouTube Researcher | `/youtube-researcher` | Searches YouTube on any topic and returns a ranked table of videos with titles, channels, view counts, and a top-pick recommendation | [Module 2](module-2/.claude/skills/youtube-researcher/SKILL.md) |
 | Explain Me a Repo | `/explain-me-a-repo` | Takes a GitHub URL, navigates to it with Brave MCP, and produces a structured repo write-up: what it does, how it's built, key files, and who it's for | [Module 2](module-2/.claude/commands/explain-me-a-repo.md) |
+| Skill Evaluator | `/skill-evaluator` | Scores a Skill's output against a ground truth table, identifies failure patterns, and tells you what to fix — repeat until 8/10 pass | [Module 4](module-4/.claude/skills/skill-evaluator/SKILL.md) |
+| Deploy Checklist | `/deploy-checklist` | Runs pre-deploy checks before pushing to Vercel or Fly.io — catches the five things that break most first deploys | [Module 4](module-4/.claude/skills/deploy-checklist/SKILL.md) |
 
 ---
 
