@@ -11,8 +11,10 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 
 > Taught by **Hamza Farooq** — Founder at Traversaal.ai · UCLA Anderson · ex-Google
+>
+> ⭐ **#1 Highest Rated Claude Course on Maven**
 
-[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-16%20at%2002.26.25.png)](https://maven.com/boring-bot/claude-code-in-practice)
+[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-24%20at%2015.52.23.png)](https://maven.com/boring-bot/claude-code-in-practice)
 
 ---
 
@@ -66,17 +68,137 @@ More apps get added as the course runs.
 
 ## 🧩 Skills Library
 
-Skills are triggered with a `/command`. You install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
+Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
 
-| Skill | Command | What it does | Module |
-|-------|---------|-------------|--------|
-| PRD Generator | `/prd-generator` | Asks for a feature name, problem, target user, and constraints — then writes a full 9-section PRD with risks, acceptance criteria, and open questions | [Module 1](module-1/.claude/skills/prd-generator/SKILL.md) |
-| User Story Writer | `/user-story-writer` | Turns a rough feature idea into prioritised user stories with Given/When/Then acceptance criteria, edge cases, and open questions | [Module 1](module-1/.claude/skills/user-story-writer/SKILL.md) |
-| YouTube Deep Dive | `/youtube-deepdive` | Takes one or more YouTube URLs, visits each with Brave MCP, and returns a structured highlight report: timestamps, key moments, and top comments — so you skip to the best parts | [Module 2](module-2/.claude/skills/youtube-deepdive/SKILL.md) |
-| YouTube Researcher | `/youtube-researcher` | Searches YouTube on any topic and returns a ranked table of videos with titles, channels, view counts, and a top-pick recommendation | [Module 2](module-2/.claude/skills/youtube-researcher/SKILL.md) |
-| Explain Me a Repo | `/explain-me-a-repo` | Takes a GitHub URL, navigates to it with Brave MCP, and produces a structured repo write-up: what it does, how it's built, key files, and who it's for | [Module 2](module-2/.claude/commands/explain-me-a-repo.md) |
-| Skill Evaluator | `/skill-evaluator` | Scores a Skill's output against a ground truth table, identifies failure patterns, and tells you what to fix — repeat until 8/10 pass | [Module 4](module-4/.claude/skills/skill-evaluator/SKILL.md) |
-| Deploy Checklist | `/deploy-checklist` | Runs pre-deploy checks before pushing to Vercel or Fly.io — catches the five things that break most first deploys | [Module 4](module-4/.claude/skills/deploy-checklist/SKILL.md) |
+**32 skills across 6 categories.** Copy the SKILL.md file into your project's `.claude/skills/<name>/` folder to install.
+
+---
+
+### 🔍 Research
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| Competitor Research | `/competitor-research` | Researches 3–5 competitors: positioning, pricing, differentiators, and gap analysis | [SKILL.md](.claude/skills/competitor-research/SKILL.md) |
+| Market Sizing | `/market-sizing` | Estimates TAM/SAM/SOM from a product description using a bottom-up approach | [SKILL.md](.claude/skills/market-sizing/SKILL.md) |
+| Customer Persona | `/customer-persona` | Builds a deep ICP: jobs-to-be-done, pain points, objections, buying triggers | [SKILL.md](.claude/skills/customer-persona/SKILL.md) |
+| Meeting Analyzer | `/meeting-analyzer` | Extracts action items, decisions, risks, and open questions from meeting notes | [SKILL.md](.claude/skills/meeting-analyzer/SKILL.md) |
+| Trend Spotter | `/trend-spotter` | Scans a market for strong signals, weak signals, and noise — with evidence | [SKILL.md](.claude/skills/trend-spotter/SKILL.md) |
+| YouTube Deep Dive | `/youtube-deepdive` | Visits YouTube URLs with Brave MCP — returns timestamps, key moments, top comments | [Module 2](module-2/.claude/skills/youtube-deepdive/SKILL.md) |
+| YouTube Researcher | `/youtube-researcher` | Searches YouTube on any topic, returns ranked videos with a top-pick recommendation | [Module 2](module-2/.claude/skills/youtube-researcher/SKILL.md) |
+| Explain Me a Repo | `/explain-me-a-repo` | Visits a GitHub URL with Brave MCP — returns what it does, how it's built, key files | [Module 2](module-2/.claude/commands/explain-me-a-repo.md) |
+
+---
+
+### ✍️ Content Writing
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| Voice DNA | `/voice-dna` | Analyzes your writing samples and extracts your voice fingerprint — tone, patterns, taboo words | [SKILL.md](.claude/skills/voice-dna/SKILL.md) |
+| Newsletter Ideator | `/newsletter-ideator` | Generates 7 unique angles for a newsletter issue using SCAMPER and contrarian frameworks | [SKILL.md](.claude/skills/newsletter-ideator/SKILL.md) |
+| LinkedIn Post | `/linkedin-post` | Writes 2 versions of a LinkedIn post — story-led and insight-led — with hook and CTA | [SKILL.md](.claude/skills/linkedin-post/SKILL.md) |
+| Email Writer | `/email-writer` | Writes launch, follow-up, re-engagement, or cold outreach emails with 3 subject line options | [SKILL.md](.claude/skills/email-writer/SKILL.md) |
+| Content Repurposer | `/content-repurposer` | Turns one long-form piece into 5 formats: tweet thread, LinkedIn, newsletter blurb, Substack Note, TL;DR | [SKILL.md](.claude/skills/content-repurposer/SKILL.md) |
+| SEO Optimizer | `/seo-optimizer` | Analyzes a draft for keyword gaps, rewrites title/meta/H2s for search without killing the voice | [SKILL.md](.claude/skills/seo-optimizer/SKILL.md) |
+
+---
+
+### 📋 Product Management
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| PRD Generator | `/prd-generator` | Writes a full 9-section PRD: problem, solution, risks, acceptance criteria, open questions | [Module 1](module-1/.claude/skills/prd-generator/SKILL.md) |
+| User Story Writer | `/user-story-writer` | Turns rough ideas into user stories with Given/When/Then criteria and edge cases | [Module 1](module-1/.claude/skills/user-story-writer/SKILL.md) |
+| Sprint Planner | `/sprint-planner` | Turns a backlog into a prioritized 2-week sprint with effort estimates and capacity check | [SKILL.md](.claude/skills/sprint-planner/SKILL.md) |
+| Business Case | `/business-case` | Builds a business case: problem, options analysis, ROI estimate, risks, recommendation | [SKILL.md](.claude/skills/business-case/SKILL.md) |
+| Feature Prioritizer | `/feature-prioritizer` | Scores features using RICE (Reach × Impact × Confidence ÷ Effort) and returns a ranked table | [SKILL.md](.claude/skills/feature-prioritizer/SKILL.md) |
+| OKR Writer | `/okr-writer` | Turns a goal into 3 Objectives with 3 measurable Key Results each — with a health check | [SKILL.md](.claude/skills/okr-writer/SKILL.md) |
+| Stakeholder Update | `/stakeholder-update` | Writes a weekly/monthly status update from raw notes: progress, blockers, decisions needed | [SKILL.md](.claude/skills/stakeholder-update/SKILL.md) |
+| Retro Facilitator | `/retro-facilitator` | Generates a sprint retrospective doc: what worked, what didn't, 3 action items with owners | [SKILL.md](.claude/skills/retro-facilitator/SKILL.md) |
+| Launch Checklist | `/launch-checklist` | Creates a go-to-market launch checklist phased across 2 weeks before → launch day → post-launch | [SKILL.md](.claude/skills/launch-checklist/SKILL.md) |
+
+---
+
+### 💻 Code & Quality
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| Verify Work | `/verify-work` | End-of-session review: console.logs, unused imports, hardcoded values, missing error handling | [SKILL.md](.claude/skills/verify-work/SKILL.md) |
+| Changelog Writer | `/changelog-writer` | Reads git log and writes a user-facing changelog in Keep a Changelog format | [SKILL.md](.claude/skills/changelog-writer/SKILL.md) |
+| Test Writer | `/test-writer` | Writes unit tests for any function — happy path, edge cases, and error cases | [SKILL.md](.claude/skills/test-writer/SKILL.md) |
+| Dockerfile Generator | `/dockerfile-generator` | Creates a production Dockerfile and deployment config optimized for size and security | [SKILL.md](.claude/skills/dockerfile-generator/SKILL.md) |
+| Code Reviewer | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage | [Module 3](module-3/.claude/agents/code-reviewer.md) |
+| Skill Evaluator | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns | [Module 4](module-4/.claude/skills/skill-evaluator/SKILL.md) |
+| Deploy Checklist | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures | [Module 4](module-4/.claude/skills/deploy-checklist/SKILL.md) |
+
+---
+
+### 🎤 Presentations & Docs
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| Slides Builder | `/slides-builder` | Generates a complete self-contained HTML slide deck — McKinsey-style, one insight per slide | [SKILL.md](.claude/skills/slides-builder/SKILL.md) |
+| Exec Summary | `/exec-summary` | Rewrites any document as a 3-bullet executive summary — optimized for a VP with 30 seconds | [SKILL.md](.claude/skills/exec-summary/SKILL.md) |
+| Proposal Writer | `/proposal-writer` | Writes a structured proposal: problem, solution, timeline, investment, and next steps | [SKILL.md](.claude/skills/proposal-writer/SKILL.md) |
+
+---
+
+### 🤖 Sub-Agent Skills (auto-triggered, no command needed)
+
+| Skill | Triggers when… | What it does |
+|-------|---------------|-------------|
+| Research Agent | You ask for research, competitors, or market context | Web search specialist — structured findings with sources | [Module 3](module-3/.claude/agents/research-agent.md) |
+| PRD Reviewer | You ask to review or audit a PRD | Returns 3 risks, 3 missing edge cases, 1 scope creep flag | [Module 3](module-3/.claude/agents/prd-reviewer.md) |
+| Data Analyst | You share a CSV, JSON, or data export | Returns 3 key stats, 1 anomaly, 1 trend | [Module 3](module-3/.claude/agents/data-analyst.md) |
+| Copy Writer | You ask for in-app copy, tooltips, or button labels | Returns 3 options: [Direct], [Warm], [Bold] — all under 12 words | [Module 3](module-3/.claude/agents/copy-writer.md) |
+| Deck Builder | You ask for a presentation or deck | Researches the topic, then builds a McKinsey-style deck | [Module 3](module-3/.claude/agents/deck-builder.md) |
+
+---
+
+## 🧑‍🏫 Skills Recommended by Andrej Karpathy & Boris Cherny
+
+These aren't slash commands — they're **CLAUDE.md guidelines** that shape how Claude behaves across every conversation. Add them to your project's `CLAUDE.md` to get Claude working the way the best practitioners use it.
+
+---
+
+### Andrej Karpathy's Guidelines
+
+Distilled from Karpathy's January 2026 observations on LLM coding pitfalls — the patterns he found most damaging after shifting to agent-driven coding. Source: [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
+
+**Think before coding**
+> "State your assumptions explicitly. If uncertain, ask. If multiple interpretations exist, present them — don't pick silently. If a simpler approach exists, say so. Push back when warranted. If something is unclear, stop. Name what's confusing. Ask."
+
+**Simplicity first**
+> "No features beyond what was asked. No abstractions for single-use code. No 'flexibility' or 'configurability' that wasn't requested. No error handling for impossible scenarios. If you write 200 lines and it could be 50, rewrite it."
+
+**Surgical changes**
+> "Don't 'improve' adjacent code, comments, or formatting. Don't refactor things that aren't broken. Match existing style, even if you'd do it differently. If you notice unrelated dead code, mention it — don't delete it."
+
+**Goal-driven execution**
+> "Define success criteria. Loop until verified. For multi-step tasks, state a brief plan with steps and verification checkpoints."
+
+---
+
+### Boris Cherny's Workflow (Claude Code's creator)
+
+From Boris's public tips at [howborisusesclaudecode.com](https://howborisusesclaudecode.com/). Boris runs 10–15 Claude sessions simultaneously and has shipped more with Claude Code than anyone.
+
+**Plan first, always**
+Enter plan mode (`Shift+Tab` twice) before any complex task. Pour your energy into the plan. Only let Claude write code once the plan is approved. Rewind failed attempts instead of correcting mid-session.
+
+**CLAUDE.md is a living document**
+Keep CLAUDE.md under 100 lines. Add every mistake Claude makes so it never repeats. Update it weekly as a team. Check it into git so everyone benefits.
+
+**Give Claude a verification mechanism**
+Always give Claude a way to verify its own work — tests, a browser, logs, a build command. Without verification, Claude can't close the feedback loop.
+
+**Build skills for anything repeated**
+If you do something more than once, make it a skill. Store commands in `.claude/commands/`, check them into git.
+
+**Use parallel sessions for big tasks**
+Run multiple Claude sessions with separate git worktrees for large refactors or migrations. Use `claude --worktree my_worktree` to avoid conflicts.
+
+**Pre-approve safe commands**
+Add common read-only and safe commands to your allowlist via `/permissions` with wildcard syntax to eliminate repetitive permission prompts.
 
 ---
 
@@ -339,12 +461,28 @@ You're in. Head to [module-1/README.md](module-1/README.md) for your first assig
 |---------------|-------------|
 | Generate a PRD | `/prd-generator` |
 | Write user stories | `/user-story-writer` |
+| Plan a sprint | `/sprint-planner` |
+| Prioritize features | `/feature-prioritizer` |
+| Write OKRs | `/okr-writer` |
+| Write a stakeholder update | `/stakeholder-update` |
+| Build a business case | `/business-case` |
+| Research competitors | `/competitor-research` |
+| Size a market | `/market-sizing` |
+| Build a customer persona | `/customer-persona` |
+| Analyze meeting notes | `/meeting-analyzer` |
+| Scan for market trends | `/trend-spotter` |
+| Write a LinkedIn post | `/linkedin-post` |
+| Repurpose content | `/content-repurposer` |
+| Optimize for SEO | `/seo-optimizer` |
+| Build a slide deck | `/slides-builder` |
+| Write a proposal | `/proposal-writer` |
+| Summarize for an exec | `/exec-summary` |
 | Eval a skill | `/skill-evaluator` |
 | Pre-deploy check | `/deploy-checklist` |
+| Final code review | `/verify-work` |
+| Write tests | `/test-writer` |
 | Find gaps in a spec | `"Review docs/prd.md and tell me what's missing"` |
-| Write for execs | `"Rewrite this as 3 bullets for a VP with 10 seconds"` |
 | Prep for engineering | `"What questions will engineers ask about this PRD?"` |
-| Build a sprint plan | `"Turn the must-have stories into a 2-week sprint plan"` |
 | Stress-test a flow | `"What edge cases am I missing here?"` |
 
 ---
@@ -365,6 +503,6 @@ Check the path is `.claude/skills/<name>/SKILL.md` and the `name:` field in the 
 
 ---
 
-[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-16%20at%2002.26.25.png)](https://maven.com/boring-bot/claude-code-in-practice)
+[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-24%20at%2015.52.23.png)](https://maven.com/boring-bot/claude-code-in-practice)
 
-*[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai*
+*[Claude Code in Practice](https://maven.com/boring-bot/claude-code-in-practice) · Hamza Farooq · Traversaal.ai · ⭐ #1 Highest Rated Claude Course on Maven*
