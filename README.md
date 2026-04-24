@@ -50,100 +50,6 @@ All course code, templates, skills, and commands live here. Come back here whene
 
 ---
 
-## 📚 Course Modules
-
-### [Module 1: From Idea to Shipped Product](module-1/README.md)
-
-Set up Claude Code, write a `CLAUDE.md` that gives Claude context about your project, install two skills, and ship something by the end of the module.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 1. Set up `CLAUDE.md` | Write your project context file so Claude knows your stack and goals |
-| 2. Install skills | Add `/prd-generator` and `/user-story-writer` to your workflow |
-| 3. Ship something | Go from idea → PRD → working MVP |
-
-**Skills included:**
-- `/prd-generator` — generates a structured PRD from a feature description
-- `/user-story-writer` — converts rough ideas into user stories with acceptance criteria
-
-**Files:**
-- [module-1/README.md](module-1/README.md) — setup guide and assignments
-- [module-1/CLAUDE-template.md](module-1/CLAUDE-template.md) — starter template
-- [module-1/.claude/skills/](module-1/.claude/skills/prd-generator/SKILL.md) — skill files
-
----
-
-### [Module 2: How the Web Works — and How to Read Code You Didn't Write](module-2/README.md)
-
-Learn what frontend, backend, and AI backend actually mean, build a custom skill that reads GitHub repos, set up Brave MCP for live browsing, and use it all to understand a real codebase.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 1. Build `/explain-me-a-repo` | Write a skill that uses Brave MCP to read and summarize any GitHub repo |
-| 2. Set up Brave MCP | Connect Claude Code to a live browser |
-| 3. Use it on a real codebase | Run the skill on a repo you care about |
-
-**Skills & commands included:**
-- `/explain-me-a-repo` — navigates to a GitHub URL and produces a structured repo write-up
-- `/youtube-deepdive` — visits YouTube URLs and produces a highlight report with timestamps and top comments
-
-**Files:**
-- [module-2/README.md](module-2/README.md) — assignment guide
-- [module-2/CLAUDE-template.md](module-2/CLAUDE-template.md) — starter template
-- [module-2/demo/index.html](module-2/demo/index.html) — frontend/backend/AI backend live demo
-- [module-2/.claude/skills/explain-me-a-repo/SKILL.md](module-2/.claude/skills/explain-me-a-repo/SKILL.md)
-
----
-
-### [Module 3: Sub-Agents — Your Team of Specialists](module-3/README.md)
-
-Learn what sub-agents are, when to use them vs. skills, and build a library of 5 specialist agents. Culminates in a three-stage automated pipeline: competitor research → PRD → spec review — in one prompt.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 3a. Build `research-agent` | Web search specialist that returns clean structured findings |
-| 3b. Build `prd-reviewer` | Reads any PRD and returns risks, edge cases, and scope creep flag |
-| 3c. Build a pipeline | Chain research-agent → write PRD → prd-reviewer in a single prompt |
-| 3d. Build `code-reviewer` | Read-only code audit for security and logic errors |
-| 3e. Add `data-analyst` + `copy-writer` (optional) | Complete your specialist library |
-
-**Agents included:**
-- `research-agent` — Opus + web search, structured findings
-- `prd-reviewer` — Sonnet, reads and audits any PRD
-- `code-reviewer` — Sonnet, read-only security and logic review
-- `data-analyst` — Sonnet, stats and anomaly detection from data files
-- `copy-writer` — Haiku, fast in-app copy with 3 tone options
-- `deck-builder` — Sonnet, researches a topic and produces a McKinsey-style deck for non-technical audiences
-
-**Files:**
-- [module-3/README.md](module-3/README.md) — assignment guide
-- [module-3/.claude/agents/](module-3/.claude/agents/research-agent.md) — all 5 agent files
-
-### [Module 4: Ship It — Evaluate, Deploy, and Own the Full Loop](module-4/README.md)
-
-Write evals for your skills, deploy your app to a live URL, and learn how to convert a Claude Code Skills pipeline into a production server using the Anthropic API directly.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 4a. Write evals | Build a ground truth table and run `/skill-evaluator` until you hit 8/10 |
-| 4b. Deploy to Vercel | Get your app to a live URL in 5 commands |
-| 4c. Skills in production | Convert a Claude Code pipeline into a Python/FastAPI app using the Anthropic SDK |
-
-**Skills included:**
-- `/skill-evaluator` — scores a Skill's output against ground truth, identifies failure patterns
-- `/deploy-checklist` — runs pre-deploy checks before pushing to Vercel or Fly.io
-
-**Demo app:**
-- `MeetingMemo` — converts raw meeting notes into a structured standup update; built live in class in 30 minutes
-
-**Files:**
-- [module-4/README.md](module-4/README.md) — assignment guide
-- [module-4/CLAUDE-template.md](module-4/CLAUDE-template.md) — starter template for deploy-ready projects
-- [module-4/code-reference.md](module-4/code-reference.md) — all code from the slides in one place
-- [module-4/.claude/skills/](module-4/.claude/skills/) — skill files
-
----
-
 ## 🧩 Skills Library
 
 Skills are triggered with a `/command`. You install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
@@ -211,6 +117,103 @@ Both let Claude interact with a browser. Here's when to use each:
 | **In this course** | Not covered (engineering territory) | Used in Module 2 for `/explain-me-a-repo` and `/youtube-deepdive` |
 
 **Simple rule of thumb:** Use MCP when you want Claude to browse something *now*, in conversation. Use Playwright when you need browser automation to run reliably at scale or on a schedule — that's usually an engineering task.
+
+---
+
+## 📚 Course Modules
+
+### [Module 1: From Idea to Shipped Product](module-1/README.md)
+
+Set up Claude Code, write a `CLAUDE.md` that gives Claude context about your project, install two skills, and ship something by the end of the module.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 1. Set up `CLAUDE.md` | Write your project context file so Claude knows your stack and goals |
+| 2. Install skills | Add `/prd-generator` and `/user-story-writer` to your workflow |
+| 3. Ship something | Go from idea → PRD → working MVP |
+
+**Skills included:**
+- `/prd-generator` — generates a structured PRD from a feature description
+- `/user-story-writer` — converts rough ideas into user stories with acceptance criteria
+
+**Files:**
+- [module-1/README.md](module-1/README.md) — setup guide and assignments
+- [module-1/CLAUDE-template.md](module-1/CLAUDE-template.md) — starter template
+- [module-1/.claude/skills/](module-1/.claude/skills/prd-generator/SKILL.md) — skill files
+
+---
+
+### [Module 2: How the Web Works — and How to Read Code You Didn't Write](module-2/README.md)
+
+Learn what frontend, backend, and AI backend actually mean, build a custom skill that reads GitHub repos, set up Brave MCP for live browsing, and use it all to understand a real codebase.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 1. Build `/explain-me-a-repo` | Write a skill that uses Brave MCP to read and summarize any GitHub repo |
+| 2. Set up Brave MCP | Connect Claude Code to a live browser |
+| 3. Use it on a real codebase | Run the skill on a repo you care about |
+
+**Skills & commands included:**
+- `/explain-me-a-repo` — navigates to a GitHub URL and produces a structured repo write-up
+- `/youtube-deepdive` — visits YouTube URLs and produces a highlight report with timestamps and top comments
+- `/youtube-researcher` — searches YouTube on any topic and returns a ranked list of videos with a top-pick recommendation
+
+**Files:**
+- [module-2/README.md](module-2/README.md) — assignment guide
+- [module-2/CLAUDE-template.md](module-2/CLAUDE-template.md) — starter template
+- [module-2/demo/index.html](module-2/demo/index.html) — frontend/backend/AI backend live demo
+- [module-2/.claude/skills/explain-me-a-repo/SKILL.md](module-2/.claude/skills/explain-me-a-repo/SKILL.md)
+
+---
+
+### [Module 3: Sub-Agents — Your Team of Specialists](module-3/README.md)
+
+Learn what sub-agents are, when to use them vs. skills, and build a library of 5 specialist agents. Culminates in a three-stage automated pipeline: competitor research → PRD → spec review — in one prompt.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 3a. Build `research-agent` | Web search specialist that returns clean structured findings |
+| 3b. Build `prd-reviewer` | Reads any PRD and returns risks, edge cases, and scope creep flag |
+| 3c. Build a pipeline | Chain research-agent → write PRD → prd-reviewer in a single prompt |
+| 3d. Build `code-reviewer` | Read-only code audit for security and logic errors |
+| 3e. Add `data-analyst` + `copy-writer` (optional) | Complete your specialist library |
+
+**Agents included:**
+- `research-agent` — Opus + web search, structured findings
+- `prd-reviewer` — Sonnet, reads and audits any PRD
+- `code-reviewer` — Sonnet, read-only security and logic review
+- `data-analyst` — Sonnet, stats and anomaly detection from data files
+- `copy-writer` — Haiku, fast in-app copy with 3 tone options
+- `deck-builder` — Sonnet, researches a topic and produces a McKinsey-style deck for non-technical audiences
+
+**Files:**
+- [module-3/README.md](module-3/README.md) — assignment guide
+- [module-3/.claude/agents/](module-3/.claude/agents/research-agent.md) — all agent files
+
+---
+
+### [Module 4: Ship It — Evaluate, Deploy, and Own the Full Loop](module-4/README.md)
+
+Write evals for your skills, deploy your app to a live URL, and learn how to convert a Claude Code Skills pipeline into a production server using the Anthropic API directly.
+
+| Assignment | What you'll do |
+|-----------|---------------|
+| 4a. Write evals | Build a ground truth table and run `/skill-evaluator` until you hit 8/10 |
+| 4b. Deploy to Vercel | Get your app to a live URL in 5 commands |
+| 4c. Skills in production | Convert a Claude Code pipeline into a Python/FastAPI app using the Anthropic SDK |
+
+**Skills included:**
+- `/skill-evaluator` — scores a Skill's output against ground truth, identifies failure patterns
+- `/deploy-checklist` — runs pre-deploy checks before pushing to Vercel or Fly.io
+
+**Demo app:**
+- `MeetingMemo` — converts raw meeting notes into a structured standup update; built live in class in 30 minutes
+
+**Files:**
+- [module-4/README.md](module-4/README.md) — assignment guide
+- [module-4/CLAUDE-template.md](module-4/CLAUDE-template.md) — starter template for deploy-ready projects
+- [module-4/code-reference.md](module-4/code-reference.md) — all code from the slides in one place
+- [module-4/.claude/skills/](module-4/.claude/skills/) — skill files
 
 ---
 
@@ -336,6 +339,8 @@ You're in. Head to [module-1/README.md](module-1/README.md) for your first assig
 |---------------|-------------|
 | Generate a PRD | `/prd-generator` |
 | Write user stories | `/user-story-writer` |
+| Eval a skill | `/skill-evaluator` |
+| Pre-deploy check | `/deploy-checklist` |
 | Find gaps in a spec | `"Review docs/prd.md and tell me what's missing"` |
 | Write for execs | `"Rewrite this as 3 bullets for a VP with 10 seconds"` |
 | Prep for engineering | `"What questions will engineers ask about this PRD?"` |
