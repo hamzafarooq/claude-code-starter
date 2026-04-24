@@ -6,7 +6,7 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 [![Maven Course](https://img.shields.io/badge/Maven-Enroll%20Now-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 [![Modules](https://img.shields.io/badge/Modules-4-brightgreen?style=for-the-badge)](#-course-modules)
-[![Apps Built](https://img.shields.io/badge/Apps%20Built-3-orange?style=for-the-badge)](#-built-with-claude-code)
+[![Apps Built](https://img.shields.io/badge/Apps%20Built-3-orange?style=for-the-badge)](#-try-these-full-stack-applications-today)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 
@@ -47,6 +47,20 @@ All course code, templates, skills, and commands live here. Come back here whene
 | Skills | `module-N/.claude/skills/<name>/SKILL.md` |
 | Commands | `module-N/.claude/commands/<name>.md` |
 | Community resources | [`docs/resources.md`](docs/resources.md) |
+
+---
+
+## 🛠️ Try These Full-Stack Applications Today
+
+Real apps built live in class using Claude Code — no engineering team. Fork them, break them, learn from them.
+
+| App | What it does |
+|-----|-------------|
+| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human — sits inside Word as a sidebar, rewrites one paragraph at a time, and shows exactly what patterns were removed |
+| [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
+| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
+
+More apps get added as the course runs.
 
 ---
 
@@ -214,20 +228,6 @@ Write evals for your skills, deploy your app to a live URL, and learn how to con
 - [module-4/CLAUDE-template.md](module-4/CLAUDE-template.md) — starter template for deploy-ready projects
 - [module-4/code-reference.md](module-4/code-reference.md) — all code from the slides in one place
 - [module-4/.claude/skills/](module-4/.claude/skills/) — skill files
-
----
-
-## 🛠️ Built with Claude Code
-
-These are real, full-stack applications you can try out today — built live in class using Claude Code, with no engineering team. Fork them, break them, learn from them.
-
-| App | What it does |
-|-----|-------------|
-| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human — sits inside Word as a sidebar, rewrites one paragraph at a time, and shows exactly what patterns were removed |
-| [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
-| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
-
-More apps get added as the course runs.
 
 ---
 
