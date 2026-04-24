@@ -162,7 +162,7 @@ These aren't slash commands — they're **CLAUDE.md guidelines** that shape how 
 
 ### Andrej Karpathy's Guidelines
 
-Distilled from Karpathy's January 2026 observations on LLM coding pitfalls — the patterns he found most damaging after shifting to agent-driven coding. Source: [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
+> **Credit:** [Andrej Karpathy](https://x.com/karpathy) (AI researcher, former OpenAI & Tesla) shared these observations in a January 2026 post on X about the pitfalls he encountered after shifting from manual coding to 80% agent-driven development. They were distilled into a reusable CLAUDE.md file by [Forrest Chang](https://github.com/forrestchang) — see [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills).
 
 **Think before coding**
 > "State your assumptions explicitly. If uncertain, ask. If multiple interpretations exist, present them — don't pick silently. If a simpler approach exists, say so. Push back when warranted. If something is unclear, stop. Name what's confusing. Ask."
@@ -178,9 +178,9 @@ Distilled from Karpathy's January 2026 observations on LLM coding pitfalls — t
 
 ---
 
-### Boris Cherny's Workflow (Claude Code's creator)
+### Boris Cherny's Workflow
 
-From Boris's public tips at [howborisusesclaudecode.com](https://howborisusesclaudecode.com/). Boris runs 10–15 Claude sessions simultaneously and has shipped more with Claude Code than anyone.
+> **Credit:** [Boris Cherny](https://github.com/bcherny) is the creator of Claude Code at Anthropic. These tips come from his public posts and [howborisusesclaudecode.com](https://howborisusesclaudecode.com/) — his own documentation of how he uses the tool he built. Boris runs 10–15 Claude sessions simultaneously and has shipped more with Claude Code than anyone.
 
 **Plan first, always**
 Enter plan mode (`Shift+Tab` twice) before any complex task. Pour your energy into the plan. Only let Claude write code once the plan is approved. Rewind failed attempts instead of correcting mid-session.
@@ -199,6 +199,23 @@ Run multiple Claude sessions with separate git worktrees for large refactors or 
 
 **Pre-approve safe commands**
 Add common read-only and safe commands to your allowlist via `/permissions` with wildcard syntax to eliminate repetitive permission prompts.
+
+---
+
+### Skills Library — Inspiration & Credits
+
+The 25 skills in this library were designed for this course, informed by research across the community. Key sources:
+
+| Source | What we learned from it |
+|--------|------------------------|
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) by [@hesreallyhim](https://github.com/hesreallyhim) | Definitive index of skills, commands, and agent patterns |
+| [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) by [Composio](https://composio.dev) | Business, marketing, and data skill patterns |
+| [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) by [@travisvn](https://github.com/travisvn) | Curated skill examples and workflow patterns |
+| [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) by [VoltAgent](https://github.com/VoltAgent) | Sub-agent patterns and specialist agent design |
+| [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills) by [@Imbad0202](https://github.com/Imbad0202) | Research pipeline skill design |
+| [aiblewmymind.substack.com](https://aiblewmymind.substack.com/p/claude-skills-36-examples) | Real-world skill examples from 23 creators |
+
+All SKILL.md files in this repo are original work, written for a PM audience. Patterns and ideas from the above are adapted, not copied.
 
 ---
 
