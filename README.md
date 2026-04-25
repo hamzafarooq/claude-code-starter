@@ -6,7 +6,7 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 [![Maven Course](https://img.shields.io/badge/Maven-Enroll%20Now-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 [![Modules](https://img.shields.io/badge/Modules-4-brightgreen?style=for-the-badge)](#-course-modules)
-[![Apps Built](https://img.shields.io/badge/Apps%20Built-3-orange?style=for-the-badge)](#-try-these-full-stack-applications-today)
+[![Apps Built](https://img.shields.io/badge/Apps%20Built-4-orange?style=for-the-badge)](#-try-these-full-stack-applications-today)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 
@@ -61,6 +61,7 @@ Real apps built live in class using Claude Code — no engineering team. Fork th
 | [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human — sits inside Word as a sidebar, rewrites one paragraph at a time, and shows exactly what patterns were removed |
 | [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
 | [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
+| [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
 
 More apps get added as the course runs.
 
