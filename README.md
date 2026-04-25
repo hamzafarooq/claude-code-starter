@@ -73,7 +73,7 @@ More apps get added as the course runs.
 
 Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
 
-**34 skills across 7 categories.** Copy the SKILL.md file into your project's `.claude/skills/<name>/` folder to install.
+**34 skills across 7 categories.** Click any skill name to open its SKILL.md file. Copy it into your project's `.claude/skills/<name>/` folder to install.
 
 ---
 
@@ -81,14 +81,14 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| Competitor Research | `/competitor-research` | Researches 3–5 competitors: positioning, pricing, differentiators, and gap analysis | [SKILL.md](.claude/skills/competitor-research/SKILL.md) |
-| Market Sizing | `/market-sizing` | Estimates TAM/SAM/SOM from a product description using a bottom-up approach | [SKILL.md](.claude/skills/market-sizing/SKILL.md) |
-| Customer Persona | `/customer-persona` | Builds a deep ICP: jobs-to-be-done, pain points, objections, buying triggers | [SKILL.md](.claude/skills/customer-persona/SKILL.md) |
-| Meeting Analyzer | `/meeting-analyzer` | Extracts action items, decisions, risks, and open questions from meeting notes | [SKILL.md](.claude/skills/meeting-analyzer/SKILL.md) |
-| Trend Spotter | `/trend-spotter` | Scans a market for strong signals, weak signals, and noise — with evidence | [SKILL.md](.claude/skills/trend-spotter/SKILL.md) |
-| YouTube Deep Dive | `/youtube-deepdive` | Visits YouTube URLs with Brave MCP — returns timestamps, key moments, top comments | [Module 2](module-2/.claude/skills/youtube-deepdive/SKILL.md) |
-| YouTube Researcher | `/youtube-researcher` | Searches YouTube on any topic, returns ranked videos with a top-pick recommendation | [Module 2](module-2/.claude/skills/youtube-researcher/SKILL.md) |
-| Explain Me a Repo | `/explain-me-a-repo` | Visits a GitHub URL with Brave MCP — returns what it does, how it's built, key files | [Module 2](module-2/.claude/commands/explain-me-a-repo.md) |
+| [Competitor Research](.claude/skills/competitor-research/SKILL.md) | `/competitor-research` | Researches 3–5 competitors: positioning, pricing, differentiators, and gap analysis |
+| [Market Sizing](.claude/skills/market-sizing/SKILL.md) | `/market-sizing` | Estimates TAM/SAM/SOM from a product description using a bottom-up approach |
+| [Customer Persona](.claude/skills/customer-persona/SKILL.md) | `/customer-persona` | Builds a deep ICP: jobs-to-be-done, pain points, objections, buying triggers |
+| [Meeting Analyzer](.claude/skills/meeting-analyzer/SKILL.md) | `/meeting-analyzer` | Extracts action items, decisions, risks, and open questions from meeting notes |
+| [Trend Spotter](.claude/skills/trend-spotter/SKILL.md) | `/trend-spotter` | Scans a market for strong signals, weak signals, and noise — with evidence |
+| [YouTube Deep Dive](module-2/.claude/skills/youtube-deepdive/SKILL.md) | `/youtube-deepdive` | Visits YouTube URLs with Brave MCP — returns timestamps, key moments, top comments |
+| [YouTube Researcher](module-2/.claude/skills/youtube-researcher/SKILL.md) | `/youtube-researcher` | Searches YouTube on any topic, returns ranked videos with a top-pick recommendation |
+| [Explain Me a Repo](module-2/.claude/commands/explain-me-a-repo.md) | `/explain-me-a-repo` | Visits a GitHub URL with Brave MCP — returns what it does, how it's built, key files |
 
 ---
 
@@ -96,12 +96,12 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| Voice DNA | `/voice-dna` | Analyzes your writing samples and extracts your voice fingerprint — tone, patterns, taboo words | [SKILL.md](.claude/skills/voice-dna/SKILL.md) |
-| Newsletter Ideator | `/newsletter-ideator` | Generates 7 unique angles for a newsletter issue using SCAMPER and contrarian frameworks | [SKILL.md](.claude/skills/newsletter-ideator/SKILL.md) |
-| LinkedIn Post | `/linkedin-post` | Writes 2 versions of a LinkedIn post — story-led and insight-led — with hook and CTA | [SKILL.md](.claude/skills/linkedin-post/SKILL.md) |
-| Email Writer | `/email-writer` | Writes launch, follow-up, re-engagement, or cold outreach emails with 3 subject line options | [SKILL.md](.claude/skills/email-writer/SKILL.md) |
-| Content Repurposer | `/content-repurposer` | Turns one long-form piece into 5 formats: tweet thread, LinkedIn, newsletter blurb, Substack Note, TL;DR | [SKILL.md](.claude/skills/content-repurposer/SKILL.md) |
-| SEO Optimizer | `/seo-optimizer` | Analyzes a draft for keyword gaps, rewrites title/meta/H2s for search without killing the voice | [SKILL.md](.claude/skills/seo-optimizer/SKILL.md) |
+| [Voice DNA](.claude/skills/voice-dna/SKILL.md) | `/voice-dna` | Analyzes your writing samples and extracts your voice fingerprint — tone, patterns, taboo words |
+| [Newsletter Ideator](.claude/skills/newsletter-ideator/SKILL.md) | `/newsletter-ideator` | Generates 7 unique angles for a newsletter issue using SCAMPER and contrarian frameworks |
+| [LinkedIn Post](.claude/skills/linkedin-post/SKILL.md) | `/linkedin-post` | Writes 2 versions of a LinkedIn post — story-led and insight-led — with hook and CTA |
+| [Email Writer](.claude/skills/email-writer/SKILL.md) | `/email-writer` | Writes launch, follow-up, re-engagement, or cold outreach emails with 3 subject line options |
+| [Content Repurposer](.claude/skills/content-repurposer/SKILL.md) | `/content-repurposer` | Turns one long-form piece into 5 formats: tweet thread, LinkedIn, newsletter blurb, Substack Note, TL;DR |
+| [SEO Optimizer](.claude/skills/seo-optimizer/SKILL.md) | `/seo-optimizer` | Analyzes a draft for keyword gaps, rewrites title/meta/H2s for search without killing the voice |
 
 ---
 
@@ -109,15 +109,15 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| PRD Generator | `/prd-generator` | Writes a full 9-section PRD: problem, solution, risks, acceptance criteria, open questions | [Module 1](module-1/.claude/skills/prd-generator/SKILL.md) |
-| User Story Writer | `/user-story-writer` | Turns rough ideas into user stories with Given/When/Then criteria and edge cases | [Module 1](module-1/.claude/skills/user-story-writer/SKILL.md) |
-| Sprint Planner | `/sprint-planner` | Turns a backlog into a prioritized 2-week sprint with effort estimates and capacity check | [SKILL.md](.claude/skills/sprint-planner/SKILL.md) |
-| Business Case | `/business-case` | Builds a business case: problem, options analysis, ROI estimate, risks, recommendation | [SKILL.md](.claude/skills/business-case/SKILL.md) |
-| Feature Prioritizer | `/feature-prioritizer` | Scores features using RICE (Reach × Impact × Confidence ÷ Effort) and returns a ranked table | [SKILL.md](.claude/skills/feature-prioritizer/SKILL.md) |
-| OKR Writer | `/okr-writer` | Turns a goal into 3 Objectives with 3 measurable Key Results each — with a health check | [SKILL.md](.claude/skills/okr-writer/SKILL.md) |
-| Stakeholder Update | `/stakeholder-update` | Writes a weekly/monthly status update from raw notes: progress, blockers, decisions needed | [SKILL.md](.claude/skills/stakeholder-update/SKILL.md) |
-| Retro Facilitator | `/retro-facilitator` | Generates a sprint retrospective doc: what worked, what didn't, 3 action items with owners | [SKILL.md](.claude/skills/retro-facilitator/SKILL.md) |
-| Launch Checklist | `/launch-checklist` | Creates a go-to-market launch checklist phased across 2 weeks before → launch day → post-launch | [SKILL.md](.claude/skills/launch-checklist/SKILL.md) |
+| [PRD Generator](module-1/.claude/skills/prd-generator/SKILL.md) | `/prd-generator` | Writes a full 9-section PRD: problem, solution, risks, acceptance criteria, open questions |
+| [User Story Writer](module-1/.claude/skills/user-story-writer/SKILL.md) | `/user-story-writer` | Turns rough ideas into user stories with Given/When/Then criteria and edge cases |
+| [Sprint Planner](.claude/skills/sprint-planner/SKILL.md) | `/sprint-planner` | Turns a backlog into a prioritized 2-week sprint with effort estimates and capacity check |
+| [Business Case](.claude/skills/business-case/SKILL.md) | `/business-case` | Builds a business case: problem, options analysis, ROI estimate, risks, recommendation |
+| [Feature Prioritizer](.claude/skills/feature-prioritizer/SKILL.md) | `/feature-prioritizer` | Scores features using RICE (Reach × Impact × Confidence ÷ Effort) and returns a ranked table |
+| [OKR Writer](.claude/skills/okr-writer/SKILL.md) | `/okr-writer` | Turns a goal into 3 Objectives with 3 measurable Key Results each — with a health check |
+| [Stakeholder Update](.claude/skills/stakeholder-update/SKILL.md) | `/stakeholder-update` | Writes a weekly/monthly status update from raw notes: progress, blockers, decisions needed |
+| [Retro Facilitator](.claude/skills/retro-facilitator/SKILL.md) | `/retro-facilitator` | Generates a sprint retrospective doc: what worked, what didn't, 3 action items with owners |
+| [Launch Checklist](.claude/skills/launch-checklist/SKILL.md) | `/launch-checklist` | Creates a go-to-market launch checklist phased across 2 weeks before → launch day → post-launch |
 
 ---
 
@@ -125,13 +125,13 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| Verify Work | `/verify-work` | End-of-session review: console.logs, unused imports, hardcoded values, missing error handling | [SKILL.md](.claude/skills/verify-work/SKILL.md) |
-| Changelog Writer | `/changelog-writer` | Reads git log and writes a user-facing changelog in Keep a Changelog format | [SKILL.md](.claude/skills/changelog-writer/SKILL.md) |
-| Test Writer | `/test-writer` | Writes unit tests for any function — happy path, edge cases, and error cases | [SKILL.md](.claude/skills/test-writer/SKILL.md) |
-| Dockerfile Generator | `/dockerfile-generator` | Creates a production Dockerfile and deployment config optimized for size and security | [SKILL.md](.claude/skills/dockerfile-generator/SKILL.md) |
-| Code Reviewer | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage | [Module 3](module-3/.claude/agents/code-reviewer.md) |
-| Skill Evaluator | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns | [Module 4](module-4/.claude/skills/skill-evaluator/SKILL.md) |
-| Deploy Checklist | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures | [Module 4](module-4/.claude/skills/deploy-checklist/SKILL.md) |
+| [Verify Work](.claude/skills/verify-work/SKILL.md) | `/verify-work` | End-of-session review: console.logs, unused imports, hardcoded values, missing error handling |
+| [Changelog Writer](.claude/skills/changelog-writer/SKILL.md) | `/changelog-writer` | Reads git log and writes a user-facing changelog in Keep a Changelog format |
+| [Test Writer](.claude/skills/test-writer/SKILL.md) | `/test-writer` | Writes unit tests for any function — happy path, edge cases, and error cases |
+| [Dockerfile Generator](.claude/skills/dockerfile-generator/SKILL.md) | `/dockerfile-generator` | Creates a production Dockerfile and deployment config optimized for size and security |
+| [Code Reviewer](module-3/.claude/agents/code-reviewer.md) | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage |
+| [Skill Evaluator](module-4/.claude/skills/skill-evaluator/SKILL.md) | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns |
+| [Deploy Checklist](module-4/.claude/skills/deploy-checklist/SKILL.md) | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures |
 
 ---
 
@@ -139,9 +139,9 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| Slides Builder | `/slides-builder` | Generates a complete self-contained HTML slide deck — McKinsey-style, one insight per slide | [SKILL.md](.claude/skills/slides-builder/SKILL.md) |
-| Exec Summary | `/exec-summary` | Rewrites any document as a 3-bullet executive summary — optimized for a VP with 30 seconds | [SKILL.md](.claude/skills/exec-summary/SKILL.md) |
-| Proposal Writer | `/proposal-writer` | Writes a structured proposal: problem, solution, timeline, investment, and next steps | [SKILL.md](.claude/skills/proposal-writer/SKILL.md) |
+| [Slides Builder](.claude/skills/slides-builder/SKILL.md) | `/slides-builder` | Generates a complete self-contained HTML slide deck — McKinsey-style, one insight per slide |
+| [Exec Summary](.claude/skills/exec-summary/SKILL.md) | `/exec-summary` | Rewrites any document as a 3-bullet executive summary — optimized for a VP with 30 seconds |
+| [Proposal Writer](.claude/skills/proposal-writer/SKILL.md) | `/proposal-writer` | Writes a structured proposal: problem, solution, timeline, investment, and next steps |
 
 ---
 
@@ -149,11 +149,11 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 | Skill | Triggers when… | What it does |
 |-------|---------------|-------------|
-| Research Agent | You ask for research, competitors, or market context | Web search specialist — structured findings with sources | [Module 3](module-3/.claude/agents/research-agent.md) |
-| PRD Reviewer | You ask to review or audit a PRD | Returns 3 risks, 3 missing edge cases, 1 scope creep flag | [Module 3](module-3/.claude/agents/prd-reviewer.md) |
-| Data Analyst | You share a CSV, JSON, or data export | Returns 3 key stats, 1 anomaly, 1 trend | [Module 3](module-3/.claude/agents/data-analyst.md) |
-| Copy Writer | You ask for in-app copy, tooltips, or button labels | Returns 3 options: [Direct], [Warm], [Bold] — all under 12 words | [Module 3](module-3/.claude/agents/copy-writer.md) |
-| Deck Builder | You ask for a presentation or deck | Researches the topic, then builds a McKinsey-style deck | [Module 3](module-3/.claude/agents/deck-builder.md) |
+| [Research Agent](module-3/.claude/agents/research-agent.md) | You ask for research, competitors, or market context | Web search specialist — structured findings with sources |
+| [PRD Reviewer](module-3/.claude/agents/prd-reviewer.md) | You ask to review or audit a PRD | Returns 3 risks, 3 missing edge cases, 1 scope creep flag |
+| [Data Analyst](module-3/.claude/agents/data-analyst.md) | You share a CSV, JSON, or data export | Returns 3 key stats, 1 anomaly, 1 trend |
+| [Copy Writer](module-3/.claude/agents/copy-writer.md) | You ask for in-app copy, tooltips, or button labels | Returns 3 options: [Direct], [Warm], [Bold] — all under 12 words |
+| [Deck Builder](module-3/.claude/agents/deck-builder.md) | You ask for a presentation or deck | Researches the topic, then builds a McKinsey-style deck |
 
 ---
 
@@ -161,10 +161,10 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 Inspired by how the best practitioners actually use Claude Code. These skills enforce those principles directly in your workflow.
 
-| Skill | Command | What it does | Credit |
-|-------|---------|-------------|--------|
-| Karpathy Review | `/karpathy-review` | Reviews code or a plan against Karpathy's 4 principles: explicit assumptions, simplicity, surgical changes, verifiable goals | [SKILL.md](.claude/skills/karpathy-review/SKILL.md) · inspired by [Andrej Karpathy](https://x.com/karpathy), adapted by [Forrest Chang](https://github.com/forrestchang/andrej-karpathy-skills) |
-| Boris Plan | `/boris-plan` | Writes a complete plan with assumptions, steps, scope, and verification — waits for your approval before touching a single file | [SKILL.md](.claude/skills/boris-plan/SKILL.md) · based on [Boris Cherny's](https://github.com/bcherny) plan-first workflow at [howborisusesclaudecode.com](https://howborisusesclaudecode.com/) |
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| [Karpathy Review](.claude/skills/karpathy-review/SKILL.md) | `/karpathy-review` | Reviews code or a plan against Karpathy's 4 principles: explicit assumptions, simplicity, surgical changes, verifiable goals · inspired by [Andrej Karpathy](https://x.com/karpathy), adapted by [Forrest Chang](https://github.com/forrestchang/andrej-karpathy-skills) |
+| [Boris Plan](.claude/skills/boris-plan/SKILL.md) | `/boris-plan` | Writes a complete plan with assumptions, steps, scope, and verification — waits for your approval before touching a single file · based on [Boris Cherny's](https://github.com/bcherny) workflow at [howborisusesclaudecode.com](https://howborisusesclaudecode.com/) |
 
 ---
 
@@ -189,14 +189,14 @@ All SKILL.md files in this repo are original work, written for a PM audience. Pa
 
 Sub-agents are specialists Claude delegates to automatically — no `/command` needed. When your request matches an agent's description, Claude hands it off, runs it in a separate context, and returns only the findings. All agents live in `.claude/agents/<name>.md`.
 
-| Agent | Model | What it does | Module |
-|-------|-------|-------------|--------|
-| `research-agent` | Opus | Searches the web and returns structured findings: key facts, sources, and gaps. Triggers on any research, competitor analysis, or market context request | [Module 3](module-3/.claude/agents/research-agent.md) |
-| `prd-reviewer` | Sonnet | Reads any PRD and returns exactly 3 risks (rated HIGH/MED/LOW), 3 missing edge cases, and 1 scope creep flag — no summaries, no praise | [Module 3](module-3/.claude/agents/prd-reviewer.md) |
-| `code-reviewer` | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files | [Module 3](module-3/.claude/agents/code-reviewer.md) |
-| `data-analyst` | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend | [Module 3](module-3/.claude/agents/data-analyst.md) |
-| `copy-writer` | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words | [Module 3](module-3/.claude/agents/copy-writer.md) |
-| `deck-builder` | Sonnet | Researches a topic using Brave MCP (Reddit, Medium, YouTube) and produces a McKinsey-style presentation deck with speaker notes — designed for non-technical audiences | [Module 3](module-3/.claude/agents/deck-builder.md) |
+| Agent | Model | What it does |
+|-------|-------|-------------|
+| [`research-agent`](module-3/.claude/agents/research-agent.md) | Opus | Searches the web and returns structured findings: key facts, sources, and gaps. Triggers on any research, competitor analysis, or market context request |
+| [`prd-reviewer`](module-3/.claude/agents/prd-reviewer.md) | Sonnet | Reads any PRD and returns exactly 3 risks (rated HIGH/MED/LOW), 3 missing edge cases, and 1 scope creep flag — no summaries, no praise |
+| [`code-reviewer`](module-3/.claude/agents/code-reviewer.md) | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files |
+| [`data-analyst`](module-3/.claude/agents/data-analyst.md) | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend |
+| [`copy-writer`](module-3/.claude/agents/copy-writer.md) | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words |
+| [`deck-builder`](module-3/.claude/agents/deck-builder.md) | Sonnet | Researches a topic using Brave MCP (Reddit, Medium, YouTube) and produces a McKinsey-style presentation deck with speaker notes — designed for non-technical audiences |
 
 ---
 
