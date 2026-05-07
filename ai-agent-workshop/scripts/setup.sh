@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-# Idempotent setup for the competitor-research workshop.
-# Runs on every Claude Code session start; exits fast if everything is in place.
-# Wired up via .claude/settings.json (SessionStart hook).
+# One-time setup for the competitor-research workshop.
+# Idempotent: safe to re-run any time. Does two things:
+#   1. Creates .env from .env.example if missing (so students can add their Brave key).
+#   2. Installs Playwright Chromium browser if not already present.
 
 set -e
+
+# Resolve repo root regardless of where the script is invoked from
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Detect Playwright cache directory across platforms
 case "$OSTYPE" in
@@ -13,15 +17,24 @@ case "$OSTYPE" in
   *)        CACHE_DIR="$HOME/.cache/ms-playwright" ;;
 esac
 
-# Fast path: Chromium already installed → exit silently
+# ─── Step 1: .env file ────────────────────────────────────────────
+if [ -f "$ROOT_DIR/.env" ]; then
+  echo "✓ .env already exists (left untouched)."
+elif [ -f "$ROOT_DIR/.env.example" ]; then
+  cp "$ROOT_DIR/.env.example" "$ROOT_DIR/.env"
+  echo "✓ Created .env from .env.example."
+  echo "  → Edit .env now to add your BRAVE_API_KEY (optional)."
+fi
+
+# ─── Step 2: Playwright Chromium ──────────────────────────────────
 if compgen -G "$CACHE_DIR/chromium-*" > /dev/null 2>&1; then
+  echo "✓ Playwright Chromium already installed."
   exit 0
 fi
 
-# Slow path: first run, install Chromium
 echo "──────────────────────────────────────────────────────────────"
 echo "  First-time setup: installing Playwright Chromium (~165 MB)"
-echo "  This runs once per machine. Subsequent sessions skip this."
+echo "  This runs once per machine. Subsequent runs skip this."
 echo "──────────────────────────────────────────────────────────────"
 
 if ! command -v npx > /dev/null 2>&1; then
