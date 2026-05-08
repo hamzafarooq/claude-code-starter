@@ -1,69 +1,55 @@
 # Claude Code in Practice — Course Repo
 
-## Who I am
-
-- Yousuf, student of Claude Code in Practice for PM course
-- Background: Solution Architect, Engineeing Practices Lead
-- I am following course materials for PMs learning Claude Code
-- I'm comfortable with APIs, backend and big picture thinking, not so deep on frontend
-
 ## What this repo is
 
-Course materials for "Claude Code in Practice" (taught on Maven) — a course that teaches product managers to ship real things using Claude Code without relying on engineering.
+Course materials for **Claude Code in Practice** (taught on Maven) — a hands-on course that teaches product managers to ship real things using Claude Code without relying on engineering.
 
-- Current phase: Active (live cohorts running)
-- Audience: Product managers with no coding background
+- Audience: Product managers and non-engineers learning to build with Claude Code
+- Status: Active (live cohorts running)
+- Instructor: Hamza Farooq (Traversaal.ai, UCLA Anderson, ex-Google)
 - Maven course: https://maven.com/boring-bot/claude-code-in-practice
 
 ## Repo structure
 
 ```
 /
-├── CLAUDE.md               ← you are here (root context for Claude)
+├── CLAUDE.md               ← root context for Claude
 ├── README.md               ← student-facing setup guide
 ├── primer.md               ← course overview and navigation guide
-├── memory.md               ← persistent decisions and module status log
-├── .gitignore
-└── module-1/
-    ├── README.md           ← assignment guide for Module 1
-    ├── CLAUDE-template.md  ← starter CLAUDE.md template for students
-    ├── prd-generator/      ← live demo app built in class
-    └── .claude/
-        └── skills/
-            ├── prd-generator/SKILL.md
-            └── user-story-writer/SKILL.md
+├── memory.md               ← decisions and module status log
+├── LICENSE                 ← MIT
+├── .claude/                ← shared skills, commands, agents (all modules)
+│   ├── skills/
+│   ├── commands/
+│   └── agents/
+├── module-1/               ← PRDs, user stories, first app
+├── module-2/               ← Web app demo, repo & video research commands
+├── module-3/               ← (in progress)
+├── module-4/               ← MeetingMemo app, code reference
+└── ai-agent-workshop/      ← Capstone-style competitor research module
 ```
 
 ## Conventions
 
 - One folder per module: `module-1/`, `module-2/`, etc.
-- Each module has its own `README.md` (student assignment guide) and `CLAUDE-template.md`
-- Skills live in `module-N/.claude/skills/<name>/SKILL.md`
-- Commands live in `module-N/.claude/commands/<name>.md`
+- Each module has its own `README.md` (assignment guide) and `CLAUDE-template.md` (starter context for students)
+- Module-scoped skills/commands live in `module-N/.claude/skills/` and `module-N/.claude/commands/`
+- Repo-wide skills/commands/agents live in `/.claude/`
 - Apps built live in class get their own GitHub repos (linked from root README)
 - Version tags follow the pattern `v1.0`, `v2.0` per module completion
-- `course-modules/` is gitignored (slide decks and raw HTML exports)
 
-## How Claude should respond
+## How Claude should respond in this repo
 
-- Be concise — I don't need long explanations
-- When editing course content, match the tone of the existing files: plain English, instructional, PM-friendly
-- When I ask you to write something, write it directly
+- Be concise — short answers, no long preambles
+- Match the tone of existing course content: plain English, instructional, PM-friendly
+- When asked to write something, write it directly
 - Flag anything that would confuse a non-technical student
 - If something is unclear, ask rather than assume
 
-## Skills available
-- `/prd-generator` — generates a structured PRD from a feature description (module-1)
-- `/user-story-writer` — converts rough feature ideas into user stories with acceptance criteria (module-1)
+## What Claude is used for here
 
-## Commands available
-- `/explain-me-a-repo` — navigates to a GitHub URL using Brave MCP and produces a structured repo write-up (module-2)
-- `/youtube-deepdive` — visits one or more YouTube video URLs using Brave MCP and produces a highlight report with timestamps, key moments, and top comments
-
-## What I use Claude Code for in this repo
-
-- Draft and update module README files and assignment guides
-- Write and refine skill files (SKILL.md)
-- Maintain the root README (setup guide, module list, app table)
-- Update memory.md after key decisions or module completions
-- Tag releases and manage version history
+- Drafting and updating module README files and assignment guides
+- Writing and refining skill files (`SKILL.md`)
+- Maintaining the root README (setup guide, module list, app table)
+- Updating `memory.md` after key decisions or module completions
+- Tagging releases and managing version history
