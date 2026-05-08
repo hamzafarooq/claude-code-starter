@@ -7,6 +7,7 @@ Course materials for **Claude Code in Practice** (taught on Maven) — a hands-o
 - Audience: Product managers and non-engineers learning to build with Claude Code
 - Status: Active (live cohorts running)
 - Instructor: Hamza Farooq (Traversaal.ai, UCLA Anderson, ex-Google)
+- Co-instructor: Aishwarya Ashok
 - Maven course: https://maven.com/boring-bot/claude-code-in-practice
 
 ## Repo structure
