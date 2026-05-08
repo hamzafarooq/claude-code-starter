@@ -28,6 +28,31 @@
     .topbar-left h1 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.3px; }
     .topbar-left p  { font-size: 0.78rem; color: #888; margin-top: 2px; }
 
+    .cta-banner {
+      background: linear-gradient(90deg, #6c63ff 0%, #a78bfa 100%);
+      color: #fff;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .cta-banner span { opacity: 0.92; }
+    .cta-btn {
+      background: #fff;
+      color: #6c63ff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .cta-btn:hover { opacity: 0.85; }
+
     .api-key-row { display: flex; align-items: center; gap: 8px; }
     .api-key-row label { font-size: 0.78rem; font-weight: 600; color: #666; white-space: nowrap; }
     .api-key-row input {
@@ -224,6 +249,12 @@
   </style>
 </head>
 <body>
+
+<!-- CTA Banner -->
+<div class="cta-banner">
+  <span>Become an Agent-Native PM in 1 Day with Claude Code</span>
+  <a class="cta-btn" href="https://maven.com/boring-bot/claude-code-in-practice" target="_blank" rel="noopener">Join the Workshop →</a>
+</div>
 
 <!-- Top bar -->
 <div class="topbar">

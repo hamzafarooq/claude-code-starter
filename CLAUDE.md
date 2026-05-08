@@ -39,6 +39,7 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 - One folder per module: `module-1/`, `module-2/`, etc.
 - Each module has its own `README.md` (student assignment guide) and `CLAUDE-template.md`
 - Skills live in `module-N/.claude/skills/<name>/SKILL.md`
+- Commands live in `module-N/.claude/commands/<name>.md`
 - Apps built live in class get their own GitHub repos (linked from root README)
 - Version tags follow the pattern `v1.0`, `v2.0` per module completion
 - `course-modules/` is gitignored (slide decks and raw HTML exports)
@@ -50,6 +51,14 @@ Course materials for "Claude Code in Practice" (taught on Maven) — a course th
 - When I ask you to write something, write it directly
 - Flag anything that would confuse a non-technical student
 - If something is unclear, ask rather than assume
+
+## Skills available
+- `/prd-generator` — generates a structured PRD from a feature description (module-1)
+- `/user-story-writer` — converts rough feature ideas into user stories with acceptance criteria (module-1)
+
+## Commands available
+- `/explain-me-a-repo` — navigates to a GitHub URL using Brave MCP and produces a structured repo write-up (module-2)
+- `/youtube-deepdive` — visits one or more YouTube video URLs using Brave MCP and produces a highlight report with timestamps, key moments, and top comments
 
 ## What I use Claude Code for in this repo
 

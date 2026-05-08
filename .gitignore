@@ -1,1 +1,4 @@
 course-modules/
+docs/
+.DS_Store
+.playwright-mcp/

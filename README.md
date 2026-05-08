@@ -366,19 +366,6 @@ Top GitHub repos for going deeper on skills, best practices, and memory manageme
 
 ---
 
-## 🤔 What is Claude Code?
-
-An AI assistant that runs inside your project folder and reads your actual files. Not a chatbot — a collaborator.
-
-| Claude.ai / ChatGPT | Claude Code |
-|---------------------|-------------|
-| You paste text into a chat box | Claude reads your actual files |
-| Starts fresh every conversation | Remembers your project through `CLAUDE.md` |
-| You copy-paste results manually | Edits files directly |
-| General-purpose | Configured for how your team works |
-
----
-
 ## ⚙️ Installation
 
 Takes about 10 minutes. You'll do it once.
