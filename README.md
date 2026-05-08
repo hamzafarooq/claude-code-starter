@@ -71,9 +71,17 @@ More apps get added as the course runs.
 
 ## 🧩 Skills Library
 
-Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`.
+Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`, and every skill has a matching slash command file in `.claude/commands/<name>.md` so you can invoke it as `/<name>` directly from Claude Code.
 
-**34 skills across 7 categories.** Click any skill name to open its SKILL.md file. Copy it into your project's `.claude/skills/<name>/` folder to install.
+```
+.claude/
+├── skills/<name>/SKILL.md   ← the full instruction set
+└── commands/<name>.md        ← thin wrapper that triggers the skill via /<name>
+```
+
+To install a skill in your own project, copy both the `skills/<name>/` folder and the matching `commands/<name>.md` file into your project's `.claude/` directory.
+
+**34 skills across 7 categories.** Click any skill name to open its SKILL.md file.
 
 ---
 
