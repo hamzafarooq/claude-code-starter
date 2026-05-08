@@ -60,6 +60,7 @@ MCP servers).
 ```bash
 git clone https://github.com/hamzafarooq/claude-code-starter.git
 cd claude-code-starter/ai-agent-workshop
+bash scripts/setup.sh
 ```
 
 > **Why `cd ai-agent-workshop`?** Claude Code reads `.claude/skills/` and
@@ -67,47 +68,35 @@ cd claude-code-starter/ai-agent-workshop
 > all live inside this folder, so you need to start `claude` from here for
 > them to load.
 
-### Required: nothing
+The setup script does two things, both idempotent (safe to re-run any time):
 
-The skill works with **only the built-in tools** (`WebSearch`, `WebFetch`).
-You can run it immediately with no further setup. The MCPs below add capability
-but aren't required.
+1. **Creates `.env`** from `.env.example` if it doesn't exist — so you can
+   add your Brave API key.
+2. **Installs Playwright Chromium** (~165 MB) if not already present —
+   used as a fallback for JavaScript-rendered pricing pages.
 
-### Optional: Brave Search MCP (~5 min)
+After running it:
 
-Brave is used for two specific things: news search (for finding recent
-fundraising / pivots / acquisitions) and AI summarization of long pages.
-Without it, the skill falls back to `WebSearch` for everything.
+- **Add your Brave API key** (optional). Open `.env` in any editor and
+  replace `your_brave_api_key_here` with a real key from
+  [brave.com/search/api](https://brave.com/search/api/) (free tier ~2,000
+  queries/month). Without a key, the skill falls back to `WebSearch` for
+  everything.
 
-1. Get a free API key at [brave.com/search/api](https://brave.com/search/api/)
-   (free tier ~2,000 queries/month — covers workshop usage).
-2. Copy the env template and fill in your key:
-   ```bash
-   cp .env.example .env
-   # edit .env, replace your_brave_api_key_here with your real key
-   ```
+### What's required vs. optional
 
-### Optional: Playwright MCP (~1–2 min, one-time)
+| Component | Required? | Failure mode if missing |
+| --- | --- | --- |
+| Built-in `WebSearch` + `WebFetch` | **Required** (ships with Claude Code) | — |
+| Brave Search MCP (API key in `.env`) | Optional | Skill falls back to `WebSearch` for news/summaries |
+| Playwright MCP (Chromium browser) | Optional | `pricing-fetcher` falls back to WebFetch-only and flags the limitation in *Gaps & Uncertainties* |
 
-Playwright is used as a fallback inside the `pricing-fetcher` subagent when a
-competitor's pricing page is JavaScript-rendered (~30–40% of modern SaaS sites).
-Without it, `pricing-fetcher` returns whatever WebFetch could extract and notes
-the limit in *Gaps & Uncertainties*.
+The skill works on built-ins alone — both MCPs add capability but neither is required.
 
-**Run this once** after cloning to download Chromium (~165 MB):
-
-```bash
-bash scripts/setup.sh
-```
-
-The script is **idempotent** — if Chromium is already installed it exits in
-under a second, so you can re-run it any time without harm.
-
-> **If the install fails** (corporate firewall, locked-down machine), Playwright
-> simply won't be available — the skill still works, it just falls back to
-> WebFetch-only for pricing extraction. The `pricing-fetcher` subagent notes
-> this in its *Gaps & Uncertainties* section, so the limitation is visible
-> rather than silent.
+> **If the Playwright install fails** (corporate firewall, locked-down machine),
+> just move on — the skill still works without it, falling back to WebFetch-only
+> for pricing pages. `pricing-fetcher` notes this in its *Gaps & Uncertainties*
+> section so the limitation is visible rather than silent.
 
 The `.mcp.json` declares both MCP servers; Claude Code picks them up
 automatically on session start.
