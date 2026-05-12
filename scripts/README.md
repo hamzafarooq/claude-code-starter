@@ -4,16 +4,40 @@ Utility scripts that support the course but aren't tied to a specific module.
 
 ## anthropic_watcher.py — Anthropic Daily Brief
 
-Pulls the last 30 days of Anthropic announcements, research, blog posts, Claude Code releases, and doc-page updates, then emails you a styled HTML digest. Runs automatically every morning at **7 AM ET** via GitHub Actions, plus any time during the day when new items appear.
+Pulls the last 30 days of Anthropic announcements, research, blog posts, Claude Code releases, and doc-page updates, then emails you a styled HTML digest. Runs every hour via GitHub Actions:
 
-### What you get in each email
+- **7 AM ET, daily** — always sends a full brief, even if nothing is new.
+- **7 AM ET, Friday** — also sends a separate weekly themes email.
+- **Any hour with a saved-search match** — sends a focused alert email.
+- **Any hour with new items** — sends the daily brief immediately, not waiting for the morning.
+
+Each brief is also archived to `briefs/<date>.html` with an index page, so you can host it on GitHub Pages and search past briefs.
+
+---
+
+### What you get in each daily email
 
 - **Headline:** "N new updates" or "Nothing new today"
-- **TL;DR:** 2-3 sentence AI summary (requires `ANTHROPIC_API_KEY`)
+- **AI TL;DR:** 2-3 sentence summary (requires `ANTHROPIC_API_KEY`)
 - **Categorized sections:** News, Research, Engineering, Code Releases, Docs
 - **Per-item flags:**
   - Blue dot = new since last brief
-  - Gold star = matched an importance keyword (launch / release / new model / pricing / partnership / SDK / etc.)
+  - Gold star = keyword match (launch / release / pricing / etc.)
+  - `MAJOR` / `MINOR` / `ROUTINE` badge = LLM-judged magnitude
+  - "Why it matters" deep summary on new items (capped at 10 per brief)
+
+### What you get in saved-search alerts
+
+- One email per hour where a new item matched. Subject: `[Alert] N new matches from saved searches`.
+- Body shows label, title, source, date, summary, and link for each match.
+- Each item alerts only once (tracked in state).
+
+### What you get in the weekly themes email
+
+- Friday 7 AM ET, in addition to the daily brief.
+- 3-5 LLM-clustered themes from the past 7 days, each with a 2-3 sentence summary and the list of items in that theme.
+
+---
 
 ### Sources
 
@@ -26,7 +50,7 @@ Pulls the last 30 days of Anthropic announcements, research, blog posts, Claude 
 | Claude API Release Notes | `docs.claude.com/en/release-notes/api` | hash-watched page |
 | Claude App Release Notes | `docs.claude.com/en/release-notes/claude-apps` | hash-watched page |
 
-The Claude App Release Notes page sits behind Cloudflare and may 403 from cloud runners. The script logs a warning and keeps going — the other five sources always work.
+The Claude App Release Notes page sits behind Cloudflare and may 403 from cloud runners. The script logs a warning and keeps going.
 
 ---
 
@@ -34,90 +58,101 @@ The Claude App Release Notes page sits behind Cloudflare and may 403 from cloud 
 
 ### 1. Create a Gmail App Password
 
-Gmail blocks regular passwords from scripts. Generate an App Password:
-
-1. Go to https://myaccount.google.com/apppasswords
-2. Sign in if prompted. App Passwords require 2FA to be on.
-3. Name it "Anthropic Watcher" and click **Create**.
-4. Copy the 16-character password (spaces don't matter).
+1. https://myaccount.google.com/apppasswords (requires 2FA)
+2. Name it "Anthropic Watcher" → **Create**
+3. Copy the 16-character password.
 
 ### 2. Add GitHub repo secrets
 
-In this repo, go to **Settings -> Secrets and variables -> Actions -> New repository secret** and add:
+**Settings → Secrets and variables → Actions → New repository secret:**
 
-| Secret name | Value |
+| Secret | Value |
 |---|---|
-| `SMTP_USER` | your Gmail address (e.g. `you@gmail.com`) |
-| `SMTP_PASS` | the 16-char App Password from step 1 |
+| `SMTP_USER` | your Gmail address |
+| `SMTP_PASS` | the 16-char app password |
 | `EMAIL_TO` | where the brief should arrive |
 | `EMAIL_FROM` | usually same as `SMTP_USER` (optional) |
-| `ANTHROPIC_API_KEY` | from https://console.anthropic.com/ (optional, enables TL;DR) |
+| `ANTHROPIC_API_KEY` | from console.anthropic.com (optional but enables TL;DR, magnitude tags, deep summaries, weekly themes) |
 
-### 3. Enable the workflow
+### 3. Test it manually
 
-The workflow file is at `.github/workflows/anthropic-daily-brief.yml`. After merging this branch:
+**Actions → Anthropic Daily Brief → Run workflow.** Leave "force daily" checked. Email should arrive within ~1 minute.
 
-- **Hourly cron** runs at the top of every hour (UTC).
-- **7 AM ET hour** forces a full brief, even if nothing is new.
-- **Other hours** only send when new items are detected.
-- When new items are detected, the state file `scripts/.watcher_state.json` is committed back to the repo — that's why you may see chore commits from `github-actions[bot]`.
+### 4. (Optional) Enable GitHub Pages for the archive
 
-### 4. Test it manually
-
-Go to **Actions -> Anthropic Daily Brief -> Run workflow** in GitHub. Leave "Force-send" checked and click **Run workflow**. You should get an email within a minute or two.
+**Settings → Pages → Source: Deploy from a branch → Branch: `main`, Folder: `/briefs`.** Your archive will be live at `https://<your-org>.github.io/<repo>/`.
 
 ---
 
-## Setup: local run (optional)
-
-Useful for debugging or running off your laptop.
+## Setup: local run
 
 ```bash
 cp scripts/.env.example scripts/.env
-# Fill in real values, especially SMTP_PASS
+# fill in real values
 set -a; source scripts/.env; set +a
-python3 scripts/anthropic_watcher.py
-```
-
-The first run snapshots existing items and sends nothing. Set `FORCE_DAILY=1` to send anyway:
-
-```bash
 FORCE_DAILY=1 python3 scripts/anthropic_watcher.py
 ```
 
-State lives in `scripts/.watcher_state.json` (or wherever `STATE_FILE` points). Delete it to reset.
+State lives in `scripts/.watcher_state.json`. Delete to reset.
 
 ---
 
-## Schedule notes
+## Customization
 
-The cron expression `0 * * * *` runs every hour in UTC. Python inside the job converts to America/New_York and only force-sends during the 7 AM ET hour. This means:
+### Mute sources or add saved searches
 
-- DST is handled automatically — no need to edit cron when clocks change.
-- GitHub Actions cron has 5-15 min jitter under load, so "7 AM" can mean 7:05 - 7:15.
-- Hourly polling makes near-real-time alerts cheap — the watcher is fast (~5s).
+Edit `scripts/watcher_config.py`:
 
----
+```python
+SOURCE_TOGGLES = {
+    "News":          True,
+    "Research":      True,
+    "Engineering":   False,   # mute the engineering blog
+    "Code Releases": True,
+    "Docs":          True,
+}
 
-## Customizing sources
+SAVED_SEARCHES = [
+    ("Pricing changes",  r"\bpricing|price\b"),
+    ("Opus model news",  r"\bopus\b"),
+]
+```
 
-Edit `FEEDS` and `WATCH_PAGES` at the top of `anthropic_watcher.py`. The script is tolerant of dead URLs — they log a warning and the rest of the brief still goes out.
+Patterns are case-insensitive regex. Each matched new item triggers one alert email; alerts are deduplicated via the state file.
+
+### Change the model or limits
+
+Also in `watcher_config.py`:
+
+```python
+DEEP_SUMMARY_LIMIT = 10                       # cap on per-brief deep summaries
+LLM_MODEL          = "claude-haiku-4-5-20251001"  # bump to sonnet for richer prose
+ARCHIVE_DIR        = "briefs"                 # set None to disable archive
+```
+
+### Change schedule frequency
+
+Cron is hourly by default. To run less often, edit `.github/workflows/anthropic-daily-brief.yml`:
+
+```yaml
+- cron: "0 7,12,18 * * *"   # three times a day instead of hourly
+```
 
 ---
 
 ## Troubleshooting
 
 **No email arrived from the 7 AM run**
-Check **Actions** tab for a red X. Most common: a typo in a secret name, or your Gmail App Password expired.
+Check the **Actions** tab. Common: typo in a secret, expired Gmail App Password, or `EMAIL_TO` is wrong.
 
 **"403 Forbidden" warning in the log**
-That's the Cloudflare-gated Claude App Release Notes page. Expected from cloud runners; doesn't break the brief.
+Expected for the Cloudflare-gated Claude App Release Notes page. Doesn't break the brief.
 
-**"Missing required env vars" error**
-The script needs `SMTP_USER`, `SMTP_PASS`, and `EMAIL_TO` set. For GitHub Actions, these are repo secrets (see step 2 above).
+**TL;DR / magnitude / deep summaries are missing**
+`ANTHROPIC_API_KEY` is not set, or the API call failed. Check the workflow log for `[warn] LLM ...`. The brief still sends without LLM enrichment.
 
-**TL;DR is missing from the email**
-You haven't set `ANTHROPIC_API_KEY`, or the call failed. Check the workflow log for `[warn] TL;DR ...`.
+**State / archive commits are noisy**
+Each hour where anything changes produces one commit. To reduce, change cron to fewer hours or move `briefs/` to a `gh-pages` orphan branch.
 
-**State file commits are noisy**
-That's by design — each commit records that the watcher saw something new from Anthropic. If you want fewer commits, change cron to `0 7,12,18 * * *` (three times a day instead of hourly).
+**Saved-search alert didn't fire**
+Verify the pattern matches title or summary text (not the URL). Test the regex with `python3 -c "import re; print(re.search(r'YOUR_PATTERN', 'sample title', re.I))"`. Each item alerts only once — to retest, delete the item's id from `alerted_entries` in the state file.

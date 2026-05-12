@@ -2,9 +2,11 @@ name: Anthropic Daily Brief
 
 on:
   schedule:
-    # Every hour at :00. The script decides whether to send.
-    # - At 7 AM America/New_York -> always sends the full daily brief.
-    # - Other hours -> only sends if new items are detected.
+    # Every hour at :00. The script decides what to send:
+    # - 7 AM America/New_York   -> full daily brief.
+    # - Friday 7 AM ET          -> ALSO sends weekly themes.
+    # - Any hour with new items -> saved-search alerts + daily brief.
+    # - Any hour with no matches -> nothing (state still committed).
     - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
@@ -12,6 +14,10 @@ on:
         description: "Force-send the daily brief now"
         type: boolean
         default: true
+      force_weekly:
+        description: "Also send the weekly themes email"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -28,7 +34,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Need full history to commit state back.
           fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -37,37 +42,41 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Decide if this run is the daily window (7 AM ET)
+      - name: Decide which modes to force based on ET time
         id: window
         run: |
           python <<'PY' >> "$GITHUB_OUTPUT"
           from datetime import datetime
           from zoneinfo import ZoneInfo
           et = datetime.now(ZoneInfo("America/New_York"))
-          is_daily = et.hour == 7
+          is_daily  = et.hour == 7
+          is_weekly = is_daily and et.weekday() == 4  # Mon=0 .. Fri=4
           print(f"force_daily={'1' if is_daily else '0'}")
+          print(f"force_weekly={'1' if is_weekly else '0'}")
           print(f"et_now={et.isoformat()}")
           PY
 
       - name: Run watcher
         env:
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          SMTP_USER:         ${{ secrets.SMTP_USER }}
+          SMTP_PASS:         ${{ secrets.SMTP_PASS }}
+          EMAIL_TO:          ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM:        ${{ secrets.EMAIL_FROM }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          FORCE_DAILY: ${{ inputs.force_daily && '1' || steps.window.outputs.force_daily }}
-          STATE_FILE: scripts/.watcher_state.json
+          FORCE_DAILY:       ${{ inputs.force_daily  && '1' || steps.window.outputs.force_daily }}
+          FORCE_WEEKLY:      ${{ inputs.force_weekly && '1' || steps.window.outputs.force_weekly }}
+          STATE_FILE:        scripts/.watcher_state.json
         run: python scripts/anthropic_watcher.py
 
-      - name: Commit state if changed
+      - name: Commit state + archive if changed
         run: |
-          if [ -n "$(git status --porcelain scripts/.watcher_state.json)" ]; then
+          CHANGES=$(git status --porcelain scripts/.watcher_state.json briefs/ 2>/dev/null || true)
+          if [ -n "$CHANGES" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add scripts/.watcher_state.json
-            git commit -m "chore(watcher): record state update from Anthropic sources"
+            git add scripts/.watcher_state.json briefs/ 2>/dev/null || true
+            git commit -m "chore(watcher): record state and archive brief"
             git push
           else
-            echo "No state changes to commit."
+            echo "Nothing to commit."
           fi
