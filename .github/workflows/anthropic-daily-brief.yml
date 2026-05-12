@@ -71,12 +71,30 @@ jobs:
       - name: Commit state + archive if changed
         run: |
           CHANGES=$(git status --porcelain scripts/.watcher_state.json docs/briefs/ 2>/dev/null || true)
-          if [ -n "$CHANGES" ]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add scripts/.watcher_state.json docs/briefs/ 2>/dev/null || true
-            git commit -m "chore(watcher): record state and archive brief"
-            git push
-          else
+          if [ -z "$CHANGES" ]; then
             echo "Nothing to commit."
+            exit 0
           fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/.watcher_state.json docs/briefs/ 2>/dev/null || true
+          git commit -m "chore(watcher): record state and archive brief"
+          # Race-safe push: if the branch moved while we ran (e.g. PR merge),
+          # rebase onto the remote and retry. Prefer our version on conflicts —
+          # the state file and brief files are always fresher locally.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push rejected on attempt $attempt. Rebasing onto origin/$GITHUB_REF_NAME..."
+            git fetch origin "$GITHUB_REF_NAME"
+            if ! git rebase -X ours "origin/$GITHUB_REF_NAME"; then
+              echo "Rebase failed; aborting."
+              git rebase --abort 2>/dev/null || true
+              exit 1
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "Failed to push after 3 attempts."
+          exit 1
