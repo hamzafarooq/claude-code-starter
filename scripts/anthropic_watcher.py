@@ -296,7 +296,8 @@ def _extract_json(text):
 def analyze_items(window_items, new_items):
     """Single LLM call returning TL;DR + per-item magnitude + deep summaries.
 
-    Returns dict: {"tldr": str, "items": {item_id: {"magnitude": str, "deep_summary": str}}}
+    Returns dict: {"tldr": str, "items": {item_id: {"magnitude": str,
+                  "deep_summary": str, "overview": str}}}
     """
     sample = new_items if new_items else window_items
     if not sample:
@@ -312,17 +313,23 @@ def analyze_items(window_items, new_items):
         f"{audience} Below are recent Anthropic items.\n\n"
         "Return strict JSON, no prose outside the JSON, with this exact shape:\n"
         '{"tldr": "2-3 sentence executive summary",\n'
-        ' "items": [{"id": "...", "magnitude": "major|minor|routine", '
-        '"deep_summary": "1-2 sentences explaining why this matters to a product manager"}]}\n\n'
-        f"Provide magnitude for every item below. Provide deep_summary ONLY for these ids "
-        f"(others can omit the field): {sorted(deep_ids)}\n\n"
+        ' "items": [{"id": "...", "magnitude": "major|minor|routine",\n'
+        '            "deep_summary": "1-2 sentences on why this matters to a PM",\n'
+        '            "overview": "5-7 sentences with concrete factual detail"}]}\n\n'
+        f"Provide magnitude for every item below. Provide deep_summary AND overview "
+        f"ONLY for these ids (others can omit those fields): {sorted(deep_ids)}\n\n"
         "Magnitude rubric:\n"
         " - major: new model, major product launch, pricing change, strategic partnership, policy shift.\n"
         " - minor: feature additions, blog research findings, minor product updates.\n"
         " - routine: version bumps, doc edits, small UX tweaks.\n\n"
+        "Field guidance:\n"
+        " - deep_summary: editorial. Why this matters, who is affected, what changes for a PM. 1-2 sentences.\n"
+        " - overview: factual. What was announced, key numbers, names, dates, scope, and what specifically\n"
+        "   is new vs. before. 5-7 sentences. Concrete details so the reader can decide whether to click\n"
+        "   through. No hype, no marketing language, no editorial framing.\n\n"
         "Items:\n" + _items_to_bullets(sample, limit=40)
     )
-    raw = llm_call(prompt, max_tokens=2000)
+    raw = llm_call(prompt, max_tokens=4000)
     parsed = _extract_json(raw)
     if not parsed:
         return {"tldr": None, "items": {}}
@@ -333,6 +340,7 @@ def analyze_items(window_items, new_items):
         out["items"][entry["id"]] = {
             "magnitude": entry.get("magnitude", "routine"),
             "deep_summary": entry.get("deep_summary", ""),
+            "overview": entry.get("overview", ""),
         }
     return out
 
@@ -473,6 +481,7 @@ def render_daily_html(date_str, window_items, new_items, analysis, force_daily):
             title = esc(it.get("title", "(untitled)"))
             summary = clean_text(it.get("summary", ""), 200)
             deep = meta.get("deep_summary", "")
+            overview = meta.get("overview", "")
             p.append(
                 f'<li style="padding:8px 0;border-bottom:1px solid #f4f4f4;">'
                 f'{new_dot}{star}<a href="{link}" style="color:#161616;text-decoration:none;font-weight:600;">{title}</a>'
@@ -486,7 +495,14 @@ def render_daily_html(date_str, window_items, new_items, analysis, force_daily):
                     f'<strong style="font-size:11px;color:#0f62fe;text-transform:uppercase;letter-spacing:0.04em;">'
                     f'Why it matters</strong><br>{esc(deep)}</div>'
                 )
-            elif summary:
+            if overview:
+                p.append(
+                    f'<div style="font-size:13px;color:#161616;background:#fafafa;border-left:2px solid #8d8d8d;'
+                    f'padding:8px 10px;margin:6px 0 0 14px;line-height:1.55;">'
+                    f'<strong style="font-size:11px;color:#525252;text-transform:uppercase;letter-spacing:0.04em;">'
+                    f'Overview</strong><br>{esc(overview)}</div>'
+                )
+            elif not deep and summary:
                 p.append(
                     f'<div style="font-size:13px;color:#525252;margin:4px 0 0 14px;line-height:1.45;">{esc(summary)}</div>'
                 )
@@ -529,9 +545,13 @@ def render_daily_text(date_str, window_items, new_items, analysis, force_daily):
             lines.append(f"{marker}{star}{mag_tag}[{date}] {it.get('title','(untitled)')}")
             if it.get("link"):
                 lines.append(f"        {it['link']}")
-            deep = item_meta.get(it["id"], {}).get("deep_summary", "")
+            meta = item_meta.get(it["id"], {})
+            deep = meta.get("deep_summary", "")
+            overview = meta.get("overview", "")
             if deep:
-                lines.append(f"        > {deep}")
+                lines.append(f"        Why it matters: {deep}")
+            if overview:
+                lines.append(f"        Overview:       {overview}")
     return "\n".join(lines)
 
 

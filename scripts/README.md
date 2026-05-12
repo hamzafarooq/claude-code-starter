@@ -24,7 +24,7 @@ Each brief is also archived to `docs/briefs/<date>.html` with an index page, so 
   - Blue dot = new since last brief
   - Gold star = keyword match (launch / release / pricing / etc.)
   - `MAJOR` / `MINOR` / `ROUTINE` badge = LLM-judged magnitude
-  - "Why it matters" deep summary on new items (capped at 10 per brief)
+  - "Why it matters" deep summary + longer "Overview" on new items (capped at 10 per brief)
 
 ### What you get in saved-search alerts
 
