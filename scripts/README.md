@@ -11,7 +11,7 @@ Pulls the last 30 days of Anthropic announcements, research, blog posts, Claude 
 - **Any hour with a saved-search match** — sends a focused alert email.
 - **Any hour with new items** — sends the daily brief immediately, not waiting for the morning.
 
-Each brief is also archived to `briefs/<date>.html` with an index page, so you can host it on GitHub Pages and search past briefs.
+Each brief is also archived to `docs/briefs/<date>.html` with an index page, so you can host it on GitHub Pages and search past briefs.
 
 ---
 
@@ -80,7 +80,7 @@ The Claude App Release Notes page sits behind Cloudflare and may 403 from cloud 
 
 ### 4. (Optional) Enable GitHub Pages for the archive
 
-**Settings → Pages → Source: Deploy from a branch → Branch: `main`, Folder: `/briefs`.** Your archive will be live at `https://<your-org>.github.io/<repo>/`.
+**Settings → Pages → Source: Deploy from a branch → Branch: `main`, Folder: `/docs`.** Your archive index will be live at `https://<your-org>.github.io/<repo>/briefs/`.
 
 ---
 
@@ -127,7 +127,7 @@ Also in `watcher_config.py`:
 ```python
 DEEP_SUMMARY_LIMIT = 10                       # cap on per-brief deep summaries
 LLM_MODEL          = "claude-haiku-4-5-20251001"  # bump to sonnet for richer prose
-ARCHIVE_DIR        = "briefs"                 # set None to disable archive
+ARCHIVE_DIR        = "docs/briefs"            # set None to disable archive
 ```
 
 ### Change schedule frequency
@@ -152,7 +152,7 @@ Expected for the Cloudflare-gated Claude App Release Notes page. Doesn't break t
 `ANTHROPIC_API_KEY` is not set, or the API call failed. Check the workflow log for `[warn] LLM ...`. The brief still sends without LLM enrichment.
 
 **State / archive commits are noisy**
-Each hour where anything changes produces one commit. To reduce, change cron to fewer hours or move `briefs/` to a `gh-pages` orphan branch.
+Each hour where anything changes produces one commit. To reduce, change cron to fewer hours or move the archive to a `gh-pages` orphan branch.
 
 **Saved-search alert didn't fire**
 Verify the pattern matches title or summary text (not the URL). Test the regex with `python3 -c "import re; print(re.search(r'YOUR_PATTERN', 'sample title', re.I))"`. Each item alerts only once — to retest, delete the item's id from `alerted_entries` in the state file.

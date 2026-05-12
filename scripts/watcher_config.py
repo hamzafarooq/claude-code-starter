@@ -39,4 +39,4 @@ LLM_MODEL = "claude-haiku-4-5-20251001"
 # --- Archive ---
 # Where to write the searchable HTML archive of past briefs.
 # Set ARCHIVE_DIR = None to disable archiving entirely.
-ARCHIVE_DIR = "briefs"
+ARCHIVE_DIR = "docs/briefs"

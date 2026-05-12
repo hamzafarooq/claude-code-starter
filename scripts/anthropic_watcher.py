@@ -12,7 +12,7 @@ Daily brief includes: AI TL;DR, categorized sections, per-item magnitude
 tags (major/minor/routine), deep-summary paragraphs for new items, and a
 star for keyword-matched items.
 
-Each brief is also saved as briefs/YYYY-MM-DD.html with an index page so
+Each brief is also saved as docs/briefs/YYYY-MM-DD.html with an index page so
 you can host an archive on GitHub Pages.
 
 Required env vars:

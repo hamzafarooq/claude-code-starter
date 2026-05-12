@@ -70,11 +70,11 @@ jobs:
 
       - name: Commit state + archive if changed
         run: |
-          CHANGES=$(git status --porcelain scripts/.watcher_state.json briefs/ 2>/dev/null || true)
+          CHANGES=$(git status --porcelain scripts/.watcher_state.json docs/briefs/ 2>/dev/null || true)
           if [ -n "$CHANGES" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add scripts/.watcher_state.json briefs/ 2>/dev/null || true
+            git add scripts/.watcher_state.json docs/briefs/ 2>/dev/null || true
             git commit -m "chore(watcher): record state and archive brief"
             git push
           else
