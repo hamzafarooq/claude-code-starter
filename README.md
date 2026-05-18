@@ -64,6 +64,7 @@ Real apps built live in class using Claude Code — no engineering team. Fork th
 | [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
 | [how-the-web-works](module-2/demo/index.html) | Interactive visual explainer built in Module 2 — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
 | [meetingmemo](module-4/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
+| [royal-pop-website](examples/royal-pop-website/) | Premium scroll-driven product landing page for the Audemars Piguet × Swatch Royal Pop. Frame-by-frame canvas playback bound to scroll, GSAP timelines per section, Lenis smooth scroll. Drop in a 10–15s product video and Claude builds the whole site from a `video-to-website` skill — vanilla HTML/CSS/JS, no bundler |
 
 More apps get added as the course runs.
 
