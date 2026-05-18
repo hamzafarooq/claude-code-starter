@@ -18,6 +18,26 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 ---
 
+## ✨ Featured Project — Royal Pop
+
+**A premium scroll-driven product landing page built from a single 15-second video.** Drop in a product video, brief Claude with the `video-to-website` skill, and Claude scaffolds the whole site: frame-by-frame canvas playback bound to scroll, GSAP timelines per section, Lenis smooth scroll, persistent CTA. Vanilla HTML/CSS/JS, no bundler.
+
+<p align="center">
+  <a href="examples/royal-pop-website/">
+    <video src="https://github.com/hamzafarooq/claude-code-starter/raw/main/examples/royal-pop-website/video/8887ad431858cde1fcfde38c3d45edcd_1779083229_lslzo3i4.mp4" width="720" controls muted loop playsinline></video>
+  </a>
+</p>
+
+<p align="center">
+  <a href="examples/royal-pop-website/"><b>→ Open the example</b></a> &nbsp;·&nbsp;
+  <a href="examples/royal-pop-website/README.md">README walkthrough</a> &nbsp;·&nbsp;
+  <a href="examples/royal-pop-website/.claude/skills/video-to-website.md">video-to-website skill</a>
+</p>
+
+> Built live for the [Audemars Piguet × Swatch Royal Pop](https://www.swatch.com/en-us/royal-pop.html) launch. The full README walks through how to do the same thing with your own product video, including the exact prompt for generating a luxury product turnaround video and the seven readability fixes that always come up.
+
+---
+
 ## 🚀 Get Started
 
 **Three steps to your first session:**
@@ -64,9 +84,8 @@ Real apps built live in class using Claude Code — no engineering team. Fork th
 | [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
 | [how-the-web-works](module-2/demo/index.html) | Interactive visual explainer built in Module 2 — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
 | [meetingmemo](module-4/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
-| [royal-pop-website](examples/royal-pop-website/) | Premium scroll-driven product landing page for the Audemars Piguet × Swatch Royal Pop. Frame-by-frame canvas playback bound to scroll, GSAP timelines per section, Lenis smooth scroll. Drop in a 10–15s product video and Claude builds the whole site from a `video-to-website` skill — vanilla HTML/CSS/JS, no bundler |
 
-More apps get added as the course runs.
+More apps get added as the course runs. See also the [**Royal Pop**](examples/royal-pop-website/) featured project above.
 
 ---
 
