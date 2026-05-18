@@ -60,6 +60,33 @@ claude
 
 ---
 
+## ⚡ Install the PM Skill Pack (npx)
+
+Get all 28 PM-focused Claude Code skills in one command — no cloning required.
+
+**Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
+
+```bash
+# Install all 28 skills globally (~/.claude/skills/)
+npx github:hamzafarooq/claude-code-starter@main --global
+
+# Install only specific skills
+npx github:hamzafarooq/claude-code-starter@main --global okr-writer sprint-planner competitor-research
+
+# See what's available
+npx github:hamzafarooq/claude-code-starter@main --list
+
+# Install into the current project only (./.claude/skills/)
+npx github:hamzafarooq/claude-code-starter@main --local
+
+# Remove skills you no longer want
+npx github:hamzafarooq/claude-code-starter@main --uninstall okr-writer
+```
+
+> **Note:** Existing skills with the same name are never overwritten unless you add `--force`. Restart Claude Code after installing for skills to appear in `/help`.
+
+---
+
 ## 🌐 Deploy to Vercel
 
 Once you've built something — a static site like [Royal Pop](examples/royal-pop-website/), a Next.js app like [MeetingMemo](module-4/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
