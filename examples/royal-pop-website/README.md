@@ -5,10 +5,10 @@ A premium scroll-driven landing page for the **Audemars Piguet × Swatch Royal P
 This README walks through how to build the same kind of site for any product you have a short video of.
 
 <p align="center">
-  <video src="https://github.com/hamzafarooq/claude-code-starter/raw/main/examples/royal-pop-website/video/8887ad431858cde1fcfde38c3d45edcd_1779083229_lslzo3i4.mp4" width="720" controls muted loop playsinline></video>
+  <img src="preview.gif" alt="Royal Pop scroll-driven landing page preview" width="720">
 </p>
 
-> The source video above is what gets extracted into ~240 scroll-bound frames. Drop in your own video and Claude scaffolds the entire site from the `video-to-website` skill.
+> The source video (in `video/`) is what gets extracted into ~240 scroll-bound frames. Drop in your own video and Claude scaffolds the entire site from the `video-to-website` skill.
 
 ---
 

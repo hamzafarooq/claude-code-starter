@@ -24,7 +24,7 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 <p align="center">
   <a href="examples/royal-pop-website/">
-    <video src="https://github.com/hamzafarooq/claude-code-starter/raw/main/examples/royal-pop-website/video/8887ad431858cde1fcfde38c3d45edcd_1779083229_lslzo3i4.mp4" width="720" controls muted loop playsinline></video>
+    <img src="examples/royal-pop-website/preview.gif" alt="Royal Pop scroll-driven landing page preview" width="720">
   </a>
 </p>
 
