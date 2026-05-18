@@ -31,7 +31,9 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 <p align="center">
   <a href="examples/royal-pop-website/"><b>→ Open the example</b></a> &nbsp;·&nbsp;
   <a href="examples/royal-pop-website/README.md">README walkthrough</a> &nbsp;·&nbsp;
-  <a href="examples/royal-pop-website/.claude/skills/video-to-website.md">video-to-website skill</a>
+  <a href="examples/royal-pop-website/.claude/skills/video-to-website.md">video-to-website skill</a> &nbsp;·&nbsp;
+  <a href="examples/royal-pop-website/royal-pop-demo-20s.mp4">20-sec demo (mp4)</a> &nbsp;·&nbsp;
+  <a href="https://royal-pop-website.vercel.app" target="_blank">Live site</a>
 </p>
 
 > Built live for the [Audemars Piguet × Swatch Royal Pop](https://www.swatch.com/en-us/royal-pop.html) launch. The full README walks through how to do the same thing with your own product video, including the exact prompt for generating a luxury product turnaround video and the seven readability fixes that always come up.
@@ -55,6 +57,66 @@ claude
 ```
 
 > First time? Follow the full [Installation guide](#-installation) below — takes about 10 minutes.
+
+---
+
+## 🌐 Deploy to Vercel
+
+Once you've built something — a static site like [Royal Pop](examples/royal-pop-website/), a Next.js app like [MeetingMemo](module-4/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
+
+### One-time setup
+
+```bash
+# Install the Vercel CLI (one time, globally)
+npm i -g vercel
+
+# Log in (opens your browser; pick GitHub / Google / email)
+vercel login
+```
+
+### Deploy from any project folder
+
+```bash
+# 1. Move into the project you want to deploy
+cd examples/royal-pop-website   # or any folder with an index.html / package.json
+
+# 2. First deploy — Vercel auto-detects the framework and creates the project
+vercel --yes
+
+# 3. Promote to production
+vercel --prod
+```
+
+That's it. Vercel returns two URLs — a preview URL for that deployment and the production alias (e.g. `https://your-project.vercel.app`). Every subsequent `vercel --prod` re-deploys instantly.
+
+### What gets auto-detected
+
+| Project type | Framework preset | Build command | Output |
+|--------------|------------------|---------------|--------|
+| Static HTML/CSS/JS (Royal Pop) | Other | none | repo root |
+| Next.js (MeetingMemo) | Next.js | `next build` | `.next/` |
+| Vite / React | Vite | `vite build` | `dist/` |
+| FastAPI / Python backend | — | — | use Fly.io instead (Vercel runs serverless functions, not long-lived servers) |
+
+### Before you deploy
+
+Run the `/deploy-checklist` skill — it catches the five most common failures (missing env vars, hardcoded localhost URLs, oversized assets, missing `.gitignore` entries, broken build commands) before Vercel tells you about them.
+
+```bash
+# In Claude Code:
+/deploy-checklist
+```
+
+### Environment variables
+
+If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. Add it in the Vercel dashboard:
+
+1. Open your project on [vercel.com](https://vercel.com)
+2. **Settings → Environment Variables**
+3. Add `ANTHROPIC_API_KEY` for Production (and Preview if you want PR previews to work)
+4. Re-deploy: `vercel --prod`
+
+> Full walk-through in [Module 4, Assignment 4b](module-4/README.md).
 
 ---
 
