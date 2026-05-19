@@ -1,0 +1,35 @@
+{
+  "name": "claude-code-starter-skills",
+  "version": "1.0.0",
+  "description": "27 PM-focused Claude Code skills from the Claude Code in Practice course — installable via npx",
+  "bin": {
+    "claude-code-starter-skills": "./bin/install.js"
+  },
+  "files": [
+    "bin",
+    ".claude/skills"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "skills",
+    "product-manager",
+    "pm",
+    "okr",
+    "sprint",
+    "competitor-research"
+  ],
+  "author": "Hamza Farooq",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamzafarooq/claude-code-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hamzafarooq/claude-code-starter/issues"
+  },
+  "homepage": "https://github.com/hamzafarooq/claude-code-starter#readme"
+}
