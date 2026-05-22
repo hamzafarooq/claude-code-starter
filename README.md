@@ -60,93 +60,6 @@ claude
 
 ---
 
-## ⚡ Install the PM Skill Pack (npx)
-
-Get all 28 PM-focused Claude Code skills in one command — no cloning required.
-
-**Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
-
-```bash
-# Install all 28 skills globally (~/.claude/skills/)
-npx github:hamzafarooq/claude-code-starter@main --global
-
-# Install only specific skills
-npx github:hamzafarooq/claude-code-starter@main --global okr-writer sprint-planner competitor-research
-
-# See what's available
-npx github:hamzafarooq/claude-code-starter@main --list
-
-# Install into the current project only (./.claude/skills/)
-npx github:hamzafarooq/claude-code-starter@main --local
-
-# Remove skills you no longer want
-npx github:hamzafarooq/claude-code-starter@main --uninstall okr-writer
-```
-
-> **Note:** Existing skills with the same name are never overwritten unless you add `--force`. Restart Claude Code after installing for skills to appear in `/help`.
-
----
-
-## 🌐 Deploy to Vercel
-
-Once you've built something — a static site like [Royal Pop](demos/royal-pop-website/), a Next.js app like [MeetingMemo](demos/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
-
-### One-time setup
-
-```bash
-# Install the Vercel CLI (one time, globally)
-npm i -g vercel
-
-# Log in (opens your browser; pick GitHub / Google / email)
-vercel login
-```
-
-### Deploy from any project folder
-
-```bash
-# 1. Move into the project you want to deploy
-cd demos/royal-pop-website   # or any folder with an index.html / package.json
-
-# 2. First deploy — Vercel auto-detects the framework and creates the project
-vercel --yes
-
-# 3. Promote to production
-vercel --prod
-```
-
-That's it. Vercel returns two URLs — a preview URL for that deployment and the production alias (e.g. `https://your-project.vercel.app`). Every subsequent `vercel --prod` re-deploys instantly.
-
-### What gets auto-detected
-
-| Project type | Framework preset | Build command | Output |
-|--------------|------------------|---------------|--------|
-| Static HTML/CSS/JS (Royal Pop) | Other | none | repo root |
-| Next.js (MeetingMemo) | Next.js | `next build` | `.next/` |
-| Vite / React | Vite | `vite build` | `dist/` |
-| FastAPI / Python backend | — | — | use Fly.io instead (Vercel runs serverless functions, not long-lived servers) |
-
-### Before you deploy
-
-Run the `/deploy-checklist` skill — it catches the five most common failures (missing env vars, hardcoded localhost URLs, oversized assets, missing `.gitignore` entries, broken build commands) before Vercel tells you about them.
-
-```bash
-# In Claude Code:
-/deploy-checklist
-```
-
-### Environment variables
-
-If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. Add it in the Vercel dashboard:
-
-1. Open your project on [vercel.com](https://vercel.com)
-2. **Settings → Environment Variables**
-3. Add `ANTHROPIC_API_KEY` for Production (and Preview if you want PR previews to work)
-4. Re-deploy: `vercel --prod`
-
-> Full walk-through in [MeetingMemo demo](demos/meetingmemo/README.md).
-
----
-
 ## 📦 What's in This Repo
 
 All course code, templates, skills, and commands live here. Come back here whenever you need files from class.
@@ -171,7 +84,7 @@ Real apps built live in class using Claude Code — no engineering team. Fork th
 | [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
 | [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
 | [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
-| [how-the-web-works](demos/youtube-demo/index.html) | Interactive visual explainer — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
+| [how-the-web-works](demos/full-stack-demo/index.html) | Interactive visual explainer — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
 | [meetingmemo](demos/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
 
 More apps get added as the course runs. See also the [**Royal Pop**](demos/royal-pop-website/) featured project above.
@@ -361,12 +274,99 @@ Both let Claude interact with a browser. Here's when to use each:
 | Topic | What you'll learn | Files |
 |-------|------------------|-------|
 | Setup & Your First Skill | Install Claude Code, write `CLAUDE.md`, run your first skill, ship an MVP | [demos/meeting-notes-summarizer/](demos/meeting-notes-summarizer/) |
-| How the Web Works | Frontend, backend, and AI backend explained visually; read code you didn't write; set up Brave MCP | [demos/youtube-demo/](demos/youtube-demo/) |
+| How the Web Works | Frontend, backend, and AI backend explained visually; read code you didn't write; set up Brave MCP | [demos/full-stack-demo/](demos/full-stack-demo/) |
 | [Skills: Reusable Prompts](demos/skill-sub-multi-agent/README.md) | What a skill really is (a `.md` file), how skills differ from sub-agents, 4-level interactive visualization | [demos/skill-sub-multi-agent/](demos/skill-sub-multi-agent/) |
 | Sub-Agents & Pipelines | Build a library of specialist agents; chain them into a research → PRD → review pipeline | [.claude/agents/](.claude/agents/) |
 | [Multi-Agent Architectures](demos/skill-sub-multi-agent/README.md) | Parallel agents, orchestrators, fan-out/fan-in patterns with Python code | [demos/skill-sub-multi-agent/](demos/skill-sub-multi-agent/) |
 | Evals, Deploy & Production | Score your skills against ground truth, deploy to Vercel, convert a pipeline to a FastAPI app | [demos/meetingmemo/](demos/meetingmemo/) |
-| [Competitor Research Workshop](demos/ai-agent-workshop/) | End-to-end capstone: research a competitor space using sub-agents | [demos/ai-agent-workshop/](demos/ai-agent-workshop/) |
+| [Competitor Research Workshop](demos/competitor-research-agent/) | End-to-end capstone: research a competitor space using sub-agents | [demos/competitor-research-agent/](demos/competitor-research-agent/) |
+
+---
+
+## 🌐 Deploy to Vercel
+
+Once you've built something — a static site like [Royal Pop](demos/royal-pop-website/), a Next.js app like [MeetingMemo](demos/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
+
+### One-time setup
+
+```bash
+# Install the Vercel CLI (one time, globally)
+npm i -g vercel
+
+# Log in (opens your browser; pick GitHub / Google / email)
+vercel login
+```
+
+### Deploy from any project folder
+
+```bash
+# 1. Move into the project you want to deploy
+cd demos/royal-pop-website   # or any folder with an index.html / package.json
+
+# 2. First deploy — Vercel auto-detects the framework and creates the project
+vercel --yes
+
+# 3. Promote to production
+vercel --prod
+```
+
+That's it. Vercel returns two URLs — a preview URL for that deployment and the production alias (e.g. `https://your-project.vercel.app`). Every subsequent `vercel --prod` re-deploys instantly.
+
+### What gets auto-detected
+
+| Project type | Framework preset | Build command | Output |
+|--------------|------------------|---------------|--------|
+| Static HTML/CSS/JS (Royal Pop) | Other | none | repo root |
+| Next.js (MeetingMemo) | Next.js | `next build` | `.next/` |
+| Vite / React | Vite | `vite build` | `dist/` |
+| FastAPI / Python backend | — | — | use Fly.io instead (Vercel runs serverless functions, not long-lived servers) |
+
+### Before you deploy
+
+Run the `/deploy-checklist` skill — it catches the five most common failures (missing env vars, hardcoded localhost URLs, oversized assets, missing `.gitignore` entries, broken build commands) before Vercel tells you about them.
+
+```bash
+# In Claude Code:
+/deploy-checklist
+```
+
+### Environment variables
+
+If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. Add it in the Vercel dashboard:
+
+1. Open your project on [vercel.com](https://vercel.com)
+2. **Settings → Environment Variables**
+3. Add `ANTHROPIC_API_KEY` for Production (and Preview if you want PR previews to work)
+4. Re-deploy: `vercel --prod`
+
+> Full walk-through in [MeetingMemo demo](demos/meetingmemo/README.md).
+
+---
+
+## ⚡ Install the PM Skill Pack (npx)
+
+Get all 28 PM-focused Claude Code skills in one command — no cloning required.
+
+**Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
+
+```bash
+# Install all 28 skills globally (~/.claude/skills/)
+npx github:hamzafarooq/claude-code-starter@main --global
+
+# Install only specific skills
+npx github:hamzafarooq/claude-code-starter@main --global okr-writer sprint-planner competitor-research
+
+# See what's available
+npx github:hamzafarooq/claude-code-starter@main --list
+
+# Install into the current project only (./.claude/skills/)
+npx github:hamzafarooq/claude-code-starter@main --local
+
+# Remove skills you no longer want
+npx github:hamzafarooq/claude-code-starter@main --uninstall okr-writer
+```
+
+> **Note:** Existing skills with the same name are never overwritten unless you add `--force`. Restart Claude Code after installing for skills to appear in `/help`.
 
 ---
 

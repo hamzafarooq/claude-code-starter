@@ -26,12 +26,12 @@ Course materials for **Claude Code in Practice** (taught on Maven) — a hands-o
 ├── demos/                  ← all runnable demo apps
 │   ├── meeting-notes-summarizer/
 │   ├── prd-generator/
-│   ├── youtube-demo/
+│   ├── full-stack-demo/
 │   ├── meetingmemo/
 │   ├── skill-sub-multi-agent/
 │   ├── research-agent/
 │   ├── research-frontend/
-│   ├── ai-agent-workshop/
+│   ├── competitor-research-agent/
 │   └── royal-pop-website/
 ├── docs/                   ← reference resources
 ├── images/                 ← screenshots and GIFs
