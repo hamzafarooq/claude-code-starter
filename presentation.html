@@ -3,996 +3,813 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ship with Claude Code</title>
+<title>Organizing Claude Code — Skills, Memory, and the Long Haul</title>
 <style>
-/* ── Reset ── */
+/* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-/* ── Deck ── */
+html, body { height: 100%; overflow: hidden; }
 body {
-  background: #080810;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  height: 100vh; height: 100dvh;
-  overflow: hidden;
-  color: #fff;
+  background: #111;
 }
 
-.deck { width: 100vw; height: 100vh; height: 100dvh; position: relative; }
+/* ── Variables ──────────────────────────────────────────────── */
+:root {
+  --bg: #f0ede8;
+  --ink: #111111;
+  --red: #e62020;
+  --muted: #777;
+  --bar: 8px;
+  --pad: clamp(2.5rem, 6vw, 5.5rem);
+}
 
-/* ── Slides ── */
+/* ── Slider ─────────────────────────────────────────────────── */
+.deck {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
 .slide {
   position: absolute;
   inset: 0;
-  width: 100vw;
-  height: 100vh; height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: var(--bar) 1fr;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-.slide.active { opacity: 1; pointer-events: all; }
-
-/* ── Shared BG shape (right diagonal) ── */
-.slide .bg-shape {
-  position: absolute;
-  top: -25%;
-  right: -8%;
-  width: 52%;
-  height: 140%;
-  background: linear-gradient(145deg, #f5a623 0%, #f04e23 100%);
-  clip-path: polygon(22% 0%, 100% 0%, 100% 100%, 0% 100%);
-  opacity: 0.09;
+  transform: translateX(60px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
   pointer-events: none;
 }
-.slide .bg-shape.left {
-  right: auto;
-  left: -8%;
-  clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%);
-}
-.slide .bg-shape.accent {
-  opacity: 0.06;
-  top: auto;
-  bottom: -30%;
-  width: 60%;
-  height: 80%;
-  clip-path: polygon(0% 0%, 100% 20%, 100% 100%, 0% 80%);
-  right: -5%;
-}
-/* Accent line bottom-left */
-.slide .bg-line {
-  position: absolute;
-  bottom: clamp(1.5rem, 4vh, 3.5rem);
-  left: 0;
-  width: 30%;
-  height: 1px;
-  background: linear-gradient(90deg, #f5a623, transparent);
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
 }
 
-/* ── Watermark number ── */
-.wm {
-  position: absolute;
-  font-size: clamp(8rem, 22vw, 22rem);
-  font-weight: 900;
-  color: rgba(255,255,255,0.025);
-  letter-spacing: -0.05em;
-  line-height: 1;
-  right: clamp(2rem, 4vw, 4rem);
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  user-select: none;
+.slide.exit {
+  opacity: 0;
+  transform: translateX(-60px);
 }
 
-/* ── Common text styles ── */
-.kicker {
-  font-size: clamp(0.55rem, 1vw, 0.75rem);
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: #f5a623;
-  font-weight: 700;
-  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
-}
-h1 {
-  font-size: clamp(2.4rem, 5.5vw, 5.2rem);
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.035em;
-  color: #fff;
-  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
-}
-h1 .hl { color: #f5a623; }
-h2 {
-  font-size: clamp(1.6rem, 3vw, 2.8rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  color: #fff;
-  margin-bottom: clamp(0.6rem, 1.5vh, 1.2rem);
-}
-h2 .hl { color: #f5a623; }
-.sub {
-  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
-  color: rgba(255,255,255,0.5);
-  line-height: 1.6;
-  font-weight: 300;
-  max-width: 55ch;
-}
-.sub.wide { max-width: 65ch; }
-
-/* Tag row */
-.tags {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-top: clamp(1rem, 3vh, 2.5rem);
-}
-.tag {
-  font-size: clamp(0.55rem, 0.9vw, 0.7rem);
-  padding: 0.35em 0.9em;
-  border: 1px solid rgba(245,166,35,0.35);
-  color: rgba(255,255,255,0.55);
-  border-radius: 2px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.tag.active {
-  background: rgba(245,166,35,0.12);
-  border-color: #f5a623;
-  color: #f5a623;
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: opacity 0.2s ease; transform: none !important; }
 }
 
-/* Divider rule */
-.rule {
-  width: clamp(2rem, 5vw, 4rem);
-  height: 2px;
-  background: #f5a623;
-  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
-}
+/* ── Left bar ───────────────────────────────────────────────── */
+.bar { background: var(--red); height: 100%; }
 
-/* ── Layout helpers ── */
-.pad {
-  padding: clamp(2rem, 5vw, 5rem) clamp(2rem, 6vw, 6rem);
-  flex: 1;
+/* ── Slide content wrapper ──────────────────────────────────── */
+.body {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: var(--pad);
+  overflow: hidden;
+}
+
+/* ── Grid lines ─────────────────────────────────────────────── */
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+
+/* ── Big BG number ──────────────────────────────────────────── */
+.bg-num {
+  position: absolute;
+  top: -0.15em; right: clamp(1rem, 4vw, 3rem);
+  font-size: clamp(7rem, 20vw, 18rem);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  color: rgba(0,0,0,0.055);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+.kicker {
+  font-size: clamp(0.52rem, 0.85vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: clamp(0.7rem, 1.6vh, 1.4rem);
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: -0.032em;
+  line-height: 1.06;
+  color: var(--ink);
+  max-width: 16ch;
+  border-bottom: 3px solid var(--red);
+  padding-bottom: clamp(0.7rem, 1.4vh, 1.2rem);
+  margin-bottom: clamp(1rem, 2.2vh, 2rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.2vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: clamp(0.8rem, 1.8vh, 1.6rem);
+}
+
+p.lead {
+  font-size: clamp(0.9rem, 1.45vw, 1.1rem);
+  font-weight: 400;
+  color: var(--muted);
+  max-width: 54ch;
+  line-height: 1.7;
+}
+
+/* ── Bullet list ────────────────────────────────────────────── */
+ul.bullets {
+  list-style: none;
+  margin-top: clamp(0.5rem, 1.2vh, 1rem);
+}
+ul.bullets li {
+  font-size: clamp(0.85rem, 1.35vw, 1.05rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.55;
+  padding: clamp(0.45rem, 0.9vh, 0.75rem) 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+ul.bullets li::before {
+  content: '\2014';
+  color: var(--red);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Two-col layout ─────────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+/* ── Cadence table ──────────────────────────────────────────── */
+.cadence {
+  margin-top: clamp(0.6rem, 1.4vh, 1.2rem);
+  border-top: 2px solid var(--ink);
+}
+.cadence-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 1.2fr) 1fr 2fr;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  padding: clamp(0.45rem, 0.9vh, 0.7rem) 0;
+  gap: 1rem;
+  align-items: center;
+}
+.cadence-row.header { background: var(--ink); padding-left: 0.5rem; padding-right: 0.5rem; }
+.cadence-row.header span { color: #fff; font-size: clamp(0.5rem, 0.8vw, 0.64rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.cadence-row span {
+  font-size: clamp(0.75rem, 1.15vw, 0.9rem);
+  color: var(--ink);
+}
+.cadence-row span.prim { font-weight: 800; }
+.cadence-row span.freq { color: var(--red); font-weight: 700; font-size: clamp(0.68rem, 1vw, 0.8rem); }
+.cadence-row span.desc { color: var(--muted); font-weight: 300; }
+
+/* ── Trigger cards ──────────────────────────────────────────── */
+.triggers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.6rem, 1.2vw, 1rem);
+  margin-top: clamp(0.6rem, 1.2vh, 1rem);
+}
+.trigger {
+  border: 1.5px solid rgba(0,0,0,0.12);
+  padding: clamp(0.8rem, 1.4vw, 1.2rem);
   position: relative;
 }
-.pad-top { justify-content: flex-start; padding-top: clamp(2.5rem, 6vh, 5rem); }
+.trigger::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--red);
+}
+.trigger .t-num {
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 900;
+  color: rgba(0,0,0,0.07);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+.trigger .t-title {
+  font-size: clamp(0.8rem, 1.25vw, 0.98rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.trigger .t-body {
+  font-size: clamp(0.68rem, 1vw, 0.8rem);
+  color: var(--muted);
+  line-height: 1.5;
+}
 
-/* ── Progress bar ── */
+/* ── Steps ──────────────────────────────────────────────────── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.2vh, 1rem);
+  margin-top: clamp(0.6rem, 1.2vh, 1rem);
+}
+.step {
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.8rem);
+  align-items: flex-start;
+  padding: clamp(0.8rem, 1.4vw, 1.2rem);
+  border-left: 3px solid var(--red);
+  background: rgba(0,0,0,0.03);
+}
+.step .s-num {
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 2ch;
+}
+.step .s-text .s-title {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+.step .s-text .s-body {
+  font-size: clamp(0.7rem, 1.05vw, 0.82rem);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Layer diagram ──────────────────────────────────────────── */
+.layers {
+  margin-top: clamp(0.6rem, 1.2vh, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 0.8vh, 0.7rem);
+}
+.layer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(0.6rem, 1vh, 0.9rem) clamp(0.8rem, 1.4vw, 1.2rem);
+  background: var(--ink);
+  color: #fff;
+  position: relative;
+}
+.layer .l-label {
+  font-size: clamp(0.52rem, 0.82vw, 0.65rem);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--red);
+  min-width: 9rem;
+  flex-shrink: 0;
+}
+.layer .l-title {
+  font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+  font-weight: 800;
+  flex-grow: 1;
+}
+.layer .l-freq {
+  font-size: clamp(0.62rem, 0.95vw, 0.75rem);
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ── Patterns ───────────────────────────────────────────────── */
+.patterns {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.7rem, 1.4vh, 1.2rem);
+  margin-top: clamp(0.6rem, 1.2vh, 1rem);
+}
+.pattern {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding-bottom: clamp(0.7rem, 1.4vh, 1.2rem);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.pattern .p-icon {
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+}
+.pattern .p-title {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.pattern .p-body {
+  font-size: clamp(0.72rem, 1.05vw, 0.84rem);
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── Agenda ─────────────────────────────────────────────────── */
+.agenda {
+  margin-top: clamp(0.5rem, 1.2vh, 1rem);
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0;
+}
+.agenda-item { display: contents; }
+.agenda-item .a-num {
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  font-weight: 700;
+  color: var(--red);
+  padding: clamp(0.3rem, 0.7vh, 0.55rem) 0;
+  border-bottom: 1px solid rgba(0,0,0,0.09);
+  display: flex;
+  align-items: center;
+}
+.agenda-item .a-text {
+  font-size: clamp(0.75rem, 1.15vw, 0.9rem);
+  font-weight: 500;
+  color: var(--ink);
+  padding: clamp(0.3rem, 0.7vh, 0.55rem) 0 clamp(0.3rem, 0.7vh, 0.55rem) 0.8rem;
+  border-bottom: 1px solid rgba(0,0,0,0.09);
+  display: flex;
+  align-items: center;
+}
+
+/* ── Blockquote ─────────────────────────────────────────────── */
+blockquote {
+  border-left: 4px solid var(--red);
+  padding-left: clamp(1rem, 2vw, 1.8rem);
+  margin: clamp(0.8rem, 1.6vh, 1.4rem) 0;
+}
+blockquote p {
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  font-style: italic;
+  max-width: 44ch;
+}
+blockquote cite {
+  display: block;
+  font-size: clamp(0.65rem, 1vw, 0.8rem);
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 0.6rem;
+  font-style: normal;
+  letter-spacing: 0.08em;
+}
+
+/* ── Progress bar ───────────────────────────────────────────── */
 .progress {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 2px;
-  background: rgba(255,255,255,0.06);
+  top: 0; left: var(--bar); right: 0;
+  height: 3px;
+  background: rgba(0,0,0,0.1);
   z-index: 100;
 }
 .progress-fill {
   height: 100%;
-  background: #f5a623;
-  transition: width 0.4s ease;
-  width: 9.09%;
+  background: var(--red);
+  transition: width 0.35s ease;
 }
 
-/* ── Slide counter ── */
+/* ── Slide counter ──────────────────────────────────────────── */
 .counter {
   position: fixed;
-  top: clamp(0.8rem, 2vh, 1.2rem);
-  right: clamp(1.5rem, 3vw, 2.5rem);
-  font-size: clamp(0.55rem, 0.9vw, 0.68rem);
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.25);
+  bottom: 1.2rem; right: 1.8rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(0,0,0,0.3);
   z-index: 100;
-  text-transform: uppercase;
 }
 
-/* ── Notes overlay ── */
+/* ── Speaker notes ──────────────────────────────────────────── */
 .notes-overlay {
   display: none;
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: rgba(5, 5, 14, 0.94);
-  border-top: 1px solid rgba(245,166,35,0.3);
-  padding: 1rem 2rem;
+  background: rgba(17,17,17,0.93);
+  color: rgba(255,255,255,0.8);
+  font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+  line-height: 1.65;
+  padding: 1.2rem 2rem;
   z-index: 200;
   max-height: 28vh;
   overflow-y: auto;
+  font-family: inherit;
+  font-weight: 300;
 }
-.notes-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #f5a623;
-  margin-bottom: 0.4rem;
-}
-.notes-content {
-  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-  color: rgba(255,255,255,0.6);
-  line-height: 1.55;
-}
+.notes-overlay.visible { display: block; }
 
-/* ── Hint (keyboard nav) ── */
-.hint {
-  position: fixed;
-  bottom: clamp(0.8rem, 2vh, 1.2rem);
-  right: clamp(1.5rem, 3vw, 2.5rem);
-  font-size: clamp(0.5rem, 0.8vw, 0.62rem);
-  color: rgba(255,255,255,0.15);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  z-index: 100;
-}
-
-/* ═══════════════════════════════════
-   SLIDE-SPECIFIC STYLES
-═══════════════════════════════════ */
-
-/* S1 — Title */
-.s1 h1 { font-size: clamp(3rem, 7vw, 6.5rem); }
-
-/* S2 — Three feature cards */
-.card-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  margin-top: clamp(1rem, 3vh, 2.5rem);
-}
-.card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-top: 2px solid #f5a623;
-  padding: clamp(0.9rem, 2vh, 1.5rem) clamp(0.9rem, 1.8vw, 1.4rem);
-  border-radius: 2px;
-}
-.card-icon {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  margin-bottom: clamp(0.4rem, 1vh, 0.75rem);
-}
-.card-title {
-  font-size: clamp(0.8rem, 1.3vw, 1rem);
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.3rem;
-  line-height: 1.3;
-}
-.card-body {
-  font-size: clamp(0.7rem, 1.1vw, 0.82rem);
-  color: rgba(255,255,255,0.45);
-  line-height: 1.5;
-}
-
-/* S3 — Before / After columns */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 2.5vw, 2.5rem);
-  margin-top: clamp(1rem, 2.5vh, 2rem);
-}
-.col-block {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: clamp(1rem, 2vh, 1.75rem) clamp(1rem, 2vw, 1.5rem);
-  border-radius: 2px;
-}
-.col-block.after { border-top: 2px solid #f5a623; }
-.col-block.before { border-top: 2px solid rgba(255,255,255,0.15); }
-.col-label {
-  font-size: clamp(0.55rem, 0.9vw, 0.68rem);
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-bottom: clamp(0.5rem, 1.2vh, 0.9rem);
-  font-weight: 700;
-}
-.col-label.before-lbl { color: rgba(255,255,255,0.3); }
-.col-label.after-lbl { color: #f5a623; }
-.bullet-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.3rem, 0.8vh, 0.6rem);
-}
-.bullet-list li {
-  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-  color: rgba(255,255,255,0.55);
-  line-height: 1.4;
-  padding-left: 1.1em;
-  position: relative;
-}
-.bullet-list li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: rgba(255,255,255,0.2);
-}
-.bullet-list.gold li::before { color: #f5a623; }
-.bullet-list.gold li { color: rgba(255,255,255,0.75); }
-
-/* S4, S6, S7, S8 — Concept slide */
-.concept-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: clamp(2rem, 4vw, 5rem);
-  align-items: center;
-  flex: 1;
-}
-.concept-right {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.6rem, 1.5vh, 1.2rem);
-}
-.concept-card {
-  background: rgba(255,255,255,0.04);
-  border-left: 2px solid rgba(245,166,35,0.4);
-  padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.75rem, 1.5vw, 1.2rem);
-  border-radius: 0 2px 2px 0;
-}
-.concept-card-title {
-  font-size: clamp(0.72rem, 1.1vw, 0.85rem);
-  font-weight: 700;
-  color: #f5a623;
-  margin-bottom: 0.2rem;
-}
-.concept-card-body {
-  font-size: clamp(0.65rem, 1vw, 0.78rem);
-  color: rgba(255,255,255,0.5);
-  line-height: 1.45;
-}
-
-/* S5 — Skill grid */
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(0.6rem, 1.2vw, 1rem);
-  margin-top: clamp(0.75rem, 2vh, 1.75rem);
-}
-.skill-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
-  padding: clamp(0.7rem, 1.5vh, 1.2rem) clamp(0.75rem, 1.5vw, 1.1rem);
-  border-radius: 2px;
-  position: relative;
-}
-.skill-card::before {
-  content: '/';
-  position: absolute;
-  top: clamp(0.5rem, 1vh, 0.75rem);
-  right: clamp(0.6rem, 1.2vw, 0.9rem);
-  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
-  color: rgba(245,166,35,0.3);
-  font-weight: 900;
-}
-.skill-name {
-  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.25rem;
-}
-.skill-desc {
-  font-size: clamp(0.6rem, 0.9vw, 0.72rem);
-  color: rgba(255,255,255,0.4);
-  line-height: 1.4;
-}
-
-/* S9 — Flow diagram */
-.flow-row {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.4rem, 1vw, 0.75rem);
-  margin-top: clamp(1rem, 2.5vh, 2rem);
-  flex-wrap: wrap;
-}
-.flow-node {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-top: 2px solid #f5a623;
-  padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.8rem, 1.5vw, 1.2rem);
-  border-radius: 2px;
-  text-align: center;
-  flex: 1;
-  min-width: 0;
-}
-.flow-node-title {
-  font-size: clamp(0.65rem, 1.1vw, 0.82rem);
-  font-weight: 800;
-  color: #f5a623;
-  margin-bottom: 0.2rem;
-  letter-spacing: 0.05em;
-}
-.flow-node-sub {
-  font-size: clamp(0.55rem, 0.85vw, 0.68rem);
-  color: rgba(255,255,255,0.4);
-  line-height: 1.35;
-}
-.flow-arrow {
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  color: rgba(245,166,35,0.4);
-  flex-shrink: 0;
-}
-
-.arch-row {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.4rem, 1vh, 0.75rem);
-  margin-top: clamp(0.75rem, 2vh, 1.5rem);
-}
-.arch-layer {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-left: 3px solid;
-  padding: clamp(0.6rem, 1.2vh, 1rem) clamp(1rem, 2vw, 1.5rem);
-  border-radius: 0 2px 2px 0;
-  display: flex;
-  align-items: center;
-  gap: clamp(0.75rem, 1.5vw, 1.2rem);
-}
-.arch-layer-name {
-  font-size: clamp(0.65rem, 1.1vw, 0.82rem);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  min-width: 9ch;
-}
-.arch-layer-desc {
-  font-size: clamp(0.6rem, 0.95vw, 0.75rem);
-  color: rgba(255,255,255,0.45);
-  line-height: 1.4;
-}
-
-/* S10 — Use case grid */
-.use-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  margin-top: clamp(0.75rem, 2vh, 1.75rem);
-}
-.use-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: clamp(0.9rem, 1.8vh, 1.4rem) clamp(1rem, 2vw, 1.5rem);
-  border-radius: 2px;
-}
-.use-title {
-  font-size: clamp(0.78rem, 1.2vw, 0.92rem);
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.3rem;
-}
-.use-desc {
-  font-size: clamp(0.62rem, 0.95vw, 0.75rem);
-  color: rgba(255,255,255,0.45);
-  line-height: 1.45;
-}
-.use-time {
-  display: inline-block;
-  margin-top: 0.4rem;
-  font-size: clamp(0.55rem, 0.85vw, 0.65rem);
-  padding: 0.2em 0.6em;
-  background: rgba(245,166,35,0.1);
-  border: 1px solid rgba(245,166,35,0.3);
-  color: #f5a623;
-  border-radius: 2px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* S11 — Steps */
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.75rem, 1.8vh, 1.4rem);
-  margin-top: clamp(0.75rem, 2vh, 1.75rem);
-}
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(0.75rem, 1.5vw, 1.2rem);
-}
-.step-num {
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 900;
-  color: #f5a623;
-  line-height: 1;
-  min-width: 1.5ch;
-  flex-shrink: 0;
-}
-.step-content {}
-.step-title {
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.2rem;
-}
-.step-body {
-  font-size: clamp(0.7rem, 1.1vw, 0.82rem);
-  color: rgba(255,255,255,0.5);
-  line-height: 1.5;
-}
-
-/* Inline code */
-code {
-  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
-  font-size: 0.9em;
-  background: rgba(245,166,35,0.1);
-  border: 1px solid rgba(245,166,35,0.2);
-  color: #f5a623;
-  padding: 0.1em 0.4em;
-  border-radius: 2px;
-}
-
-/* Hook types */
-.hook-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(0.6rem, 1.2vw, 1rem);
-  margin-top: clamp(0.75rem, 2vh, 1.5rem);
-}
-.hook-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-left: 3px solid rgba(245,166,35,0.5);
-  padding: clamp(0.6rem, 1.2vh, 1rem) clamp(0.75rem, 1.5vw, 1.1rem);
-}
-.hook-name {
-  font-size: clamp(0.65rem, 1vw, 0.78rem);
-  font-weight: 800;
-  color: #f5a623;
-  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
-  margin-bottom: 0.25rem;
-}
-.hook-desc {
-  font-size: clamp(0.6rem, 0.9vw, 0.72rem);
-  color: rgba(255,255,255,0.45);
-  line-height: 1.4;
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .slide { transition: none; }
-  .progress-fill { transition: none; }
-}
-
-/* ── Height breakpoints ── */
+/* ── Height breakpoints ─────────────────────────────────────── */
 @media (max-height: 700px) {
-  .tags { margin-top: 0.75rem; }
-  .card-row { margin-top: 0.75rem; }
-  .two-col { margin-top: 0.75rem; }
-  .skill-grid { margin-top: 0.5rem; }
-  .steps { gap: 0.5rem; margin-top: 0.5rem; }
-  .arch-row { gap: 0.3rem; margin-top: 0.5rem; }
+  :root { --pad: clamp(1.5rem, 4vw, 3.5rem); }
+  .bg-num { font-size: clamp(4rem, 12vw, 10rem); }
+  ul.bullets li { padding: 0.3rem 0; }
+  .cadence-row { padding: 0.3rem 0; }
 }
 @media (max-height: 600px) {
-  .sub { font-size: 0.8rem; }
-  h2 { font-size: 1.5rem; }
+  h1 { margin-bottom: 0.6rem; padding-bottom: 0.5rem; }
+  h2 { margin-bottom: 0.5rem; }
+  .steps { gap: 0.4rem; }
+  .patterns { gap: 0.5rem; }
 }
 @media (max-height: 500px) {
-  .card-row { grid-template-columns: repeat(3,1fr); }
-  .card { padding: 0.5rem 0.7rem; }
+  h1 { font-size: clamp(1.4rem, 3vw, 2.4rem); }
 }
 </style>
 </head>
 <body>
 
-<div class="progress"><div class="progress-fill" id="fill"></div></div>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 <div class="counter" id="counter">1 / 11</div>
-<div class="hint">← → Space · N for notes</div>
+<div class="notes-overlay" id="notesOverlay"></div>
 
-<div class="notes-overlay" id="notes">
-  <div class="notes-label">Speaker Notes</div>
-  <div class="notes-content" id="notes-content"></div>
-</div>
+<div class="deck" id="deck">
 
-<div class="deck">
+  <!-- 01 — Title -->
+  <div class="slide active" data-notes="Frame the real problem: Claude Code skills are easy to create on day 1 but hard to maintain as projects evolve. This deck is about building a system that stays alive — not just a collection of skills that slowly rot.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">01</div>
+      <div class="kicker">Claude Code — Organizing for the Long Haul</div>
+      <h1>Skills rot.<br>Systems&nbsp;don't.</h1>
+      <p class="lead">The hidden discipline behind Claude Code that keeps your skills, agents, hooks, and memory from drifting out of sync as your project evolves.</p>
+    </div>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 1 — Title
-  ───────────────────────────────── -->
-  <section class="slide s1 active" data-notes="Welcome everyone. This deck walks through the five core primitives of Claude Code that every PM should know: the CLI itself, Skills, Sub Agents, Hooks, and Multi-Agent orchestration. By the end you'll understand how they stack together into production-grade AI workflows.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="pad">
-      <div class="kicker">Claude Code in Practice — Course Overview</div>
-      <h1>Ship with<br><span class="hl">Claude Code</span></h1>
-      <p class="sub">Skills · Sub Agents · Hooks · Multi-Agent Systems<br>Explained for product managers who want to build.</p>
-      <div class="tags">
-        <span class="tag active">Claude Code</span>
-        <span class="tag">Skills</span>
-        <span class="tag">Sub Agents</span>
-        <span class="tag">Hooks</span>
-        <span class="tag">Multi-Agent</span>
+  <!-- 02 — Agenda -->
+  <div class="slide" data-notes="Briefly walk through the agenda. This deck covers why things break, the 5 primitives and their update cadences, and concrete patterns for keeping everything fresh.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">02</div>
+      <div class="kicker">What We'll Cover</div>
+      <h1>The agenda</h1>
+      <div class="agenda">
+        <div class="agenda-item"><span class="a-num">01</span><span class="a-text">Why skills drift — the context decay problem</span></div>
+        <div class="agenda-item"><span class="a-num">02</span><span class="a-text">The 5 primitives and their update cadences</span></div>
+        <div class="agenda-item"><span class="a-num">03</span><span class="a-text">CLAUDE.md as your single source of truth</span></div>
+        <div class="agenda-item"><span class="a-num">04</span><span class="a-text">Skills: write once, review on change</span></div>
+        <div class="agenda-item"><span class="a-num">05</span><span class="a-text">Memory, Agents, and Hooks — how often to touch each</span></div>
+        <div class="agenda-item"><span class="a-num">06</span><span class="a-text">The 4 update triggers and the freshness pyramid</span></div>
+        <div class="agenda-item"><span class="a-num">07</span><span class="a-text">What high-functioning teams actually do</span></div>
+        <div class="agenda-item"><span class="a-num">08</span><span class="a-text">Your 3 next steps</span></div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 2 — What is Claude Code?
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="Claude Code is Anthropic's official CLI tool. It's not a chatbot in a browser — it runs in your terminal with access to your actual files, git history, and shell. That's what makes it powerful: it can read, edit, and execute, not just suggest.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="pad pad-top">
-      <div class="kicker">The Foundation</div>
-      <h2>Claude Code is an AI pair programmer<br>that <span class="hl">lives in your terminal</span></h2>
-      <p class="sub">Not a chatbot. Not a plugin. A full agentic CLI that reads files, runs commands, and ships real things — with your approval at every step.</p>
-      <div class="card-row">
-        <div class="card">
-          <div class="card-icon">📂</div>
-          <div class="card-title">Reads & edits your whole repo</div>
-          <div class="card-body">Understands context across files, git history, and error logs — not just the snippet you paste in.</div>
+  <!-- 03 — Why Things Break -->
+  <div class="slide" data-notes="The core insight: skills don't break because they were written badly. They break because the context they rely on — the product, the workflow, the API, the team convention — changes. The skill stays the same; the world moves. That gap is context decay. Most teams notice it only when a skill fails in production.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">03</div>
+      <div class="kicker">Root Cause</div>
+      <h1>The problem isn't the skill. It's the world that moved.</h1>
+      <ul class="bullets">
+        <li>You ship a new feature — the skill still describes the old flow</li>
+        <li>You rename a folder — the skill references the old path</li>
+        <li>Your API changes — the skill still assumes the old contract</li>
+        <li>Three months pass — no one remembers what the skill was for</li>
+      </ul>
+      <p class="lead" style="margin-top: clamp(0.8rem, 1.6vh, 1.4rem);">Context decay is silent. You won't notice until the skill fails in front of a student or a client.</p>
+    </div>
+  </div>
+
+  <!-- 04 — The 5 Primitives -->
+  <div class="slide" data-notes="These are the 5 things that make up your Claude Code system. They are not equal — they have different update velocities. CLAUDE.md changes most often. Hooks change least. Understanding this difference lets you triage maintenance work instead of treating everything the same.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">04</div>
+      <div class="kicker">The 5 Primitives</div>
+      <h1>Each primitive has a different update clock.</h1>
+      <div class="cadence">
+        <div class="cadence-row header">
+          <span>Primitive</span><span>Update freq</span><span>Changes when</span>
         </div>
-        <div class="card">
-          <div class="card-icon">⚡</div>
-          <div class="card-title">Runs commands & tests</div>
-          <div class="card-body">Executes shell commands, runs your test suite, and fixes failures — all inside one conversation.</div>
+        <div class="cadence-row">
+          <span class="prim">CLAUDE.md</span>
+          <span class="freq">Every sprint</span>
+          <span class="desc">Project context, team conventions, or scope shifts</span>
         </div>
-        <div class="card">
-          <div class="card-icon">🚀</div>
-          <div class="card-title">Ships with your approval</div>
-          <div class="card-body">Every file write and command runs only after you confirm it — you stay in control of what deploys.</div>
+        <div class="cadence-row">
+          <span class="prim">Skills</span>
+          <span class="freq">On ship</span>
+          <span class="desc">Any feature or workflow the skill touches changes</span>
+        </div>
+        <div class="cadence-row">
+          <span class="prim">Memory</span>
+          <span class="freq">Monthly</span>
+          <span class="desc">Decisions made, preferences changed, stale facts accumulate</span>
+        </div>
+        <div class="cadence-row">
+          <span class="prim">Sub Agents</span>
+          <span class="freq">On API change</span>
+          <span class="desc">Tools, APIs, or delegation patterns the agent relies on change</span>
+        </div>
+        <div class="cadence-row">
+          <span class="prim">Hooks</span>
+          <span class="freq">Rarely</span>
+          <span class="desc">Wired once, stable unless the shell environment changes</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 3 — The PM Superpower
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="This is the core value proposition for PMs. The old loop was: write a ticket, wait for sprint planning, wait for implementation, wait for review, wait for deploy. Claude Code collapses that loop. PMs with zero coding background are shipping internal tools, dashboards, and AI agents in hours — not weeks.">
-    <div class="bg-shape left"></div>
-    <div class="bg-line"></div>
-    <div class="pad">
-      <div class="kicker">Why This Matters</div>
-      <h2>PMs can now ship in hours what used<br>to take <span class="hl">engineering weeks</span></h2>
+  <!-- 05 — CLAUDE.md -->
+  <div class="slide" data-notes="CLAUDE.md is the foundation everything else builds on. Claude reads it on every session start. If it's stale, every skill, agent, and hook is operating on bad assumptions. Treat it like a living README, not a one-time setup doc. Keep it under 200 lines — if it's longer, it's documentation, not a prompt.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">05</div>
+      <div class="kicker">Concept 01 — CLAUDE.md</div>
+      <h1>If CLAUDE.md is stale, everything downstream is blind.</h1>
+      <ul class="bullets">
+        <li><strong>What belongs here:</strong> project goals, repo structure, conventions, active priorities, team context</li>
+        <li><strong>What doesn't:</strong> code patterns, git history, architecture docs — Claude can read those directly</li>
+        <li><strong>Length limit:</strong> under 200 lines — it's a prompt, not documentation</li>
+        <li><strong>Update trigger:</strong> any sprint that changes goals, structure, or team conventions</li>
+      </ul>
+      <blockquote style="margin-top: clamp(0.6rem, 1.2vh, 1rem);">
+        <p>"A 5-minute CLAUDE.md update saves 30 minutes of Claude going in the wrong direction."</p>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- 06 — Skills -->
+  <div class="slide" data-notes="The key discipline for skills: tie reviews to ship events, not calendar dates. Calendar-based reviews don't work because the mismatch between the skill and reality builds up silently. Event-based triggers — we shipped X, so update any skill that touches X — keep things tight. Bonus: add a one-line 'Last updated' comment at the top of every SKILL.md to make staleness visible at a glance.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">06</div>
+      <div class="kicker">Concept 02 — Skills</div>
+      <h1>Tie skill reviews to ships, not to calendars.</h1>
       <div class="two-col">
-        <div class="col-block before">
-          <div class="col-label before-lbl">Before Claude Code</div>
-          <ul class="bullet-list">
-            <li>Write a ticket and wait for sprint</li>
-            <li>Back-and-forth on requirements</li>
-            <li>Engineering builds, PM reviews</li>
-            <li>Bugs discovered after deploy</li>
-            <li>Iteration takes days or weeks</li>
+        <div>
+          <div class="kicker" style="margin-bottom: 0.5rem;">What causes drift</div>
+          <ul class="bullets">
+            <li>Product changes without a corresponding skill update</li>
+            <li>No one owns the skill after it's created</li>
+            <li>Skill scope creep — one skill doing too many things</li>
+            <li>No signal that the skill is out of date until it fails</li>
           </ul>
         </div>
-        <div class="col-block after">
-          <div class="col-label after-lbl">After Claude Code</div>
-          <ul class="bullet-list gold">
-            <li>Describe what you want in plain English</li>
-            <li>Claude reads your codebase & builds it</li>
-            <li>You review & approve each change</li>
-            <li>Errors fixed in the same session</li>
-            <li>Ship the same day you have the idea</li>
+        <div>
+          <div class="kicker" style="margin-bottom: 0.5rem;">What prevents it</div>
+          <ul class="bullets">
+            <li>Add <code style="background: rgba(0,0,0,0.08); padding: 0.1em 0.3em; font-size: 0.88em; font-family: monospace;">Last updated:</code> header to every SKILL.md</li>
+            <li>Add skill review to your ship checklist</li>
+            <li>Keep each skill focused — one workflow, one command</li>
+            <li>Delete skills unused in 60 days</li>
           </ul>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 4 — Concept 01: Skills
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="A Skill is a markdown file that lives in .claude/skills/. It defines a specific workflow — what to do, what to ask, how to format output. You trigger it with a slash command like /prd-generator. The key insight: you write the skill once, and anyone on your team can run it forever. It's reusable expertise.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="wm">01</div>
-    <div class="pad">
-      <div class="kicker">Concept 01 — Skills</div>
-      <div class="concept-layout">
-        <div class="concept-left">
-          <div class="rule"></div>
-          <h2>Skills are reusable AI workflows triggered by a <span class="hl">slash command</span></h2>
-          <p class="sub">Define a workflow once in a markdown file. Run it forever with <code>/skill-name</code>.</p>
+  <!-- 07 — Memory -->
+  <div class="slide" data-notes="Auto memory is powerful — it captures preferences and decisions without you doing it manually. But it accumulates silently. After a few months you'll have conflicting memories, outdated facts, and cruft from dead-end experiments. A monthly 10-minute prune session is the cure. Delete anything that contradicts current behavior or is tied to a finished project. Accurate beats comprehensive.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">07</div>
+      <div class="kicker">Concept 03 — Memory</div>
+      <h1>Memory that's never pruned becomes a source of lies.</h1>
+      <ul class="bullets">
+        <li>Auto memory captures decisions and preferences across sessions — great on day 1</li>
+        <li>Over time: conflicting entries, stale project context, dead-end notes accumulate</li>
+        <li>Claude can't tell the difference between a current preference and a 6-month-old one</li>
+        <li>Fix: 10-minute monthly prune — read every memory file, delete anything stale</li>
+        <li>Goal: accurate memory, not comprehensive memory</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 08 — Agents and Hooks -->
+  <div class="slide" data-notes="Hooks are the most stable primitive — wire once, test once, leave alone. Agents need more attention because they depend on external APIs and delegation patterns. The practical rule: audit agents when you audit their upstream dependencies. If an API the agent calls has been updated, the agent needs a review.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">08</div>
+      <div class="kicker">Concept 04 — Agents &amp; Hooks</div>
+      <h1>Hooks are set-and-forget. Agents follow their APIs.</h1>
+      <div class="two-col">
+        <div>
+          <div class="kicker" style="margin-bottom: 0.5rem;">Hooks (stable)</div>
+          <ul class="bullets">
+            <li>PreToolUse / PostToolUse / Stop / Notification</li>
+            <li>Wire once, test once, leave alone</li>
+            <li>Review only if shell environment changes</li>
+            <li>Most common failure: path or env var changes</li>
+          </ul>
         </div>
-        <div class="concept-right">
-          <div class="concept-card">
-            <div class="concept-card-title">How they work</div>
-            <div class="concept-card-body">Each skill is a <code>SKILL.md</code> file in <code>.claude/skills/</code> that describes the goal, steps, and output format. Claude executes those instructions exactly.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Why they matter</div>
-            <div class="concept-card-body">Encode your team's best practices once. Every PM runs the same high-quality workflow — no prompt engineering needed each time.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Example trigger</div>
-            <div class="concept-card-body">Type <code>/prd-generator</code> and Claude gathers requirements, writes a full PRD, and asks clarifying questions — in one command.</div>
-          </div>
+        <div>
+          <div class="kicker" style="margin-bottom: 0.5rem;">Agents (API-coupled)</div>
+          <ul class="bullets">
+            <li>Delegate to specialist workers with isolated context</li>
+            <li>Review when upstream APIs or tools change</li>
+            <li>Review when the workflow they handle changes scope</li>
+            <li>Document which APIs each agent calls</li>
+          </ul>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 5 — Skills in Action
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="This course ships with 35+ production-ready skills. They cover the entire PM workflow: strategy (competitor research, market sizing), documentation (PRD, user stories), engineering (test writer, deploy checklist), and communication (email, LinkedIn posts, stakeholder updates). Each is a one-command workflow.">
-    <div class="bg-shape accent"></div>
-    <div class="bg-line"></div>
-    <div class="pad pad-top">
-      <div class="kicker">Skills — Examples</div>
-      <h2>One command covers <span class="hl">your entire PM workflow</span></h2>
-      <div class="skill-grid">
-        <div class="skill-card">
-          <div class="skill-name">prd-generator</div>
-          <div class="skill-desc">Turn a feature idea into a structured PRD with acceptance criteria</div>
+  <!-- 09 — Update Trigger System -->
+  <div class="slide" data-notes="Four concrete events that should trigger a review of your Claude Code system. Don't wait for things to break. The most important is 'skill failed' — that's a trailing indicator. The most underused is 'monthly audit' — that's a leading one. If you only implement one trigger, implement the monthly audit.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">09</div>
+      <div class="kicker">The Update Trigger System</div>
+      <h1>Four events that force a review before things break.</h1>
+      <div class="triggers">
+        <div class="trigger">
+          <div class="t-num">01</div>
+          <div class="t-title">New feature shipped</div>
+          <div class="t-body">Any skill that touches the changed workflow gets reviewed, updated, or deleted.</div>
         </div>
-        <div class="skill-card">
-          <div class="skill-name">competitor-research</div>
-          <div class="skill-desc">Research 3–5 competitors with positioning, pricing & gaps</div>
+        <div class="trigger">
+          <div class="t-num">02</div>
+          <div class="t-title">Workflow changed</div>
+          <div class="t-body">If how your team works changes — new tools, new structure — audit CLAUDE.md and agents.</div>
         </div>
-        <div class="skill-card">
-          <div class="skill-name">test-writer</div>
-          <div class="skill-desc">Write unit tests for any function — happy path, edge cases, errors</div>
+        <div class="trigger">
+          <div class="t-num">03</div>
+          <div class="t-title">Skill failed</div>
+          <div class="t-body">A skill that produced a bad output is a trailing signal. Fix it — then ask: what else has drifted?</div>
         </div>
-        <div class="skill-card">
-          <div class="skill-name">frontend-slides</div>
-          <div class="skill-desc">Generate animation-rich HTML presentations from any topic</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">deploy-checklist</div>
-          <div class="skill-desc">Pre-deploy checklist before pushing to Vercel or Fly.io</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">stakeholder-update</div>
-          <div class="skill-desc">Write concise weekly updates from raw notes in seconds</div>
+        <div class="trigger">
+          <div class="t-num">04</div>
+          <div class="t-title">Monthly audit</div>
+          <div class="t-body">10 minutes. Review memory files, check skill headers, delete anything unused in 60 days.</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 6 — Concept 02: Sub Agents
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="Sub Agents are specialized Claude instances that can be spawned to handle a specific task. The parent (orchestrator) Claude delegates to them, waits for results, and synthesizes the output. A sub agent has its own context window, its own tools, and its own task. You define them in .claude/agents/ as markdown files.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="wm">02</div>
-    <div class="pad">
-      <div class="kicker">Concept 02 — Sub Agents</div>
-      <div class="concept-layout">
-        <div class="concept-left">
-          <div class="rule"></div>
-          <h2>Sub Agents let Claude<br><span class="hl">delegate work</span><br>to specialized AI workers</h2>
-          <p class="sub">Define specialist agents in <code>.claude/agents/</code>. The orchestrator spawns them, they execute, it synthesizes.</p>
+  <!-- 10 — Freshness Pyramid -->
+  <div class="slide" data-notes="The layered freshness model gives you a mental shortcut: if you only have time to maintain one thing, maintain CLAUDE.md. If you have more time, add skills. The pyramid reflects real-world update velocity — the things at the top change most often and have the highest leverage. The things at the bottom are stable foundations that rarely need touching.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">10</div>
+      <div class="kicker">How It All Fits — The Freshness Pyramid</div>
+      <h1>Maintain the layers in order. Start at the top.</h1>
+      <div class="layers">
+        <div class="layer">
+          <span class="l-label">CLAUDE.md</span>
+          <span class="l-title">Project context, goals, conventions</span>
+          <span class="l-freq">Every sprint</span>
         </div>
-        <div class="concept-right">
-          <div class="concept-card">
-            <div class="concept-card-title">Specialization</div>
-            <div class="concept-card-body">Each sub agent has a specific role: one reads docs, one writes code, one runs tests. Better results than a generalist doing everything.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Isolation</div>
-            <div class="concept-card-body">Sub agents get their own context window — they don't pollute the orchestrator's session with long intermediate results.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Tool scoping</div>
-            <div class="concept-card-body">Each agent can be given only the tools it needs. A research agent reads web pages. A code agent edits files. No scope creep.</div>
-          </div>
+        <div class="layer" style="margin-left: clamp(1rem, 2vw, 2rem);">
+          <span class="l-label">Skills</span>
+          <span class="l-title">Reusable workflows triggered by slash command</span>
+          <span class="l-freq">On ship</span>
+        </div>
+        <div class="layer" style="margin-left: clamp(2rem, 4vw, 4rem);">
+          <span class="l-label">Memory</span>
+          <span class="l-title">Decisions, preferences, user context</span>
+          <span class="l-freq">Monthly</span>
+        </div>
+        <div class="layer" style="margin-left: clamp(3rem, 6vw, 6rem);">
+          <span class="l-label">Sub Agents</span>
+          <span class="l-title">Specialist workers with isolated context</span>
+          <span class="l-freq">On API change</span>
+        </div>
+        <div class="layer" style="margin-left: clamp(4rem, 8vw, 8rem);">
+          <span class="l-label">Hooks</span>
+          <span class="l-title">PreToolUse / PostToolUse / Stop / Notification</span>
+          <span class="l-freq">Rarely</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─────────────────────────────────
-       SLIDE 7 — Concept 03: Hooks
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="Hooks are shell commands that fire automatically when Claude takes certain actions. They're configured in .claude/settings.json. PreToolUse fires before Claude uses a tool — you can block it. PostToolUse fires after. Stop fires when Claude finishes a session. Notification fires when Claude needs attention. Use cases: auto-run linters after edits, log all tool calls, send a Slack message when a task completes.">
-    <div class="bg-shape left"></div>
-    <div class="bg-line"></div>
-    <div class="wm">03</div>
-    <div class="pad">
-      <div class="kicker">Concept 03 — Hooks</div>
-      <h2>Hooks fire shell commands <span class="hl">automatically</span><br>when Claude takes specific actions</h2>
-      <p class="sub">Configure in <code>.claude/settings.json</code>. Automate quality checks, logging, and notifications around every Claude action.</p>
-      <div class="hook-grid">
-        <div class="hook-card">
-          <div class="hook-name">PreToolUse</div>
-          <div class="hook-desc">Fires before Claude uses any tool. Can block the action. Use to enforce policy — e.g. prevent editing production files.</div>
-        </div>
-        <div class="hook-card">
-          <div class="hook-name">PostToolUse</div>
-          <div class="hook-desc">Fires after every tool call completes. Use to auto-run linters, formatters, or log audit trails after each file edit.</div>
-        </div>
-        <div class="hook-card">
-          <div class="hook-name">Stop</div>
-          <div class="hook-desc">Fires when Claude finishes a task. Use to send a Slack ping, play a sound, or trigger a downstream process automatically.</div>
-        </div>
-        <div class="hook-card">
-          <div class="hook-name">Notification</div>
-          <div class="hook-desc">Fires when Claude pauses for approval. Use to alert you via email or push notification so you don't miss a waiting session.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────
-       SLIDE 8 — Concept 04: Multi-Agent
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="Multi-Agent is the upgrade from one sub agent to a coordinated fleet. An orchestrator Claude manages multiple specialized agents working in parallel — some researching, some writing, some reviewing. The system is designed for large, complex tasks that would overflow a single context window or take too long serially. Think of it as an AI team, not an AI assistant.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="wm">04</div>
-    <div class="pad">
-      <div class="kicker">Concept 04 — Multi-Agent Systems</div>
-      <div class="concept-layout">
-        <div class="concept-left">
-          <div class="rule"></div>
-          <h2>Multi-Agent orchestrates <span class="hl">fleets of AI workers</span> in parallel</h2>
-          <p class="sub">One orchestrator. Many specialists. Tasks that would take hours serially complete in minutes in parallel.</p>
-        </div>
-        <div class="concept-right">
-          <div class="concept-card">
-            <div class="concept-card-title">Parallelism</div>
-            <div class="concept-card-body">Multiple agents run simultaneously — a research agent, a writing agent, and a review agent all work at once while the orchestrator coordinates.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Scale beyond context</div>
-            <div class="concept-card-body">Large tasks are split across agents so no single context window is overloaded. Each agent handles a bounded sub-problem.</div>
-          </div>
-          <div class="concept-card">
-            <div class="concept-card-title">Real-world example</div>
-            <div class="concept-card-body">Competitor research agent + pricing analyst + positioning writer → finished competitive analysis in one command, not one week.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────
-       SLIDE 9 — How It All Fits Together
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="Here's the mental model: Skills are your predefined playbooks. Sub Agents are your specialized workers. Hooks are the guardrails and automation layer. Multi-Agent is how you scale. They're designed to compose — a skill can invoke sub agents, hooks can fire after agent actions, and multi-agent systems can use skills as their building blocks.">
-    <div class="bg-shape accent"></div>
-    <div class="bg-line"></div>
-    <div class="pad pad-top">
-      <div class="kicker">The Full Picture</div>
-      <h2><span class="hl">Skills + Sub Agents + Hooks + Multi-Agent</span><br>stack into production-grade AI workflows</h2>
-      <div class="arch-row">
-        <div class="arch-layer" style="border-color: #f5a623;">
-          <div class="arch-layer-name" style="color:#f5a623;">Multi-Agent</div>
-          <div class="arch-layer-desc">Orchestrator coordinates multiple specialized agents in parallel. Handles tasks too large for a single context window.</div>
-        </div>
-        <div class="arch-layer" style="border-color: rgba(245,166,35,0.6);">
-          <div class="arch-layer-name" style="color:rgba(245,166,35,0.8);">Sub Agents</div>
-          <div class="arch-layer-desc">Specialist Claude instances — each with a defined role, scoped tools, and isolated context. Spawned by the orchestrator.</div>
-        </div>
-        <div class="arch-layer" style="border-color: rgba(245,166,35,0.4);">
-          <div class="arch-layer-name" style="color:rgba(245,166,35,0.65);">Skills</div>
-          <div class="arch-layer-desc">Reusable workflows that encode PM best practices. Used as building blocks by agents or triggered directly with /commands.</div>
-        </div>
-        <div class="arch-layer" style="border-color: rgba(245,166,35,0.2);">
-          <div class="arch-layer-name" style="color:rgba(245,166,35,0.5);">Hooks</div>
-          <div class="arch-layer-desc">Shell commands that fire on tool events — auto-formatting, logging, notifications, and policy enforcement across every layer above.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────
-       SLIDE 10 — What PMs Are Building
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="These are real things students in the Claude Code in Practice course have built — many with no prior coding experience. The key insight: Claude Code doesn't require you to know how to code. It requires you to know what you want and how to describe it clearly. PMs are actually very good at that.">
-    <div class="bg-shape left"></div>
-    <div class="bg-line"></div>
-    <div class="pad pad-top">
-      <div class="kicker">Real-World Output</div>
-      <h2>Real PMs are shipping tools, dashboards<br>& agents — <span class="hl">without engineers</span></h2>
-      <div class="use-grid">
-        <div class="use-card">
-          <div class="use-title">Competitor Research Agent</div>
-          <div class="use-desc">Multi-agent system that researches 5 competitors, extracts pricing and positioning, and delivers a formatted report.</div>
-          <span class="use-time">Built in 2 hours</span>
-        </div>
-        <div class="use-card">
-          <div class="use-title">AI Meeting Summarizer</div>
-          <div class="use-desc">Full-stack web app — paste a transcript, get action items, decisions, and risks. Deployed and shareable via URL.</div>
-          <span class="use-time">Built in 1 session</span>
-        </div>
-        <div class="use-card">
-          <div class="use-title">Video Content Pipeline</div>
-          <div class="use-desc">Automated Remotion pipeline that turns a 1-line prompt into a narrated Instagram Reel explainer video.</div>
-          <span class="use-time">Built in 1 day</span>
-        </div>
-        <div class="use-card">
-          <div class="use-title">PRD + Story Generator</div>
-          <div class="use-desc">Skill chain that goes from feature idea → PRD → user stories → acceptance criteria → JIRA-ready tickets.</div>
-          <span class="use-time">5 min per feature</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────────────
-       SLIDE 11 — Your Next 3 Steps
-  ───────────────────────────────── -->
-  <section class="slide" data-notes="The best way to learn Claude Code is to build something real — not to read about it. Step 1 gets you set up. Step 2 gets you a first win with a skill. Step 3 is where you really see the power: multi-agent workflows running in parallel. The course walks you through all three in live sessions with hands-on projects.">
-    <div class="bg-shape"></div>
-    <div class="bg-line"></div>
-    <div class="pad">
-      <div class="kicker">Getting Started</div>
-      <h2>Start shipping with Claude Code<br><span class="hl">this week</span></h2>
+  <!-- 11 — Next 3 Steps -->
+  <div class="slide" data-notes="End with action. These three steps can be done today, this week, and this month — they don't require a full audit or a team meeting. The first (audit CLAUDE.md) takes 5 minutes and has immediate leverage. The second (add one update trigger) is a process change that pays off compounding. The third (delete one stale skill) starts the pruning habit before you drown in six months.">
+    <div class="bar"></div>
+    <div class="body">
+      <div class="grid"></div>
+      <div class="bg-num">11</div>
+      <div class="kicker">Your Next 3 Steps</div>
+      <h1>Today, this week, and this&nbsp;month.</h1>
       <div class="steps">
         <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <div class="step-title">Install Claude Code & run your first command</div>
-            <div class="step-body">Install via <code>npm install -g @anthropic-ai/claude-code</code>. Open your project. Type <code>claude</code>. Ask it to explain your codebase.</div>
+          <div class="s-num">1</div>
+          <div class="s-text">
+            <div class="s-title">Today — Audit your CLAUDE.md (5 min)</div>
+            <div class="s-body">Is the project context still accurate? Are the active priorities current? Fix anything stale now. This has the highest leverage of anything in this deck.</div>
           </div>
         </div>
         <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <div class="step-title">Run a skill on a real PM problem you have today</div>
-            <div class="step-body">Pick any skill from this course repo — <code>/competitor-research</code>, <code>/prd-generator</code>, <code>/stakeholder-update</code>. Use it on an actual problem.</div>
+          <div class="s-num">2</div>
+          <div class="s-text">
+            <div class="s-title">This week — Add one update trigger to your ship checklist</div>
+            <div class="s-body">Pick the trigger that fits your workflow: "when we ship, review the skills that touch the changed area." Add it as a checklist item. That's it.</div>
           </div>
         </div>
         <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <div class="step-title">Build one multi-agent workflow for your team</div>
-            <div class="step-body">Define an orchestrator and two specialist sub agents. Pick a recurring research or documentation task. Automate the whole thing.</div>
+          <div class="s-num">3</div>
+          <div class="s-text">
+            <div class="s-title">This month — Delete one stale skill</div>
+            <div class="s-body">Find a skill unused in 60 days, or one whose SKILL.md no longer matches reality. Delete it. Fewer, accurate skills beat many drifting ones every time.</div>
           </div>
         </div>
-      </div>
-      <div class="tags" style="margin-top: clamp(0.75rem,2vh,1.5rem);">
-        <span class="tag active">maven.com/boring-bot/claude-code-in-practice</span>
       </div>
     </div>
-  </section>
+  </div>
 
 </div><!-- /deck -->
 
 <script>
 (function() {
-  const slides = document.querySelectorAll('.slide');
-  const fill = document.getElementById('fill');
-  const counterEl = document.getElementById('counter');
-  const notesOverlay = document.getElementById('notes');
-  const notesContent = document.getElementById('notes-content');
+  const slides = Array.from(document.querySelectorAll('.slide'));
   const total = slides.length;
+  const fill = document.getElementById('progressFill');
+  const counter = document.getElementById('counter');
+  const notesEl = document.getElementById('notesOverlay');
   let current = 0;
-  let notesOn = false;
+  let notesVisible = false;
 
-  function goto(n) {
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
     slides[current].classList.remove('active');
-    current = ((n % total) + total) % total;
+    slides[current].classList.add('exit');
+    const prev = current;
+    current = n;
     slides[current].classList.add('active');
+    setTimeout(function() { slides[prev].classList.remove('exit'); }, 400);
     fill.style.width = ((current + 1) / total * 100) + '%';
-    counterEl.textContent = (current + 1) + ' / ' + total;
-    notesContent.textContent = slides[current].dataset.notes || '';
+    counter.textContent = (current + 1) + ' / ' + total;
+    if (notesVisible) showNotes();
+  }
+
+  function showNotes() {
+    const notes = slides[current].dataset.notes || '';
+    notesEl.textContent = notes ? '🗒 ' + notes : '(no notes for this slide)';
+    notesEl.classList.add('visible');
+  }
+
+  function toggleNotes() {
+    notesVisible = !notesVisible;
+    if (notesVisible) showNotes();
+    else notesEl.classList.remove('visible');
   }
 
   document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goto(current + 1); }
-    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goto(current - 1); }
-    else if (e.key === ' ') { e.preventDefault(); goto(current + 1); }
-    else if (e.key === 'n' || e.key === 'N') {
-      notesOn = !notesOn;
-      notesOverlay.style.display = notesOn ? 'block' : 'none';
-    }
-    else if (e.key === 'Home') { e.preventDefault(); goto(0); }
-    else if (e.key === 'End') { e.preventDefault(); goto(total - 1); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'n' || e.key === 'N') toggleNotes();
   });
 
-  // Touch/swipe support
-  let touchStartX = 0;
-  document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, {passive: true});
+  document.getElementById('deck').addEventListener('click', function(e) {
+    var mid = window.innerWidth / 2;
+    if (e.clientX > mid) goTo(current + 1);
+    else goTo(current - 1);
+  });
+
+  var tx = 0;
+  document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
   document.addEventListener('touchend', function(e) {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) goto(dx < 0 ? current + 1 : current - 1);
-  }, {passive: true});
+    var dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  }, { passive: true });
 
-  // Click anywhere to advance
-  document.querySelector('.deck').addEventListener('click', function(e) {
-    if (e.target.closest('.notes-overlay')) return;
-    goto(current + 1);
-  });
-
-  goto(0);
+  fill.style.width = (1 / total * 100) + '%';
 })();
 </script>
-
 </body>
 </html>
