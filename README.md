@@ -24,11 +24,11 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 <p align="center">
   <a href="https://traversaal.ai/academy/books/claude-code-a-practitioners-approach">
-    <img src="images/book-cover.png" alt="Claude Code: A Practitioner's Approach — book cover" width="200">
+    <img src="images/book-cover.png" alt="Claude Code: A Practitioner's Approach — book cover" height="300">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://maven.com/boring-bot/claude-code-in-practice">
-    <img src="images/Screenshot%202026-04-24%20at%2015.52.23.png" alt="Enroll in Claude Code in Practice on Maven" width="480">
+    <img src="images/Screenshot%202026-04-24%20at%2015.52.23.png" alt="Enroll in Claude Code in Practice on Maven" height="300">
   </a>
 </p>
 
