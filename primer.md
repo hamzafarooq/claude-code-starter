@@ -13,29 +13,33 @@ Platform: [Maven](https://maven.com/boring-bot/claude-code-in-practice)
 
 ## How the repo works
 
-This repo is the single source of truth for all course materials. Each module lives in its own folder. When you're in a module folder and run `claude`, Claude reads the `CLAUDE.md` and `README.md` automatically and knows what you're working on.
+This repo is the single source of truth for all course materials. Everything is organized by type — not by module. When you run `claude` from the repo root, Claude reads `CLAUDE.md` automatically.
 
 ```
-clone the repo → cd into a module folder → run claude → follow the README
+clone the repo → run claude from root → explore skills, agents, and demos
 ```
+
+**Three things to know:**
+- **Skills** → `.claude/skills/` — trigger with `/skill-name`
+- **Agents** → `.claude/agents/` — Claude delegates automatically
+- **Demos** → `demos/` — runnable apps built in class
 
 ---
 
-## Modules
+## What's covered
 
-### Module 1: From idea to shipped product
-**What you'll do:** Set up Claude Code, write a `CLAUDE.md` for your project, install two skills, and take an idea from concept to working MVP.
+### Skills
+Run `/prd-generator`, `/user-story-writer`, `/sprint-planner`, `/competitor-research`, and 30+ more PM-focused skills — all in `.claude/skills/`.
 
-**Key skills installed:**
-- `/prd-generator` — generates a full PRD from a short description
-- `/user-story-writer` — turns rough ideas into user stories with acceptance criteria
+### Sub-Agents
+Specialist agents Claude delegates to automatically: `research-agent`, `prd-reviewer`, `code-reviewer`, `data-analyst`, `copy-writer`, `deck-builder` — all in `.claude/agents/`.
 
-**Folder:** [module-1/](module-1/)
-**Status:** Complete (tagged `v1.0`)
+### Demo Apps
+Working apps built live in class — in `demos/`. Includes `meeting-notes-summarizer`, `meetingmemo`, `skill-sub-multi-agent`, `research-agent`, `research-frontend`, and more.
 
 ---
 
-*(More modules added as the course runs. Check back after each cohort.)*
+*(Content grows as the course runs. Check back after each cohort.)*
 
 ---
 

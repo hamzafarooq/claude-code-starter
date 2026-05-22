@@ -23,16 +23,16 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 **A premium scroll-driven product landing page built from a single 15-second video.** Drop in a product video, brief Claude with the `video-to-website` skill, and Claude scaffolds the whole site: frame-by-frame canvas playback bound to scroll, GSAP timelines per section, Lenis smooth scroll, persistent CTA. Vanilla HTML/CSS/JS, no bundler.
 
 <p align="center">
-  <a href="examples/royal-pop-website/">
-    <img src="examples/royal-pop-website/preview.gif" alt="Royal Pop scroll-driven landing page preview" width="720">
+  <a href="demos/royal-pop-website/">
+    <img src="demos/royal-pop-website/preview.gif" alt="Royal Pop scroll-driven landing page preview" width="720">
   </a>
 </p>
 
 <p align="center">
-  <a href="examples/royal-pop-website/"><b>→ Open the example</b></a> &nbsp;·&nbsp;
-  <a href="examples/royal-pop-website/README.md">README walkthrough</a> &nbsp;·&nbsp;
-  <a href="examples/royal-pop-website/.claude/skills/video-to-website.md">video-to-website skill</a> &nbsp;·&nbsp;
-  <a href="examples/royal-pop-website/royal-pop-demo-20s.mp4">20-sec demo (mp4)</a> &nbsp;·&nbsp;
+  <a href="demos/royal-pop-website/"><b>→ Open the example</b></a> &nbsp;·&nbsp;
+  <a href="demos/royal-pop-website/README.md">README walkthrough</a> &nbsp;·&nbsp;
+  <a href="demos/royal-pop-website/.claude/skills/video-to-website.md">video-to-website skill</a> &nbsp;·&nbsp;
+  <a href="demos/royal-pop-website/royal-pop-demo-20s.mp4">20-sec demo (mp4)</a> &nbsp;·&nbsp;
   <a href="https://royal-pop-website.vercel.app" target="_blank">Live site</a>
 </p>
 
@@ -47,13 +47,13 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 ```bash
 # 1. Clone the repo
 git clone https://github.com/hamzafarooq/claude-code-starter.git
-cd claude-code-starter/module-1
+cd claude-code-starter
 
 # 2. Launch Claude Code
 claude
 
-# 3. Open your first assignment
-# → See module-1/README.md
+# 3. Explore skills, agents, and demos
+# → See README.md for what's available
 ```
 
 > First time? Follow the full [Installation guide](#-installation) below — takes about 10 minutes.
@@ -89,7 +89,7 @@ npx github:hamzafarooq/claude-code-starter@main --uninstall okr-writer
 
 ## 🌐 Deploy to Vercel
 
-Once you've built something — a static site like [Royal Pop](examples/royal-pop-website/), a Next.js app like [MeetingMemo](module-4/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
+Once you've built something — a static site like [Royal Pop](demos/royal-pop-website/), a Next.js app like [MeetingMemo](demos/meetingmemo/), or any project in this repo — get it on a live URL in under a minute. No build config, no DNS wrangling.
 
 ### One-time setup
 
@@ -105,7 +105,7 @@ vercel login
 
 ```bash
 # 1. Move into the project you want to deploy
-cd examples/royal-pop-website   # or any folder with an index.html / package.json
+cd demos/royal-pop-website   # or any folder with an index.html / package.json
 
 # 2. First deploy — Vercel auto-detects the framework and creates the project
 vercel --yes
@@ -143,7 +143,7 @@ If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. 
 3. Add `ANTHROPIC_API_KEY` for Production (and Preview if you want PR previews to work)
 4. Re-deploy: `vercel --prod`
 
-> Full walk-through in [Module 4, Assignment 4b](module-4/README.md).
+> Full walk-through in [MeetingMemo demo](demos/meetingmemo/README.md).
 
 ---
 
@@ -153,10 +153,10 @@ All course code, templates, skills, and commands live here. Come back here whene
 
 | What | Where |
 |------|-------|
-| Module guides & assignments | `module-N/README.md` |
-| CLAUDE.md starter templates | `module-N/CLAUDE-template.md` |
-| Skills | `module-N/.claude/skills/<name>/SKILL.md` |
-| Commands | `module-N/.claude/commands/<name>.md` |
+| Skills | `.claude/skills/<name>/SKILL.md` |
+| Slash commands | `.claude/commands/<name>.md` |
+| Sub-agents | `.claude/agents/<name>.md` |
+| Demo apps | `demos/<name>/` |
 | Community resources | [`docs/resources.md`](docs/resources.md) |
 
 ---
@@ -171,10 +171,10 @@ Real apps built live in class using Claude Code — no engineering team. Fork th
 | [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
 | [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
 | [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
-| [how-the-web-works](module-2/demo/index.html) | Interactive visual explainer built in Module 2 — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
-| [meetingmemo](module-4/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
+| [how-the-web-works](demos/youtube-demo/index.html) | Interactive visual explainer — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
+| [meetingmemo](demos/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
 
-More apps get added as the course runs. See also the [**Royal Pop**](examples/royal-pop-website/) featured project above.
+More apps get added as the course runs. See also the [**Royal Pop**](demos/royal-pop-website/) featured project above.
 
 ---
 
@@ -203,9 +203,9 @@ To install a skill in your own project, copy both the `skills/<name>/` folder an
 | [Customer Persona](.claude/skills/customer-persona/SKILL.md) | `/customer-persona` | Builds a deep ICP: jobs-to-be-done, pain points, objections, buying triggers |
 | [Meeting Analyzer](.claude/skills/meeting-analyzer/SKILL.md) | `/meeting-analyzer` | Extracts action items, decisions, risks, and open questions from meeting notes |
 | [Trend Spotter](.claude/skills/trend-spotter/SKILL.md) | `/trend-spotter` | Scans a market for strong signals, weak signals, and noise — with evidence |
-| [YouTube Deep Dive](module-2/.claude/skills/youtube-deepdive/SKILL.md) | `/youtube-deepdive` | Visits YouTube URLs with Brave MCP — returns timestamps, key moments, top comments |
-| [YouTube Researcher](module-2/.claude/skills/youtube-researcher/SKILL.md) | `/youtube-researcher` | Searches YouTube on any topic, returns ranked videos with a top-pick recommendation |
-| [Explain Me a Repo](module-2/.claude/commands/explain-me-a-repo.md) | `/explain-me-a-repo` | Visits a GitHub URL with Brave MCP — returns what it does, how it's built, key files |
+| [YouTube Deep Dive](.claude/skills/youtube-deepdive/SKILL.md) | `/youtube-deepdive` | Visits YouTube URLs with Brave MCP — returns timestamps, key moments, top comments |
+| [YouTube Researcher](.claude/skills/youtube-researcher/SKILL.md) | `/youtube-researcher` | Searches YouTube on any topic, returns ranked videos with a top-pick recommendation |
+| [Explain Me a Repo](.claude/commands/explain-me-a-repo.md) | `/explain-me-a-repo` | Visits a GitHub URL with Brave MCP — returns what it does, how it's built, key files |
 
 ---
 
@@ -226,8 +226,8 @@ To install a skill in your own project, copy both the `skills/<name>/` folder an
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| [PRD Generator](module-1/.claude/skills/prd-generator/SKILL.md) | `/prd-generator` | Writes a full 9-section PRD: problem, solution, risks, acceptance criteria, open questions |
-| [User Story Writer](module-1/.claude/skills/user-story-writer/SKILL.md) | `/user-story-writer` | Turns rough ideas into user stories with Given/When/Then criteria and edge cases |
+| [PRD Generator](.claude/skills/prd-generator/SKILL.md) | `/prd-generator` | Writes a full 9-section PRD: problem, solution, risks, acceptance criteria, open questions |
+| [User Story Writer](.claude/skills/user-story-writer/SKILL.md) | `/user-story-writer` | Turns rough ideas into user stories with Given/When/Then criteria and edge cases |
 | [Sprint Planner](.claude/skills/sprint-planner/SKILL.md) | `/sprint-planner` | Turns a backlog into a prioritized 2-week sprint with effort estimates and capacity check |
 | [Business Case](.claude/skills/business-case/SKILL.md) | `/business-case` | Builds a business case: problem, options analysis, ROI estimate, risks, recommendation |
 | [Feature Prioritizer](.claude/skills/feature-prioritizer/SKILL.md) | `/feature-prioritizer` | Scores features using RICE (Reach × Impact × Confidence ÷ Effort) and returns a ranked table |
@@ -246,9 +246,9 @@ To install a skill in your own project, copy both the `skills/<name>/` folder an
 | [Changelog Writer](.claude/skills/changelog-writer/SKILL.md) | `/changelog-writer` | Reads git log and writes a user-facing changelog in Keep a Changelog format |
 | [Test Writer](.claude/skills/test-writer/SKILL.md) | `/test-writer` | Writes unit tests for any function — happy path, edge cases, and error cases |
 | [Dockerfile Generator](.claude/skills/dockerfile-generator/SKILL.md) | `/dockerfile-generator` | Creates a production Dockerfile and deployment config optimized for size and security |
-| [Code Reviewer](module-3/.claude/agents/code-reviewer.md) | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage |
-| [Skill Evaluator](module-4/.claude/skills/skill-evaluator/SKILL.md) | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns |
-| [Deploy Checklist](module-4/.claude/skills/deploy-checklist/SKILL.md) | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures |
+| [Code Reviewer](.claude/agents/code-reviewer.md) | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage |
+| [Skill Evaluator](.claude/skills/skill-evaluator/SKILL.md) | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns |
+| [Deploy Checklist](.claude/skills/deploy-checklist/SKILL.md) | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures |
 
 ---
 
@@ -266,11 +266,11 @@ To install a skill in your own project, copy both the `skills/<name>/` folder an
 
 | Skill | Triggers when… | What it does |
 |-------|---------------|-------------|
-| [Research Agent](module-3/.claude/agents/research-agent.md) | You ask for research, competitors, or market context | Web search specialist — structured findings with sources |
-| [PRD Reviewer](module-3/.claude/agents/prd-reviewer.md) | You ask to review or audit a PRD | Returns 3 risks, 3 missing edge cases, 1 scope creep flag |
-| [Data Analyst](module-3/.claude/agents/data-analyst.md) | You share a CSV, JSON, or data export | Returns 3 key stats, 1 anomaly, 1 trend |
-| [Copy Writer](module-3/.claude/agents/copy-writer.md) | You ask for in-app copy, tooltips, or button labels | Returns 3 options: [Direct], [Warm], [Bold] — all under 12 words |
-| [Deck Builder](module-3/.claude/agents/deck-builder.md) | You ask for a presentation or deck | Researches the topic, then builds a McKinsey-style deck |
+| [Research Agent](.claude/agents/research-agent.md) | You ask for research, competitors, or market context | Web search specialist — structured findings with sources |
+| [PRD Reviewer](.claude/agents/prd-reviewer.md) | You ask to review or audit a PRD | Returns 3 risks, 3 missing edge cases, 1 scope creep flag |
+| [Data Analyst](.claude/agents/data-analyst.md) | You share a CSV, JSON, or data export | Returns 3 key stats, 1 anomaly, 1 trend |
+| [Copy Writer](.claude/agents/copy-writer.md) | You ask for in-app copy, tooltips, or button labels | Returns 3 options: [Direct], [Warm], [Bold] — all under 12 words |
+| [Deck Builder](.claude/agents/deck-builder.md) | You ask for a presentation or deck | Researches the topic, then builds a McKinsey-style deck |
 
 ---
 
@@ -308,12 +308,12 @@ Sub-agents are specialists Claude delegates to automatically — no `/command` n
 
 | Agent | Model | What it does |
 |-------|-------|-------------|
-| [`research-agent`](module-3/.claude/agents/research-agent.md) | Opus | Searches the web and returns structured findings: key facts, sources, and gaps. Triggers on any research, competitor analysis, or market context request |
-| [`prd-reviewer`](module-3/.claude/agents/prd-reviewer.md) | Sonnet | Reads any PRD and returns exactly 3 risks (rated HIGH/MED/LOW), 3 missing edge cases, and 1 scope creep flag — no summaries, no praise |
-| [`code-reviewer`](module-3/.claude/agents/code-reviewer.md) | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files |
-| [`data-analyst`](module-3/.claude/agents/data-analyst.md) | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend |
-| [`copy-writer`](module-3/.claude/agents/copy-writer.md) | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words |
-| [`deck-builder`](module-3/.claude/agents/deck-builder.md) | Sonnet | Researches a topic using Brave MCP (Reddit, Medium, YouTube) and produces a McKinsey-style presentation deck with speaker notes — designed for non-technical audiences |
+| [`research-agent`](.claude/agents/research-agent.md) | Opus | Searches the web and returns structured findings: key facts, sources, and gaps. Triggers on any research, competitor analysis, or market context request |
+| [`prd-reviewer`](.claude/agents/prd-reviewer.md) | Sonnet | Reads any PRD and returns exactly 3 risks (rated HIGH/MED/LOW), 3 missing edge cases, and 1 scope creep flag — no summaries, no praise |
+| [`code-reviewer`](.claude/agents/code-reviewer.md) | Sonnet | Read-only audit of code files — flags security vulnerabilities, logic errors, and missing test coverage. Never modifies files |
+| [`data-analyst`](.claude/agents/data-analyst.md) | Sonnet | Reads CSV, JSON, or data exports and returns 3 key stats, 1 anomaly worth investigating, and 1 directional trend |
+| [`copy-writer`](.claude/agents/copy-writer.md) | Haiku | Writes in-app copy, tooltips, button labels, and microcopy. Returns 3 options tagged [Direct], [Warm], or [Bold] — all under 12 words |
+| [`deck-builder`](.claude/agents/deck-builder.md) | Sonnet | Researches a topic using Brave MCP (Reddit, Medium, YouTube) and produces a McKinsey-style presentation deck with speaker notes — designed for non-technical audiences |
 
 ---
 
@@ -356,100 +356,17 @@ Both let Claude interact with a browser. Here's when to use each:
 
 ---
 
-## 📚 Course Modules
+## 📚 Course Topics
 
-### [Module 1: From Idea to Shipped Product](module-1/README.md)
-
-Set up Claude Code, write a `CLAUDE.md` that gives Claude context about your project, install two skills, and ship something by the end of the module.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 1. Set up `CLAUDE.md` | Write your project context file so Claude knows your stack and goals |
-| 2. Install skills | Add `/prd-generator` and `/user-story-writer` to your workflow |
-| 3. Ship something | Go from idea → PRD → working MVP |
-
-**Skills included:**
-- `/prd-generator` — generates a structured PRD from a feature description
-- `/user-story-writer` — converts rough ideas into user stories with acceptance criteria
-
-**Files:**
-- [module-1/README.md](module-1/README.md) — setup guide and assignments
-- [module-1/CLAUDE-template.md](module-1/CLAUDE-template.md) — starter template
-- [module-1/.claude/skills/](module-1/.claude/skills/prd-generator/SKILL.md) — skill files
-
----
-
-### [Module 2: How the Web Works — and How to Read Code You Didn't Write](module-2/README.md)
-
-Learn what frontend, backend, and AI backend actually mean, build a custom skill that reads GitHub repos, set up Brave MCP for live browsing, and use it all to understand a real codebase.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 1. Build `/explain-me-a-repo` | Write a skill that uses Brave MCP to read and summarize any GitHub repo |
-| 2. Set up Brave MCP | Connect Claude Code to a live browser |
-| 3. Use it on a real codebase | Run the skill on a repo you care about |
-
-**Skills & commands included:**
-- `/explain-me-a-repo` — navigates to a GitHub URL and produces a structured repo write-up
-- `/youtube-deepdive` — visits YouTube URLs and produces a highlight report with timestamps and top comments
-- `/youtube-researcher` — searches YouTube on any topic and returns a ranked list of videos with a top-pick recommendation
-
-**Files:**
-- [module-2/README.md](module-2/README.md) — assignment guide
-- [module-2/CLAUDE-template.md](module-2/CLAUDE-template.md) — starter template
-- [module-2/demo/index.html](module-2/demo/index.html) — frontend/backend/AI backend live demo
-- [module-2/.claude/skills/explain-me-a-repo/SKILL.md](module-2/.claude/skills/explain-me-a-repo/SKILL.md)
-
----
-
-### [Module 3: Sub-Agents — Your Team of Specialists](module-3/README.md)
-
-Learn what sub-agents are, when to use them vs. skills, and build a library of 5 specialist agents. Culminates in a three-stage automated pipeline: competitor research → PRD → spec review — in one prompt.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 3a. Build `research-agent` | Web search specialist that returns clean structured findings |
-| 3b. Build `prd-reviewer` | Reads any PRD and returns risks, edge cases, and scope creep flag |
-| 3c. Build a pipeline | Chain research-agent → write PRD → prd-reviewer in a single prompt |
-| 3d. Build `code-reviewer` | Read-only code audit for security and logic errors |
-| 3e. Add `data-analyst` + `copy-writer` (optional) | Complete your specialist library |
-
-**Agents included:**
-- `research-agent` — Opus + web search, structured findings
-- `prd-reviewer` — Sonnet, reads and audits any PRD
-- `code-reviewer` — Sonnet, read-only security and logic review
-- `data-analyst` — Sonnet, stats and anomaly detection from data files
-- `copy-writer` — Haiku, fast in-app copy with 3 tone options
-- `deck-builder` — Sonnet, researches a topic and produces a McKinsey-style deck for non-technical audiences
-
-**Files:**
-- [module-3/README.md](module-3/README.md) — assignment guide
-- [module-3/.claude/agents/](module-3/.claude/agents/research-agent.md) — all agent files
-
----
-
-### [Module 4: Ship It — Evaluate, Deploy, and Own the Full Loop](module-4/README.md)
-
-Write evals for your skills, deploy your app to a live URL, and learn how to convert a Claude Code Skills pipeline into a production server using the Anthropic API directly.
-
-| Assignment | What you'll do |
-|-----------|---------------|
-| 4a. Write evals | Build a ground truth table and run `/skill-evaluator` until you hit 8/10 |
-| 4b. Deploy to Vercel | Get your app to a live URL in 5 commands |
-| 4c. Skills in production | Convert a Claude Code pipeline into a Python/FastAPI app using the Anthropic SDK |
-
-**Skills included:**
-- `/skill-evaluator` — scores a Skill's output against ground truth, identifies failure patterns
-- `/deploy-checklist` — runs pre-deploy checks before pushing to Vercel or Fly.io
-
-**Demo app:**
-- `MeetingMemo` — converts raw meeting notes into a structured standup update; built live in class in 30 minutes
-
-**Files:**
-- [module-4/README.md](module-4/README.md) — assignment guide
-- [module-4/CLAUDE-template.md](module-4/CLAUDE-template.md) — starter template for deploy-ready projects
-- [module-4/code-reference.md](module-4/code-reference.md) — all code from the slides in one place
-- [module-4/.claude/skills/](module-4/.claude/skills/) — skill files
+| Topic | What you'll learn | Files |
+|-------|------------------|-------|
+| Setup & Your First Skill | Install Claude Code, write `CLAUDE.md`, run your first skill, ship an MVP | [demos/meeting-notes-summarizer/](demos/meeting-notes-summarizer/) |
+| How the Web Works | Frontend, backend, and AI backend explained visually; read code you didn't write; set up Brave MCP | [demos/youtube-demo/](demos/youtube-demo/) |
+| [Skills: Reusable Prompts](demos/skill-sub-multi-agent/README.md) | What a skill really is (a `.md` file), how skills differ from sub-agents, 4-level interactive visualization | [demos/skill-sub-multi-agent/](demos/skill-sub-multi-agent/) |
+| Sub-Agents & Pipelines | Build a library of specialist agents; chain them into a research → PRD → review pipeline | [.claude/agents/](.claude/agents/) |
+| [Multi-Agent Architectures](demos/skill-sub-multi-agent/README.md) | Parallel agents, orchestrators, fan-out/fan-in patterns with Python code | [demos/skill-sub-multi-agent/](demos/skill-sub-multi-agent/) |
+| Evals, Deploy & Production | Score your skills against ground truth, deploy to Vercel, convert a pipeline to a FastAPI app | [demos/meetingmemo/](demos/meetingmemo/) |
+| [Competitor Research Workshop](demos/ai-agent-workshop/) | End-to-end capstone: research a competitor space using sub-agents | [demos/ai-agent-workshop/](demos/ai-agent-workshop/) |
 
 ---
 
@@ -532,13 +449,13 @@ claude --version
 ### Step 3 — Start Claude Code
 
 ```bash
-cd claude-code-starter/module-1
+cd claude-code-starter
 claude
 ```
 
 ![Claude Code running in terminal](https://raw.githubusercontent.com/anthropics/claude-code/main/demo.gif)
 
-You're in. Head to [module-1/README.md](module-1/README.md) for your first assignment.
+You're in. Explore `demos/` for apps, `.claude/skills/` for skills, and `.claude/agents/` for agents.
 
 ---
 
