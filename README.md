@@ -78,6 +78,10 @@ All course code, templates, skills, and commands live here. Come back here whene
 | Demo apps | `demos/<name>/` |
 | Community resources | [`docs/resources.md`](docs/resources.md) |
 
+<p align="center">
+  <img src="images/repo-mindmap.png" alt="claude-code-starter repo mind map" width="720">
+</p>
+
 ---
 
 ## 🛠️ Try These Full-Stack Applications Today
