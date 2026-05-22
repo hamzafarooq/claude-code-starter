@@ -6,6 +6,7 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 
 [![Free Course](https://img.shields.io/badge/Free%20Course-Traversaal%20Academy-brightgreen?style=for-the-badge)](https://traversaal.ai/academy/courses/claude-code-in-practice)
 [![Maven Course](https://img.shields.io/badge/Maven-Live%20Cohorts-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
+[![Book](https://img.shields.io/badge/Free%20Book-Practitioner's%20Guide-yellow?style=for-the-badge)](https://traversaal.ai/academy/books/claude-code-a-practitioners-approach)
 [![Apps Built](https://img.shields.io/badge/Apps%20Built-6-orange?style=for-the-badge)](#-try-these-full-stack-applications-today)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://traversaal.ai/academy/courses/claude-code-in-practice)
@@ -14,11 +15,12 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 >
 > ⭐ **#1 Highest Rated Claude Course on Maven**
 
-**Two ways to take this course:**
+**Three ways to learn:**
 | | What you get |
 |--|--|
-| 🆓 [**Free self-paced**](https://traversaal.ai/academy/courses/claude-code-in-practice) — Traversaal Academy | 15 chapters, video walkthroughs, all exercises. Go at your own pace. |
+| 🆓 [**Free self-paced course**](https://traversaal.ai/academy/courses/claude-code-in-practice) — Traversaal Academy | 15 chapters, video walkthroughs, all exercises. Go at your own pace. |
 | 🎓 [**Live cohort**](https://maven.com/boring-bot/claude-code-in-practice) — Maven | Weekly sessions, live Q&A with Hamza, cohort community. |
+| 📖 [**Free book**](https://traversaal.ai/academy/books/claude-code-a-practitioners-approach) — Claude Code: A Practitioner's Approach | In-depth practitioner guide — read alongside the course. |
 
 [![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-24%20at%2015.52.23.png)](https://maven.com/boring-bot/claude-code-in-practice)
 
