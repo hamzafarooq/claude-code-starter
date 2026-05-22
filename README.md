@@ -7,7 +7,7 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 [![Free Course](https://img.shields.io/badge/Free%20Course-Traversaal%20Academy-brightgreen?style=for-the-badge)](https://traversaal.ai/academy/courses/claude-code-in-practice)
 [![Maven Course](https://img.shields.io/badge/Maven-Live%20Cohorts-blue?style=for-the-badge)](https://maven.com/boring-bot/claude-code-in-practice)
 [![Book](https://img.shields.io/badge/Free%20Book-Practitioner's%20Guide-yellow?style=for-the-badge)](https://traversaal.ai/academy/books/claude-code-a-practitioners-approach)
-[![Apps Built](https://img.shields.io/badge/Apps%20Built-6-orange?style=for-the-badge)](#-try-these-full-stack-applications-today)
+[![Projects](https://img.shields.io/badge/Projects-13-orange?style=for-the-badge)](#%EF%B8%8F-projects)
 [![Status](https://img.shields.io/badge/Status-Active%20Cohorts-success?style=for-the-badge)](#)
 [![Instructor](https://img.shields.io/badge/Instructor-Hamza%20Farooq-purple?style=for-the-badge)](https://traversaal.ai/academy/courses/claude-code-in-practice)
 
@@ -94,20 +94,27 @@ All course code, templates, skills, and commands live here. Come back here whene
 
 ---
 
-## 🛠️ Try These Full-Stack Applications Today
+## 🛠️ Projects
 
 Real apps built live in class using Claude Code — no engineering team. Fork them, break them, learn from them.
 
-| App | What it does |
-|-----|-------------|
-| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human — sits inside Word as a sidebar, rewrites one paragraph at a time, and shows exactly what patterns were removed |
-| [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic, finds images, and produces a finished SEO article in Markdown, HTML, and DOCX — learns from your existing articles to match your voice |
-| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile against profiles you admire and produces a 90-day content plan — all from a single command in Claude Code |
-| [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a reference URL and answer 3 questions — it generates a full spec (PRD, user stories, API contracts) and a working app using parallel sub-agents for backend, frontend, and QA. MVP scope ships in 10–20 minutes |
-| [how-the-web-works](demos/full-stack-demo/index.html) | Interactive visual explainer — shows exactly how frontend, backend, and AI backend talk to each other with live animated request/response flows. Open it in a browser, no install needed |
-| [meetingmemo](demos/meetingmemo/) | Converts raw meeting notes into a structured standup update — built live in class in 30 minutes. Next.js + Anthropic API. The simplest possible example of a Claude API call in production |
+| Project | What it does | Where |
+|---------|-------------|-------|
+| [royal-pop-website](demos/royal-pop-website/) | Scroll-driven product landing page built from a 15-second video — GSAP timelines, Lenis smooth scroll, frame-by-frame canvas playback | In repo |
+| [skill-sub-multi-agent](demos/skill-sub-multi-agent/) | Interactive 4-level visualization showing how skills, sub-agents, and multi-agent pipelines work — Next.js | In repo |
+| [meetingmemo](demos/meetingmemo/) | Converts raw meeting notes into a structured standup update — Next.js + Anthropic API | In repo |
+| [meeting-notes-summarizer](demos/meeting-notes-summarizer/) | Summarizes meeting notes into action items — Node.js + Express | In repo |
+| [competitor-research-agent](demos/competitor-research-agent/) | End-to-end competitor research using sub-agents (pricing-fetcher + review-miner) | In repo |
+| [research-agent](demos/research-agent/) | Claude Code agent for deep competitive landscape research with MCP | In repo |
+| [research-frontend](demos/research-frontend/) | Chat UI teaching LLM modes: tools, memory, RAG, and long-term storage | In repo |
+| [full-stack-demo](demos/full-stack-demo/) | Interactive visual explainer — how frontend, backend, and AI backend talk to each other | In repo |
+| [prd-generator](demos/prd-generator/) | Single-page PRD generator app | In repo |
+| [word-humanizer](https://github.com/hamzafarooq/word-humanizer/) | Word add-in that rewrites AI-generated paragraphs to sound human | GitHub |
+| [seo-writer](https://github.com/hamzafarooq/seo-writer) | AI agent that researches a topic and produces a finished SEO article in Markdown, HTML, and DOCX | GitHub |
+| [linkedin-growth](https://github.com/hamzafarooq/linkedin-growth) | Audits your LinkedIn profile and produces a 90-day content plan | GitHub |
+| [sprint-zero](https://github.com/yousuf-labs/sprint-zero) | Give it a URL and 3 questions — ships a full spec + working app using parallel sub-agents in 10–20 min | GitHub |
 
-More apps get added as the course runs. See also the [**Royal Pop**](demos/royal-pop-website/) featured project above.
+More projects get added as the course runs.
 
 ---
 
@@ -365,12 +372,12 @@ If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. 
 
 ## ⚡ Install the PM Skill Pack (npx)
 
-Get all 28 PM-focused Claude Code skills in one command — no cloning required.
+Get all 34 PM-focused Claude Code skills in one command — no cloning required.
 
 **Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
 
 ```bash
-# Install all 28 skills globally (~/.claude/skills/)
+# Install all 34 skills globally (~/.claude/skills/)
 npx github:hamzafarooq/claude-code-starter@main --global
 
 # Install only specific skills
