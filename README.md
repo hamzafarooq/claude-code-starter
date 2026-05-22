@@ -20,9 +20,17 @@ Build production apps, write PRDs with AI, and go from idea to deployed product 
 |--|--|
 | 🆓 [**Free self-paced course**](https://traversaal.ai/academy/courses/claude-code-in-practice) — Traversaal Academy | 15 chapters, video walkthroughs, all exercises. Go at your own pace. |
 | 🎓 [**Live cohort**](https://maven.com/boring-bot/claude-code-in-practice) — Maven | Weekly sessions, live Q&A with Hamza, cohort community. |
-| 📖 [**Free book**](https://traversaal.ai/academy/books/claude-code-a-practitioners-approach) — Claude Code: A Practitioner's Approach | In-depth practitioner guide — read alongside the course. |
+| 📖 [**Free book**](https://traversaal.ai/academy/books/claude-code-a-practitioners-approach) — Claude Code: A Practitioner's Approach | Real examples. Practical workflows. Better software. By Hamza Farooq, Amina Javaid & Ali Shafique. |
 
-[![Enroll in Claude Code in Practice on Maven](images/Screenshot%202026-04-24%20at%2015.52.23.png)](https://maven.com/boring-bot/claude-code-in-practice)
+<p align="center">
+  <a href="https://traversaal.ai/academy/books/claude-code-a-practitioners-approach">
+    <img src="images/book-cover.png" alt="Claude Code: A Practitioner's Approach — book cover" width="200">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://maven.com/boring-bot/claude-code-in-practice">
+    <img src="images/Screenshot%202026-04-24%20at%2015.52.23.png" alt="Enroll in Claude Code in Practice on Maven" width="480">
+  </a>
+</p>
 
 ---
 
