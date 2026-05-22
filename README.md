@@ -130,7 +130,7 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 To install a skill in your own project, copy both the `skills/<name>/` folder and the matching `commands/<name>.md` file into your project's `.claude/` directory.
 
-**34 skills across 7 categories.** Click any skill name to open its SKILL.md file.
+**35 skills across 7 categories.** Click any skill name to open its SKILL.md file.
 
 ---
 
@@ -197,6 +197,7 @@ To install a skill in your own project, copy both the `skills/<name>/` folder an
 | Skill | Command | What it does |
 |-------|---------|-------------|
 | [Slides Builder](.claude/skills/slides-builder/SKILL.md) | `/slides-builder` | Generates a complete self-contained HTML slide deck — McKinsey-style, one insight per slide |
+| [Frontend Slides](.claude/skills/frontend-slides/SKILL.md) | `/frontend-slides` | Builds animation-rich single-file HTML presentations — shows 3 style previews first, supports .pptx conversion |
 | [Exec Summary](.claude/skills/exec-summary/SKILL.md) | `/exec-summary` | Rewrites any document as a 3-bullet executive summary — optimized for a VP with 30 seconds |
 | [Proposal Writer](.claude/skills/proposal-writer/SKILL.md) | `/proposal-writer` | Writes a structured proposal: problem, solution, timeline, investment, and next steps |
 
