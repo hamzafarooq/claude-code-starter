@@ -308,10 +308,10 @@ Both let Claude interact with a browser. Here's when to use each:
 | Assignment | What you'll do |
 |-----------|----------------|
 | **1a: Set up your CLAUDE.md** | Write your project context file — tells Claude who you are, what you're building, and how to work with you |
-| **1b: Install your skills** | Test `/prd-generator` and `/user-story-writer` on a real feature idea; read the SKILL.md to understand how it works |
+| **1b: Install your skills** | Test [`/prd-generator`](.claude/skills/prd-generator/SKILL.md) and [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md) on a real feature idea; read the SKILL.md to understand how it works |
 | **1c (Bonus): Idea → PRD → MVP** | Take a real product idea through the full workflow: generate a PRD, write user stories, build the MVP with Claude Code |
 
-**Skills used:** `/prd-generator`, `/user-story-writer`
+**Skills used:** [`/prd-generator`](.claude/skills/prd-generator/SKILL.md), [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md)
 
 ---
 
@@ -319,11 +319,11 @@ Both let Claude interact with a browser. Here's when to use each:
 
 | Assignment | What you'll do |
 |-----------|----------------|
-| **2a: Build your first custom skill** | Write the `/explain-me-a-repo` skill from scratch — a skill that reads a GitHub URL and returns a full repo briefing |
+| **2a: Build your first custom skill** | Write the [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md) skill from scratch — a skill that reads a GitHub URL and returns a full repo briefing |
 | **2b: Set up Brave MCP** | Install and register Brave MCP so Claude can browse live pages; verify with a real repo URL |
 | **2c: Use `/explain-me-a-repo` on a real repo** | Run the skill on a repo Claude has never seen; compare the output with and without MCP |
 
-**Skills used:** `/explain-me-a-repo`, `/youtube-deepdive`, `/youtube-researcher`
+**Skills used:** [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md), [`/youtube-deepdive`](.claude/skills/youtube-deepdive/SKILL.md), [`/youtube-researcher`](.claude/skills/youtube-researcher/SKILL.md)
 
 ---
 
@@ -331,14 +331,14 @@ Both let Claude interact with a browser. Here's when to use each:
 
 | Assignment | What you'll do |
 |-----------|----------------|
-| **3a: Build your research-agent** | Create a `research-agent` sub-agent that searches the web and returns structured findings with sources |
-| **3b: Build your prd-reviewer** | Create a `prd-reviewer` that reads any PRD and returns exactly 3 risks, 3 edge cases, 1 scope creep flag |
+| **3a: Build your research-agent** | Create a [`research-agent`](.claude/agents/research-agent.md) sub-agent that searches the web and returns structured findings with sources |
+| **3b: Build your prd-reviewer** | Create a [`prd-reviewer`](.claude/agents/prd-reviewer.md) that reads any PRD and returns exactly 3 risks, 3 edge cases, 1 scope creep flag |
 | **3c: Build a sub-agent pipeline** | Chain research → PRD → review in one prompt: competitor research to reviewed spec in 3–5 minutes |
-| **3d: Add your code-reviewer** | Create a read-only `code-reviewer` sub-agent to audit code before committing or sharing with engineering |
-| **3e: Add remaining agents (optional)** | Add `data-analyst` and `copy-writer` to your agent team |
+| **3d: Add your code-reviewer** | Create a read-only [`code-reviewer`](.claude/agents/code-reviewer.md) sub-agent to audit code before committing or sharing with engineering |
+| **3e: Add remaining agents (optional)** | Add [`data-analyst`](.claude/agents/data-analyst.md) and [`copy-writer`](.claude/agents/copy-writer.md) to your agent team |
 | **3f (Bonus): Design your agent team blueprint** | Map out your ideal agent team for your actual job — what agents would save you the most time? |
 
-**Agents used:** `research-agent`, `prd-reviewer`, `code-reviewer`, `data-analyst`, `copy-writer`
+**Agents used:** [`research-agent`](.claude/agents/research-agent.md), [`prd-reviewer`](.claude/agents/prd-reviewer.md), [`code-reviewer`](.claude/agents/code-reviewer.md), [`data-analyst`](.claude/agents/data-analyst.md), [`copy-writer`](.claude/agents/copy-writer.md)
 
 ---
 
@@ -346,11 +346,11 @@ Both let Claude interact with a browser. Here's when to use each:
 
 | Assignment | What you'll do |
 |-----------|----------------|
-| **4a: Write evals for your Skill** | Score your skill against ground truth using `/skill-evaluator` — know it works before you ship it |
-| **4b: Deploy to Vercel** | Get your product to a live URL using `vercel --prod` |
+| **4a: Write evals for your Skill** | Score your skill against ground truth using [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md) — know it works before you ship it |
+| **4b: Deploy to Vercel** | Get your product to a live URL using `vercel --prod` — see the [Deploy to Vercel](#-deploy-to-vercel) section |
 | **4c: Skills in Production** | Convert your Claude Code skill pipeline into a FastAPI app that runs on a server |
 
-**Skills used:** `/skill-evaluator`, `/deploy-checklist`
+**Skills used:** [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md), [`/deploy-checklist`](.claude/skills/deploy-checklist/SKILL.md)
 
 ---
 
