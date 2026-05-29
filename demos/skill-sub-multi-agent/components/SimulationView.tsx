@@ -60,13 +60,17 @@ function NodeDetailModal({ agent, onClose }: { agent: AgentDef; onClose: () => v
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ width: 480, maxHeight: '80vh', overflowY: 'auto', background: 'rgba(26,24,21,0.97)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, padding: '24px 28px 28px', boxShadow: '0 24px 60px -10px rgba(0,0,0,0.7)', animation: 'tipfade 160ms ease both' }}
+        style={{ width: 480, maxHeight: '82vh', display: 'flex', flexDirection: 'column', background: 'rgba(26,24,21,0.97)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 6, boxShadow: '0 24px 60px -10px rgba(0,0,0,0.7)', animation: 'tipfade 160ms ease both', overflow: 'hidden' }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+        {/* Sticky header — never scrolls away */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px 14px', flexShrink: 0, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <span style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}>{roleLabel[agent.role] ?? 'Agent'} · {agent.name}</span>
           <button onClick={onClose} style={{ appearance: 'none', background: 'transparent', border: 0, cursor: 'pointer', color: 'rgba(255,255,255,0.45)', fontSize: 18, lineHeight: 1, padding: '0 2px' }}>×</button>
         </div>
-        <div>{agent.detail ? renderMd(agent.detail) : <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{agent.brief}</p>}</div>
+        {/* Scrollable body — padding lives here so bottom padding is always reachable */}
+        <div style={{ overflowY: 'auto', padding: '20px 28px 32px', flex: 1 }}>
+          {agent.detail ? renderMd(agent.detail) : <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{agent.brief}</p>}
+        </div>
       </div>
     </div>
   );

@@ -655,4 +655,545 @@ The complexity is in the architecture — the pipeline that feeds this agent. Th
       },
     ],
   },
+
+  /* ──────────────────────────── LEVEL 4 ──────────────────────────── */
+  {
+    id: 4,
+    name: 'Production Agent',
+    tagline: 'Agentic loop · hooks · MCP tools',
+    description:
+      'This is what a real agent looks like in production. Every outgoing tool call passes through a PreToolUse hook (intercept before execution) and every result passes through a PostToolUse hook (normalise before the model sees it). The loop runs until stop_reason is "end_turn" — the model decides when it is done.',
+    analogy:
+      'Like a support rep whose actions pass through two checkpoints: one before they act (is this allowed?) and one after the system responds (is this data clean?). The loop keeps running until the case is resolved.',
+    explanation:
+      'Four things separate a production agent from a demo: (1) the loop is driven by stop_reason, not a fixed counter; (2) a PreToolUse hook intercepts every outgoing call — it can block, redirect, or log before execution; (3) a PostToolUse hook normalises every result before the model processes it — format cleanup, policy enforcement, data enrichment; (4) programmatic gates in code (not prompts) enforce tool ordering for safety-critical sequences.',
+    code: `import anthropic
+
+client = anthropic.Anthropic()
+verified_customer_id: str | None = None
+
+# ── PreToolUse hook — fires BEFORE a tool executes ────────────
+def pre_tool_use(tool_name: str, tool_input: dict) -> dict | None:
+    """Return None to allow. Return a result dict to block and short-circuit."""
+
+    # Gate: block order/refund ops until identity is verified
+    if tool_name in ("lookup_order", "process_refund"):
+        if not verified_customer_id:
+            return {                          # ← blocked, tool never runs
+                "isError": True,
+                "errorCategory": "validation",
+                "isRetryable": False,
+                "content": "Call get_customer first"
+            }
+
+    # Rate-limit: block refunds above $500 before the tool even executes
+    if tool_name == "process_refund":
+        if tool_input.get("amount", 0) > 500:
+            return {                          # ← blocked, escalate instead
+                "isError": True,
+                "errorCategory": "permission",
+                "content": "Exceeds $500 limit — use escalate_to_human"
+            }
+
+    return None  # allowed — proceed to tool execution
+
+# ── PostToolUse hook — fires AFTER a tool returns ────────────
+def post_tool_use(tool_name: str, result: dict) -> dict:
+    """Normalise and enrich the result before the model sees it."""
+
+    # Normalise Unix timestamps → ISO 8601
+    for key in ("created_at", "last_login", "updated_at"):
+        if key in result and isinstance(result[key], int):
+            result[key] = to_iso8601(result[key])
+
+    return result
+
+# ── Tool execution with both hooks ────────────────────────────
+def run_tool(name: str, inputs: dict) -> tuple[dict, bool]:
+    global verified_customer_id
+
+    blocked = pre_tool_use(name, inputs)   # PreToolUse fires first
+    if blocked:
+        return blocked, True               # short-circuited
+
+    raw = execute_tool(name, inputs)       # tool actually runs
+
+    if name == "get_customer" and not raw.get("isError"):
+        verified_customer_id = raw["customer_id"]
+
+    return post_tool_use(name, raw), raw.get("isError", False)
+
+# ── The agentic loop ──────────────────────────────────────────
+messages = [{"role": "user", "content": "Refund order #4421 — $89.99"}]
+
+while True:
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        tools=TOOLS,
+        messages=messages,
+    )
+
+    if response.stop_reason == "end_turn":   # model decided it is done
+        print(response.content[0].text)
+        break
+
+    if response.stop_reason == "tool_use":
+        messages.append({"role": "assistant", "content": response.content})
+        tool_results = []
+        for block in response.content:
+            if block.type == "tool_use":
+                result, is_error = run_tool(block.name, block.input)
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": str(result),
+                    **({"is_error": True} if is_error else {})
+                })
+        messages.append({"role": "user", "content": tool_results})`,
+    agents: [
+      // Row 1 — customer
+      {
+        id: 'customer',
+        name: 'Customer',
+        role: 'human',
+        x: 275,
+        y: 5,
+        sublabel: 'human',
+        brief: 'Sends a plain-language support request. The agent handles everything — verification, lookup, refund, or escalation.',
+        detail: `## Customer
+
+The only input to the system: a natural-language message. The agent does not know in advance whether this will take 1 tool call or 4.
+
+### What the customer never sees
+- The PreToolUse hook checking each call before execution
+- The PostToolUse hook normalising every result
+- The programmatic gate blocking order ops until identity is verified
+
+They see one thing: a resolved case or a human on the line.`,
+      },
+
+      // Row 2 — agent alone (center)
+      {
+        id: 'pre_hook',
+        name: 'PreToolUse',
+        role: 'merge',
+        x: 80,
+        y: 202,
+        sublabel: 'hook · fires before tool',
+        brief:
+          'Fires before every tool executes. Can block the call entirely (returns a result without running the tool), redirect it, or log it. This is where programmatic gates and policy enforcement live.',
+        detail: `## PreToolUse Hook
+
+Fires before a tool executes — the tool may never run at all.
+
+\`\`\`python
+def pre_tool_use(tool_name: str, inputs: dict) -> dict | None:
+    # Return None  → allow (tool runs normally)
+    # Return dict  → block (tool is skipped, dict is the result)
+
+    if tool_name in ("lookup_order", "process_refund"):
+        if not verified_customer_id:
+            return {"isError": True,
+                    "content": "Call get_customer first"}
+
+    if tool_name == "process_refund":
+        if inputs.get("amount", 0) > 500:
+            return {"isError": True,
+                    "content": "Exceeds $500 — use escalate_to_human"}
+
+    return None  # allowed
+\`\`\`
+
+### PreToolUse vs prompt instructions
+A prompt saying "always verify identity first" fails in ~12% of production cases. The PreToolUse hook makes the gate deterministic — the tool physically cannot run until the condition is met.
+
+### Other uses
+- Rate limiting: count calls per session, block if over threshold
+- Audit logging: record every outgoing call with its inputs
+- Input sanitisation: strip PII from tool arguments before they leave your system`,
+      },
+      {
+        id: 'agent',
+        name: 'Support Agent',
+        role: 'orch',
+        x: 275,
+        y: 98,
+        sublabel: 'loop · stop_reason',
+        brief:
+          'Runs the agentic loop. Sends tool calls through the PreToolUse hook, receives normalised results back from the PostToolUse hook. Stops when stop_reason is "end_turn" — never on a fixed counter.',
+        detail: `## The Agentic Loop
+
+\`\`\`python
+while True:
+    response = client.messages.create(
+        model="claude-opus-4-7",
+        tools=TOOLS,
+        messages=messages,
+    )
+
+    if response.stop_reason == "end_turn":
+        break                    # model decided it is done
+
+    if response.stop_reason == "tool_use":
+        messages.append({"role": "assistant",
+                          "content": response.content})
+        tool_results = []
+        for block in response.content:
+            if block.type == "tool_use":
+                result, is_error = run_tool(block.name,
+                                            block.input)
+                tool_results.append({
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": str(result),
+                    **({"is_error": True} if is_error else {})
+                })
+        messages.append({"role": "user",
+                          "content": tool_results})
+\`\`\`
+
+### Why stop_reason beats a counter
+A fixed \`for _ in range(5)\` caps the loop arbitrarily. A simple case closes in 2 iterations; a complex one may need 6. Using \`"end_turn"\` means the model decides when the work is complete — not your config.
+
+### What the agent sees between iterations
+Every tool result (already normalised by PostToolUse) is appended to conversation history. The next decision is informed by everything that happened so far.`,
+      },
+      {
+        id: 'post_hook',
+        name: 'PostToolUse',
+        role: 'merge',
+        x: 470,
+        y: 202,
+        sublabel: 'hook · fires after tool',
+        brief:
+          'Fires after a tool returns, before the model sees the result. Normalises formats (Unix → ISO 8601), enriches data (account tier, policy flags), and logs every result for observability.',
+        detail: `## PostToolUse Hook
+
+Fires after a tool returns but before the model processes the result.
+
+\`\`\`python
+def post_tool_use(tool_name: str, result: dict) -> dict:
+    # Normalise Unix timestamps → ISO 8601
+    for key in ("created_at", "last_login", "updated_at"):
+        if key in result and isinstance(result[key], int):
+            result[key] = to_iso8601(result[key])
+
+    # Trim verbose fields the model does not need
+    if tool_name == "lookup_order":
+        result = {k: result[k] for k in
+                  ("order_id","status","amount","date")
+                  if k in result}
+
+    return result
+\`\`\`
+
+### PostToolUse vs prompt instructions
+Prompt: "always convert timestamps to ISO 8601" — probabilistic.
+Hook: converts every timestamp, every time, deterministically.
+
+### Three jobs for PostToolUse
+1. **Normalise**: consistent formats so the model never sees raw Unix timestamps, numeric status codes, or locale-specific currency
+2. **Trim**: strip 40-field order responses down to 5 relevant fields before they fill up the context window
+3. **Enrich**: add data the tool did not return — account tier, policy flags, cached metadata`,
+      },
+
+      // Row 3 — MCP tools (even spacing: 5, 185, 365, 545)
+      {
+        id: 'get_customer',
+        name: 'get_customer',
+        role: 'sub',
+        x: 5,
+        y: 322,
+        sublabel: 'MCP tool · step 1',
+        brief:
+          'Looks up the customer record. Returns a verified customer_id. The PreToolUse hook gates all downstream tools until this completes successfully.',
+        detail: `## MCP Tool — get_customer
+
+\`\`\`python
+{
+  "name": "get_customer",
+  "description": "Look up a verified customer record by email
+    or phone. Must be called before lookup_order or
+    process_refund — the PreToolUse hook enforces this.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "identifier": { "type": "string" }
+    },
+    "required": ["identifier"]
+  }
+}
+\`\`\`
+
+### Structured error responses
+MCP tools should return typed errors, not strings:
+
+\`\`\`python
+# Bad
+return {"error": "not found"}
+
+# Good — agent can decide what to do
+return {
+  "isError": True,
+  "errorCategory": "validation",
+  "isRetryable": False,
+  "content": "No customer found for identifier"
+}
+\`\`\`
+
+Types: \`transient\` (retry), \`validation\` (bad input), \`permission\` (escalate).`,
+      },
+      {
+        id: 'lookup_order',
+        name: 'lookup_order',
+        role: 'sub',
+        x: 185,
+        y: 322,
+        sublabel: 'MCP tool · step 2',
+        brief:
+          'Fetches order details. Gated by PreToolUse — only runs after a verified customer_id exists. PostToolUse trims the 40-field response to 5 relevant fields.',
+        detail: `## MCP Tool — lookup_order
+
+Returns order status, amount, fulfilment date, and line items.
+
+### Context window hygiene
+Raw order responses can have 40+ fields. The PostToolUse hook trims to only what the agent needs:
+
+\`\`\`python
+# PostToolUse trims before the model sees it
+KEEP = {"order_id", "status", "amount", "date", "items"}
+result = {k: v for k, v in raw.items() if k in KEEP}
+\`\`\`
+
+A 40-field response accumulates fast across multiple tool calls. Trimming in PostToolUse keeps context clean without changing the tool itself.`,
+      },
+      {
+        id: 'process_refund',
+        name: 'process_refund',
+        role: 'sub',
+        x: 365,
+        y: 322,
+        sublabel: 'MCP tool · step 3',
+        brief:
+          'Issues a refund. The PreToolUse hook blocks calls above $500 before the tool ever runs — the backend never sees a policy-violating request.',
+        detail: `## MCP Tool — process_refund
+
+### The full hook sequence for this tool
+
+\`\`\`
+Agent sends: process_refund(amount=89.99)
+         ↓
+PreToolUse: amount > 500? No → ALLOW
+         ↓
+Tool executes → returns {status: "approved", refund_id: ...}
+         ↓
+PostToolUse: normalise timestamps, trim verbose fields
+         ↓
+Agent receives clean result
+\`\`\`
+
+If the amount were $600:
+\`\`\`
+PreToolUse: amount > 500? Yes → BLOCK
+         ↓
+Returns: {isError: true, content: "use escalate_to_human"}
+         ↓
+Tool never executes. Backend never sees the request.
+\`\`\`
+
+Pre-hook blocking is safer than post-hook interception for financial operations — the transaction never initiates.`,
+      },
+      {
+        id: 'escalate',
+        name: 'escalate_to_human',
+        role: 'sub',
+        x: 545,
+        y: 322,
+        sublabel: 'MCP tool · fallback',
+        brief:
+          'Transfers the case to a human with a structured handoff. Called when the customer requests a human, refund exceeds limits, policy is ambiguous, or no progress after 2 attempts.',
+        detail: `## MCP Tool — escalate_to_human
+
+### Explicit escalation criteria (in the system prompt)
+1. Customer explicitly requests a human — honour immediately
+2. Refund exceeds $500 — PreToolUse blocks process_refund, agent must escalate
+3. Policy is ambiguous or silent on the specific request
+4. No meaningful progress after 2 tool attempts
+
+### Structured handoff
+The human agent has no conversation transcript. The handoff must be self-contained:
+
+\`\`\`python
+escalate_to_human(
+    customer_id = "CUST-9821",
+    reason      = "refund_exceeds_limit",
+    summary     = "Order #4421 · $89.99 · customer requests "
+                  "refund · approved under policy · "
+                  "recommended: approve"
+)
+\`\`\`
+
+### Why explicit criteria beat confidence scores
+Self-reported confidence is a feeling, not a condition. "Policy is silent on competitor price matching" is a condition. Escalation triggers should be specific and testable.`,
+      },
+    ],
+    connections: [
+      // customer → agent
+      { from: 'customer', to: 'agent' },
+      // agent sends calls through pre-hook
+      { from: 'agent', to: 'pre_hook' },
+      // pre-hook forwards (or blocks) to tools
+      { from: 'pre_hook', to: 'get_customer' },
+      { from: 'pre_hook', to: 'lookup_order' },
+      { from: 'pre_hook', to: 'process_refund' },
+      { from: 'pre_hook', to: 'escalate' },
+      // tools return through post-hook
+      { from: 'get_customer', to: 'post_hook' },
+      { from: 'lookup_order', to: 'post_hook' },
+      { from: 'process_refund', to: 'post_hook' },
+      { from: 'escalate', to: 'post_hook' },
+      // post-hook returns normalised result to agent
+      { from: 'post_hook', to: 'agent' },
+    ],
+    steps: [
+      { agentId: 'customer', status: 'thinking', delay: 300 },
+      {
+        agentId: 'customer',
+        status: 'done',
+        delay: 700,
+        output: 'Refund order #4421\nI was charged $89.99 — item never arrived.',
+      },
+      { agentId: 'agent', status: 'thinking', delay: 500 },
+
+      // ── Iteration 1: get_customer ──
+      { agentId: 'pre_hook', status: 'thinking', delay: 800 },
+      {
+        agentId: 'pre_hook',
+        status: 'done',
+        delay: 550,
+        output:
+          'PreToolUse — get_customer\n' +
+          '───────────────────────────\n' +
+          'Check: first call, no gate active\n' +
+          'Decision: ALLOW → tool executes',
+      },
+      { agentId: 'get_customer', status: 'thinking', delay: 200 },
+      {
+        agentId: 'get_customer',
+        status: 'done',
+        delay: 1100,
+        output:
+          'customer_id  CUST-9821\n' +
+          'name         Jane Doe\n' +
+          'status       active\n' +
+          'created_at   1716624000\n' +
+          'last_login   1716537600',
+      },
+      { agentId: 'post_hook', status: 'thinking', delay: 200 },
+      {
+        agentId: 'post_hook',
+        status: 'done',
+        delay: 500,
+        output:
+          'PostToolUse — get_customer\n' +
+          '────────────────────────────\n' +
+          'created_at  → 2024-05-25T08:00:00Z\n' +
+          'last_login  → 2024-05-24T08:00:00Z\n' +
+          'Timestamps normalised. Gate unlocked.',
+      },
+
+      // ── Iteration 2: lookup_order ──
+      { agentId: 'agent', status: 'thinking', delay: 350 },
+      { agentId: 'pre_hook', status: 'thinking', delay: 600 },
+      {
+        agentId: 'pre_hook',
+        status: 'done',
+        delay: 500,
+        output:
+          'PreToolUse — lookup_order\n' +
+          '───────────────────────────\n' +
+          'Check: customer_id verified ✓\n' +
+          'Decision: ALLOW → tool executes',
+      },
+      { agentId: 'lookup_order', status: 'thinking', delay: 200 },
+      {
+        agentId: 'lookup_order',
+        status: 'done',
+        delay: 1000,
+        output:
+          'order_id  #4421\n' +
+          'status    delivered\n' +
+          'amount    89.99\n' +
+          'date      2024-05-20\n' +
+          'carrier   FedEx · tracking 7489...\n' +
+          'warehouse EAST-03 · picker JD44\n' +
+          '... 34 more fields',
+      },
+      { agentId: 'post_hook', status: 'thinking', delay: 200 },
+      {
+        agentId: 'post_hook',
+        status: 'done',
+        delay: 480,
+        output:
+          'PostToolUse — lookup_order\n' +
+          '────────────────────────────\n' +
+          'Trimmed 40 fields → 4 relevant\n' +
+          'Kept: order_id · status · amount · date\n' +
+          'Context saved: ~1,800 tokens',
+      },
+
+      // ── Iteration 3: process_refund ──
+      { agentId: 'agent', status: 'thinking', delay: 350 },
+      { agentId: 'pre_hook', status: 'thinking', delay: 600 },
+      {
+        agentId: 'pre_hook',
+        status: 'done',
+        delay: 500,
+        output:
+          'PreToolUse — process_refund\n' +
+          '────────────────────────────\n' +
+          'Check: amount $89.99 ≤ $500 ✓\n' +
+          'Decision: ALLOW → tool executes',
+      },
+      { agentId: 'process_refund', status: 'thinking', delay: 200 },
+      {
+        agentId: 'process_refund',
+        status: 'done',
+        delay: 900,
+        output:
+          'refund_id  REF-441\n' +
+          'amount     89.99\n' +
+          'status     approved\n' +
+          'processed  2024-05-25T09:14:00Z',
+      },
+      { agentId: 'post_hook', status: 'thinking', delay: 200 },
+      {
+        agentId: 'post_hook',
+        status: 'done',
+        delay: 480,
+        output:
+          'PostToolUse — process_refund\n' +
+          '──────────────────────────────\n' +
+          'processed  → 2024-05-25T09:14:00Z ✓\n' +
+          'Result clean. Returning to agent.',
+      },
+      {
+        agentId: 'agent',
+        status: 'done',
+        delay: 650,
+        output:
+          'stop_reason = "end_turn"\n' +
+          '──────────────────────────\n' +
+          'Hi Jane — refund of $89.99 approved.\n' +
+          'Refund ID: REF-441\n' +
+          'Arrives in 3–5 business days.\n' +
+          '\n' +
+          'Loop: 3 iterations · 3 pre-hook\n' +
+          'checks · 3 post-hook normalises\n' +
+          '0 blocks · 0 escalations',
+      },
+    ],
+  },
 ];

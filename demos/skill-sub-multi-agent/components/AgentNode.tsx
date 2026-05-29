@@ -112,6 +112,9 @@ export default function AgentNode({ agent, status, output, onHover, onLeave, onC
           color: 'var(--ink)',
           letterSpacing: '-0.005em',
           fontWeight: 400,
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
         }}
       >
         {agent.name}
@@ -125,6 +128,9 @@ export default function AgentNode({ agent, status, output, onHover, onLeave, onC
             color: 'var(--ink-3)',
             letterSpacing: '0.08em',
             marginTop: 2,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
           }}
         >
           {agent.sublabel}

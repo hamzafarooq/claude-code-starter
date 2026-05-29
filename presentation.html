@@ -3,812 +3,863 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organizing Claude Code — Skills, Memory, and the Long Haul</title>
+<title>From PMO Lead to AI Transformation Lead</title>
 <style>
-/* ── Reset ─────────────────────────────────────────────────── */
+/* ===== RESET & BASE ===== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; overflow: hidden; }
-body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #111;
-}
-
-/* ── Variables ──────────────────────────────────────────────── */
 :root {
-  --bg: #f0ede8;
-  --ink: #111111;
-  --red: #e62020;
-  --muted: #777;
-  --bar: 8px;
-  --pad: clamp(2.5rem, 6vw, 5.5rem);
+  --cyan: #00c8ff;
+  --purple: #7800ff;
+  --purple-light: #9b4dff;
+  --bg: #06060f;
+  --bg2: #0b0b1a;
+  --white: #ffffff;
+  --white-50: rgba(255,255,255,0.5);
+  --white-30: rgba(255,255,255,0.3);
+  --white-15: rgba(255,255,255,0.15);
+  --white-08: rgba(255,255,255,0.08);
+}
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--white);
 }
 
-/* ── Slider ─────────────────────────────────────────────────── */
-.deck {
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+/* ===== DECK CONTAINER ===== */
+#deck {
   position: relative;
+  width: 100vw;
+  height: 100vh; height: 100dvh;
   overflow: hidden;
 }
 
+/* ===== SLIDE BASE ===== */
 .slide {
   position: absolute;
   inset: 0;
-  height: 100vh;
-  height: 100dvh;
-  background: var(--bg);
-  display: grid;
-  grid-template-columns: var(--bar) 1fr;
+  height: 100vh; height: 100dvh;
   overflow: hidden;
   opacity: 0;
-  transform: translateX(60px);
-  transition: opacity 0.38s ease, transform 0.38s ease;
   pointer-events: none;
+  transition: opacity 0.45s ease;
+  background: var(--bg);
 }
-
 .slide.active {
   opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
+  pointer-events: auto;
 }
 
-.slide.exit {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .slide { transition: opacity 0.2s ease; transform: none !important; }
-}
-
-/* ── Left bar ───────────────────────────────────────────────── */
-.bar { background: var(--red); height: 100%; }
-
-/* ── Slide content wrapper ──────────────────────────────────── */
-.body {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--pad);
-  overflow: hidden;
-}
-
-/* ── Grid lines ─────────────────────────────────────────────── */
-.grid {
+/* ===== SHARED BACKGROUND ELEMENTS ===== */
+.bg-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 52px 52px;
+    linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+  background-size: 55px 55px;
+  pointer-events: none;
+}
+.glow-tr {
+  position: absolute; top: -25vh; right: -12vw;
+  width: min(70vw, 620px); height: min(70vw, 620px);
+  background: radial-gradient(circle, rgba(0,200,255,0.16) 0%, transparent 65%);
+  pointer-events: none;
+}
+.glow-bl {
+  position: absolute; bottom: -28vh; left: -10vw;
+  width: min(60vw, 540px); height: min(60vw, 540px);
+  background: radial-gradient(circle, rgba(120,0,255,0.14) 0%, transparent 65%);
+  pointer-events: none;
+}
+.glow-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 700px); height: min(90vw, 700px);
+  background: radial-gradient(circle, rgba(0,200,255,0.07) 0%, transparent 60%);
   pointer-events: none;
 }
 
-/* ── Big BG number ──────────────────────────────────────────── */
-.bg-num {
-  position: absolute;
-  top: -0.15em; right: clamp(1rem, 4vw, 3rem);
-  font-size: clamp(7rem, 20vw, 18rem);
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  color: rgba(0,0,0,0.055);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* ── Typography ─────────────────────────────────────────────── */
+/* ===== TYPOGRAPHY ===== */
 .kicker {
-  font-size: clamp(0.52rem, 0.85vw, 0.68rem);
+  font-size: clamp(0.55rem, 0.9vw, 0.72rem);
   font-weight: 700;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: clamp(0.7rem, 1.6vh, 1.4rem);
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: clamp(0.8rem, 1.8vh, 1.5rem);
 }
-
-h1 {
-  font-size: clamp(2.2rem, 5vw, 4.8rem);
+.kicker.white {
+  background: none;
+  -webkit-text-fill-color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.4);
+}
+.headline {
+  font-size: clamp(2.2rem, 4.5vw, 4.4rem);
   font-weight: 900;
-  letter-spacing: -0.032em;
+  letter-spacing: -0.03em;
   line-height: 1.06;
-  color: var(--ink);
-  max-width: 16ch;
-  border-bottom: 3px solid var(--red);
-  padding-bottom: clamp(0.7rem, 1.4vh, 1.2rem);
-  margin-bottom: clamp(1rem, 2.2vh, 2rem);
+  color: var(--white);
 }
-
-h2 {
-  font-size: clamp(1.5rem, 3.2vw, 3rem);
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  color: var(--ink);
-  margin-bottom: clamp(0.8rem, 1.8vh, 1.6rem);
+.headline em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--cyan), var(--purple-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-
-p.lead {
-  font-size: clamp(0.9rem, 1.45vw, 1.1rem);
-  font-weight: 400;
-  color: var(--muted);
-  max-width: 54ch;
+.sub {
+  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  font-weight: 300;
+  color: var(--white-50);
   line-height: 1.7;
+  max-width: 52ch;
 }
+.sub.narrow { max-width: 42ch; }
 
-/* ── Bullet list ────────────────────────────────────────────── */
-ul.bullets {
-  list-style: none;
-  margin-top: clamp(0.5rem, 1.2vh, 1rem);
-}
-ul.bullets li {
-  font-size: clamp(0.85rem, 1.35vw, 1.05rem);
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.55;
-  padding: clamp(0.45rem, 0.9vh, 0.75rem) 0;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  display: flex;
-  gap: 1rem;
-  align-items: baseline;
-}
-ul.bullets li::before {
-  content: '\2014';
-  color: var(--red);
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-/* ── Two-col layout ─────────────────────────────────────────── */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3rem);
-  align-items: start;
-}
-
-/* ── Cadence table ──────────────────────────────────────────── */
-.cadence {
-  margin-top: clamp(0.6rem, 1.4vh, 1.2rem);
-  border-top: 2px solid var(--ink);
-}
-.cadence-row {
-  display: grid;
-  grid-template-columns: minmax(6rem, 1.2fr) 1fr 2fr;
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-  padding: clamp(0.45rem, 0.9vh, 0.7rem) 0;
-  gap: 1rem;
-  align-items: center;
-}
-.cadence-row.header { background: var(--ink); padding-left: 0.5rem; padding-right: 0.5rem; }
-.cadence-row.header span { color: #fff; font-size: clamp(0.5rem, 0.8vw, 0.64rem); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-.cadence-row span {
-  font-size: clamp(0.75rem, 1.15vw, 0.9rem);
-  color: var(--ink);
-}
-.cadence-row span.prim { font-weight: 800; }
-.cadence-row span.freq { color: var(--red); font-weight: 700; font-size: clamp(0.68rem, 1vw, 0.8rem); }
-.cadence-row span.desc { color: var(--muted); font-weight: 300; }
-
-/* ── Trigger cards ──────────────────────────────────────────── */
-.triggers {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(0.6rem, 1.2vw, 1rem);
-  margin-top: clamp(0.6rem, 1.2vh, 1rem);
-}
-.trigger {
-  border: 1.5px solid rgba(0,0,0,0.12);
-  padding: clamp(0.8rem, 1.4vw, 1.2rem);
+/* ===== LAYOUT HELPERS ===== */
+.col-center {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: clamp(2rem, 5vw, 5rem);
+  height: 100%;
   position: relative;
+  z-index: 2;
 }
-.trigger::before {
+.col-center.stretch { justify-content: flex-start; padding-top: clamp(2.5rem, 5vh, 4rem); padding-bottom: clamp(2.5rem, 5vh, 4rem); }
+.col-center.centered { align-items: center; text-align: center; }
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+.split-col {
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+.split-col.right { border-left: 1px solid var(--white-08); }
+.spacer { height: clamp(0.8rem, 2vh, 1.6rem); }
+.spacer-sm { height: clamp(0.4rem, 1vh, 0.8rem); }
+
+/* ===== IMAGE PANE ===== */
+.img-pane {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+.img-pane img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  display: block;
+}
+.img-pane::before {
   content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-  background: var(--red);
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 40%);
+  z-index: 1; pointer-events: none;
 }
-.trigger .t-num {
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
-  font-weight: 900;
-  color: rgba(0,0,0,0.07);
-  line-height: 1;
-  margin-bottom: 0.2rem;
+.img-pane::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(120,0,255,0.1));
+  z-index: 2; pointer-events: none;
 }
-.trigger .t-title {
-  font-size: clamp(0.8rem, 1.25vw, 0.98rem);
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: 0.3rem;
+.img-pane.top-fade::before {
+  background: linear-gradient(to bottom, var(--bg) 0%, transparent 40%);
 }
-.trigger .t-body {
-  font-size: clamp(0.68rem, 1vw, 0.8rem);
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* ── Steps ──────────────────────────────────────────────────── */
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.6rem, 1.2vh, 1rem);
-  margin-top: clamp(0.6rem, 1.2vh, 1rem);
-}
-.step {
-  display: flex;
-  gap: clamp(1rem, 2vw, 1.8rem);
-  align-items: flex-start;
-  padding: clamp(0.8rem, 1.4vw, 1.2rem);
-  border-left: 3px solid var(--red);
-  background: rgba(0,0,0,0.03);
-}
-.step .s-num {
-  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-  font-weight: 900;
-  color: var(--red);
-  line-height: 1;
-  flex-shrink: 0;
-  min-width: 2ch;
-}
-.step .s-text .s-title {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: 0.2rem;
-}
-.step .s-text .s-body {
-  font-size: clamp(0.7rem, 1.05vw, 0.82rem);
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* ── Layer diagram ──────────────────────────────────────────── */
-.layers {
-  margin-top: clamp(0.6rem, 1.2vh, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.4rem, 0.8vh, 0.7rem);
-}
-.layer {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: clamp(0.6rem, 1vh, 0.9rem) clamp(0.8rem, 1.4vw, 1.2rem);
-  background: var(--ink);
-  color: #fff;
+/* Inline image thumbnail inside split-col */
+.col-img {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
   position: relative;
-}
-.layer .l-label {
-  font-size: clamp(0.52rem, 0.82vw, 0.65rem);
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--red);
-  min-width: 9rem;
+  margin-bottom: clamp(0.8rem, 1.5vh, 1.2rem);
   flex-shrink: 0;
 }
-.layer .l-title {
-  font-size: clamp(0.78rem, 1.2vw, 0.95rem);
-  font-weight: 800;
-  flex-grow: 1;
+.col-img img {
+  width: 100%;
+  height: clamp(140px, 22vh, 200px);
+  object-fit: cover;
+  display: block;
+  opacity: 0.75;
+  border-radius: 12px;
 }
-.layer .l-freq {
-  font-size: clamp(0.62rem, 0.95vw, 0.75rem);
-  font-weight: 700;
-  color: rgba(255,255,255,0.45);
-  margin-left: auto;
+.col-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--bg2) 100%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* ===== PILLS ===== */
+.pills {
+  display: flex; flex-wrap: wrap;
+  gap: clamp(0.4rem, 0.8vw, 0.65rem);
+}
+.pill {
+  padding: clamp(0.3rem, 0.6vh, 0.45rem) clamp(0.7rem, 1.2vw, 1rem);
+  border-radius: 100px;
+  font-size: clamp(0.72rem, 1.05vw, 0.88rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
+.pill-cyan { background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.28); color: var(--cyan); }
+.pill-purple { background: rgba(120,0,255,0.1); border: 1px solid rgba(120,0,255,0.3); color: var(--purple-light); }
+.pill-white { background: var(--white-08); border: 1px solid var(--white-15); color: rgba(255,255,255,0.7); }
 
-/* ── Patterns ───────────────────────────────────────────────── */
-.patterns {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.7rem, 1.4vh, 1.2rem);
-  margin-top: clamp(0.6rem, 1.2vh, 1rem);
+/* ===== CARDS ===== */
+.card {
+  background: var(--white-08);
+  border: 1px solid var(--white-15);
+  border-radius: 10px;
+  padding: clamp(0.9rem, 1.8vh, 1.4rem) clamp(1rem, 1.8vw, 1.4rem);
 }
-.pattern {
+.card.cyan { border-color: rgba(0,200,255,0.2); border-left: 3px solid var(--cyan); }
+.card.purple { border-color: rgba(120,0,255,0.25); border-left: 3px solid var(--purple-light); }
+.card-label {
+  font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--cyan); margin-bottom: 0.4rem;
+}
+.card-label.purple { color: var(--purple-light); }
+.card-title {
+  font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+  font-weight: 700; color: var(--white);
+  margin-bottom: 0.3rem; line-height: 1.3;
+}
+.card-body {
+  font-size: clamp(0.75rem, 1.1vw, 0.88rem);
+  color: var(--white-50); line-height: 1.55;
+}
+
+/* ===== NUMBER CARDS (phases) ===== */
+.phases { display: flex; flex-direction: column; gap: clamp(0.6rem, 1.4vh, 1rem); }
+.phase {
+  background: var(--white-08);
+  border: 1px solid var(--white-15);
+  border-radius: 10px;
+  padding: clamp(0.8rem, 1.6vh, 1.2rem) clamp(1rem, 1.8vw, 1.4rem);
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.phase-num {
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-weight: 900; line-height: 1;
+  min-width: 2.2rem;
+  background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex-shrink: 0;
+}
+.phase-content {}
+.phase-title {
+  font-size: clamp(0.82rem, 1.2vw, 0.98rem);
+  font-weight: 700; color: var(--white); margin-bottom: 0.25rem;
+}
+.phase-desc {
+  font-size: clamp(0.72rem, 1vw, 0.85rem);
+  color: var(--white-50); line-height: 1.5;
+}
+
+/* ===== GRID CARDS ===== */
+.card-grid {
   display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: 1rem;
-  align-items: start;
-  padding-bottom: clamp(0.7rem, 1.4vh, 1.2rem);
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.6rem, 1.2vw, 1rem);
 }
-.pattern .p-icon {
-  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
-  font-weight: 900;
-  color: var(--red);
-  line-height: 1;
+.grid-card {
+  background: var(--white-08);
+  border: 1px solid var(--white-15);
+  border-radius: 10px;
+  padding: clamp(0.9rem, 1.8vh, 1.3rem) clamp(0.9rem, 1.5vw, 1.2rem);
 }
-.pattern .p-title {
-  font-size: clamp(0.85rem, 1.3vw, 1rem);
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: 0.25rem;
-}
-.pattern .p-body {
-  font-size: clamp(0.72rem, 1.05vw, 0.84rem);
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-/* ── Agenda ─────────────────────────────────────────────────── */
-.agenda {
-  margin-top: clamp(0.5rem, 1.2vh, 1rem);
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: 0;
-}
-.agenda-item { display: contents; }
-.agenda-item .a-num {
-  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
-  font-weight: 700;
-  color: var(--red);
-  padding: clamp(0.3rem, 0.7vh, 0.55rem) 0;
-  border-bottom: 1px solid rgba(0,0,0,0.09);
-  display: flex;
-  align-items: center;
-}
-.agenda-item .a-text {
-  font-size: clamp(0.75rem, 1.15vw, 0.9rem);
-  font-weight: 500;
-  color: var(--ink);
-  padding: clamp(0.3rem, 0.7vh, 0.55rem) 0 clamp(0.3rem, 0.7vh, 0.55rem) 0.8rem;
-  border-bottom: 1px solid rgba(0,0,0,0.09);
-  display: flex;
-  align-items: center;
-}
-
-/* ── Blockquote ─────────────────────────────────────────────── */
-blockquote {
-  border-left: 4px solid var(--red);
-  padding-left: clamp(1rem, 2vw, 1.8rem);
-  margin: clamp(0.8rem, 1.6vh, 1.4rem) 0;
-}
-blockquote p {
-  font-size: clamp(1rem, 1.8vw, 1.5rem);
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.4;
-  font-style: italic;
-  max-width: 44ch;
-}
-blockquote cite {
+.grid-card-icon {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  margin-bottom: 0.5rem;
   display: block;
-  font-size: clamp(0.65rem, 1vw, 0.8rem);
-  font-weight: 400;
-  color: var(--muted);
-  margin-top: 0.6rem;
-  font-style: normal;
-  letter-spacing: 0.08em;
+}
+.grid-card-title {
+  font-size: clamp(0.8rem, 1.15vw, 0.95rem);
+  font-weight: 700; color: var(--white);
+  margin-bottom: 0.25rem; line-height: 1.3;
+}
+.grid-card-desc {
+  font-size: clamp(0.68rem, 0.95vw, 0.8rem);
+  color: var(--white-50); line-height: 1.5;
 }
 
-/* ── Progress bar ───────────────────────────────────────────── */
-.progress {
-  position: fixed;
-  top: 0; left: var(--bar); right: 0;
-  height: 3px;
-  background: rgba(0,0,0,0.1);
-  z-index: 100;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--red);
-  transition: width 0.35s ease;
+/* ===== DIVIDER ===== */
+.divider {
+  width: 3rem; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  border-radius: 2px;
+  margin: clamp(1rem, 2vh, 1.6rem) 0;
 }
 
-/* ── Slide counter ──────────────────────────────────────────── */
-.counter {
-  position: fixed;
-  bottom: 1.2rem; right: 1.8rem;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: rgba(0,0,0,0.3);
-  z-index: 100;
+/* ===== BIG STAT ===== */
+.stat-row { display: flex; gap: clamp(1.5rem, 3vw, 2.5rem); flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; }
+.stat-val {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900; letter-spacing: -0.03em; line-height: 1;
+  background: linear-gradient(90deg, var(--cyan), var(--purple-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
+  font-size: clamp(0.72rem, 1.05vw, 0.88rem);
+  color: var(--white-50); margin-top: 0.3rem; line-height: 1.4;
 }
 
-/* ── Speaker notes ──────────────────────────────────────────── */
-.notes-overlay {
-  display: none;
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(17,17,17,0.93);
-  color: rgba(255,255,255,0.8);
+/* ===== QUOTE ===== */
+.quote-mark {
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.7;
+  background: linear-gradient(90deg, var(--cyan), var(--purple-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.quote-text {
+  font-size: clamp(1.3rem, 2.5vw, 2.2rem);
+  font-weight: 700; line-height: 1.35; color: var(--white);
+  max-width: 22ch;
+  margin-bottom: 1.2rem;
+}
+.quote-attr {
   font-size: clamp(0.75rem, 1.1vw, 0.9rem);
-  line-height: 1.65;
-  padding: 1.2rem 2rem;
-  z-index: 200;
-  max-height: 28vh;
-  overflow-y: auto;
-  font-family: inherit;
-  font-weight: 300;
+  color: var(--white-30); letter-spacing: 0.08em;
 }
-.notes-overlay.visible { display: block; }
 
-/* ── Height breakpoints ─────────────────────────────────────── */
+/* ===== PROGRESS BAR ===== */
+#progress-bar {
+  position: fixed; bottom: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  transition: width 0.4s ease;
+  z-index: 100;
+}
+
+/* ===== SLIDE COUNTER ===== */
+#counter {
+  position: fixed; bottom: 1.2rem; right: 1.8rem;
+  font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  z-index: 100;
+}
+
+/* ===== SPEAKER NOTES ===== */
+#notes-panel {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.92);
+  border-top: 1px solid var(--white-15);
+  padding: 1rem 2rem;
+  font-size: 0.8rem; color: rgba(255,255,255,0.6);
+  line-height: 1.6; z-index: 200;
+  max-height: 22vh; overflow-y: auto;
+}
+#notes-panel.visible { display: block; }
+#notes-label {
+  font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--cyan); margin-bottom: 0.3rem;
+}
+
+/* ===== NAV ARROWS ===== */
+.nav-btn {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  background: var(--white-08); border: 1px solid var(--white-15);
+  color: rgba(255,255,255,0.4); cursor: pointer;
+  width: 2.8rem; height: 2.8rem; border-radius: 50%;
+  font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; z-index: 100;
+}
+.nav-btn:hover { background: rgba(0,200,255,0.12); color: var(--cyan); border-color: rgba(0,200,255,0.3); }
+#nav-prev { left: 1rem; }
+#nav-next { right: 1rem; }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: none; }
+  #progress-bar { transition: none; }
+}
+
+/* ===== RESPONSIVE HEIGHT ===== */
 @media (max-height: 700px) {
-  :root { --pad: clamp(1.5rem, 4vw, 3.5rem); }
-  .bg-num { font-size: clamp(4rem, 12vw, 10rem); }
-  ul.bullets li { padding: 0.3rem 0; }
-  .cadence-row { padding: 0.3rem 0; }
+  .spacer { height: 0.6rem; }
+  .spacer-sm { height: 0.3rem; }
+  .phases { gap: 0.4rem; }
+  .card-grid { gap: 0.5rem; }
 }
 @media (max-height: 600px) {
-  h1 { margin-bottom: 0.6rem; padding-bottom: 0.5rem; }
-  h2 { margin-bottom: 0.5rem; }
-  .steps { gap: 0.4rem; }
-  .patterns { gap: 0.5rem; }
+  .kicker { margin-bottom: 0.5rem; }
+  .headline { font-size: clamp(1.6rem, 3.5vw, 3rem); }
 }
 @media (max-height: 500px) {
-  h1 { font-size: clamp(1.4rem, 3vw, 2.4rem); }
+  .col-center { padding: 1.5rem 3rem; }
+  .split-col { padding: 1.5rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-<div class="counter" id="counter">1 / 11</div>
-<div class="notes-overlay" id="notesOverlay"></div>
+<div id="deck">
 
-<div class="deck" id="deck">
-
-  <!-- 01 — Title -->
-  <div class="slide active" data-notes="Frame the real problem: Claude Code skills are easy to create on day 1 but hard to maintain as projects evolve. This deck is about building a system that stays alive — not just a collection of skills that slowly rot.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">01</div>
-      <div class="kicker">Claude Code — Organizing for the Long Haul</div>
-      <h1>Skills rot.<br>Systems&nbsp;don't.</h1>
-      <p class="lead">The hidden discipline behind Claude Code that keeps your skills, agents, hooks, and memory from drifting out of sync as your project evolves.</p>
-    </div>
-  </div>
-
-  <!-- 02 — Agenda -->
-  <div class="slide" data-notes="Briefly walk through the agenda. This deck covers why things break, the 5 primitives and their update cadences, and concrete patterns for keeping everything fresh.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">02</div>
-      <div class="kicker">What We'll Cover</div>
-      <h1>The agenda</h1>
-      <div class="agenda">
-        <div class="agenda-item"><span class="a-num">01</span><span class="a-text">Why skills drift — the context decay problem</span></div>
-        <div class="agenda-item"><span class="a-num">02</span><span class="a-text">The 5 primitives and their update cadences</span></div>
-        <div class="agenda-item"><span class="a-num">03</span><span class="a-text">CLAUDE.md as your single source of truth</span></div>
-        <div class="agenda-item"><span class="a-num">04</span><span class="a-text">Skills: write once, review on change</span></div>
-        <div class="agenda-item"><span class="a-num">05</span><span class="a-text">Memory, Agents, and Hooks — how often to touch each</span></div>
-        <div class="agenda-item"><span class="a-num">06</span><span class="a-text">The 4 update triggers and the freshness pyramid</span></div>
-        <div class="agenda-item"><span class="a-num">07</span><span class="a-text">What high-functioning teams actually do</span></div>
-        <div class="agenda-item"><span class="a-num">08</span><span class="a-text">Your 3 next steps</span></div>
+  <!-- ==================== SLIDE 1: TITLE ==================== -->
+  <div class="slide active" data-notes="Welcome the audience. PMO professionals are often overlooked in the AI conversation — this deck is for them. Set the tone: this is a practical career roadmap, not hype.">
+    <div class="bg-grid"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">Career Transformation · 2025</div>
+        <h1 class="headline" style="max-width:16ch; margin-bottom: clamp(1.2rem,2.5vh,2rem);">
+          From PMO Lead<br>to <em>AI Transformation</em><br>Lead
+        </h1>
+        <p class="sub narrow">A practical roadmap for program managers who want to lead the most important organizational change of the decade.</p>
+        <div class="divider"></div>
+        <div class="pills">
+          <span class="pill pill-white">For PMO Professionals</span>
+          <span class="pill pill-white">Career Transition</span>
+          <span class="pill pill-white">No Engineering Required</span>
+        </div>
+      </div>
+      <div class="img-pane">
+        <img src="https://images.unsplash.com/photo-1694903089438-bf28d4697d9a?auto=format&fit=crop&w=900&q=80" alt="Robot and human hands reaching toward AI">
       </div>
     </div>
   </div>
 
-  <!-- 03 — Why Things Break -->
-  <div class="slide" data-notes="The core insight: skills don't break because they were written badly. They break because the context they rely on — the product, the workflow, the API, the team convention — changes. The skill stays the same; the world moves. That gap is context decay. Most teams notice it only when a skill fails in production.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">03</div>
-      <div class="kicker">Root Cause</div>
-      <h1>The problem isn't the skill. It's the world that moved.</h1>
-      <ul class="bullets">
-        <li>You ship a new feature — the skill still describes the old flow</li>
-        <li>You rename a folder — the skill references the old path</li>
-        <li>Your API changes — the skill still assumes the old contract</li>
-        <li>Three months pass — no one remembers what the skill was for</li>
-      </ul>
-      <p class="lead" style="margin-top: clamp(0.8rem, 1.6vh, 1.4rem);">Context decay is silent. You won't notice until the skill fails in front of a student or a client.</p>
-    </div>
-  </div>
-
-  <!-- 04 — The 5 Primitives -->
-  <div class="slide" data-notes="These are the 5 things that make up your Claude Code system. They are not equal — they have different update velocities. CLAUDE.md changes most often. Hooks change least. Understanding this difference lets you triage maintenance work instead of treating everything the same.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">04</div>
-      <div class="kicker">The 5 Primitives</div>
-      <h1>Each primitive has a different update clock.</h1>
-      <div class="cadence">
-        <div class="cadence-row header">
-          <span>Primitive</span><span>Update freq</span><span>Changes when</span>
-        </div>
-        <div class="cadence-row">
-          <span class="prim">CLAUDE.md</span>
-          <span class="freq">Every sprint</span>
-          <span class="desc">Project context, team conventions, or scope shifts</span>
-        </div>
-        <div class="cadence-row">
-          <span class="prim">Skills</span>
-          <span class="freq">On ship</span>
-          <span class="desc">Any feature or workflow the skill touches changes</span>
-        </div>
-        <div class="cadence-row">
-          <span class="prim">Memory</span>
-          <span class="freq">Monthly</span>
-          <span class="desc">Decisions made, preferences changed, stale facts accumulate</span>
-        </div>
-        <div class="cadence-row">
-          <span class="prim">Sub Agents</span>
-          <span class="freq">On API change</span>
-          <span class="desc">Tools, APIs, or delegation patterns the agent relies on change</span>
-        </div>
-        <div class="cadence-row">
-          <span class="prim">Hooks</span>
-          <span class="freq">Rarely</span>
-          <span class="desc">Wired once, stable unless the shell environment changes</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 05 — CLAUDE.md -->
-  <div class="slide" data-notes="CLAUDE.md is the foundation everything else builds on. Claude reads it on every session start. If it's stale, every skill, agent, and hook is operating on bad assumptions. Treat it like a living README, not a one-time setup doc. Keep it under 200 lines — if it's longer, it's documentation, not a prompt.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">05</div>
-      <div class="kicker">Concept 01 — CLAUDE.md</div>
-      <h1>If CLAUDE.md is stale, everything downstream is blind.</h1>
-      <ul class="bullets">
-        <li><strong>What belongs here:</strong> project goals, repo structure, conventions, active priorities, team context</li>
-        <li><strong>What doesn't:</strong> code patterns, git history, architecture docs — Claude can read those directly</li>
-        <li><strong>Length limit:</strong> under 200 lines — it's a prompt, not documentation</li>
-        <li><strong>Update trigger:</strong> any sprint that changes goals, structure, or team conventions</li>
-      </ul>
-      <blockquote style="margin-top: clamp(0.6rem, 1.2vh, 1rem);">
-        <p>"A 5-minute CLAUDE.md update saves 30 minutes of Claude going in the wrong direction."</p>
-      </blockquote>
-    </div>
-  </div>
-
-  <!-- 06 — Skills -->
-  <div class="slide" data-notes="The key discipline for skills: tie reviews to ship events, not calendar dates. Calendar-based reviews don't work because the mismatch between the skill and reality builds up silently. Event-based triggers — we shipped X, so update any skill that touches X — keep things tight. Bonus: add a one-line 'Last updated' comment at the top of every SKILL.md to make staleness visible at a glance.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">06</div>
-      <div class="kicker">Concept 02 — Skills</div>
-      <h1>Tie skill reviews to ships, not to calendars.</h1>
-      <div class="two-col">
-        <div>
-          <div class="kicker" style="margin-bottom: 0.5rem;">What causes drift</div>
-          <ul class="bullets">
-            <li>Product changes without a corresponding skill update</li>
-            <li>No one owns the skill after it's created</li>
-            <li>Skill scope creep — one skill doing too many things</li>
-            <li>No signal that the skill is out of date until it fails</li>
-          </ul>
-        </div>
-        <div>
-          <div class="kicker" style="margin-bottom: 0.5rem;">What prevents it</div>
-          <ul class="bullets">
-            <li>Add <code style="background: rgba(0,0,0,0.08); padding: 0.1em 0.3em; font-size: 0.88em; font-family: monospace;">Last updated:</code> header to every SKILL.md</li>
-            <li>Add skill review to your ship checklist</li>
-            <li>Keep each skill focused — one workflow, one command</li>
-            <li>Delete skills unused in 60 days</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 07 — Memory -->
-  <div class="slide" data-notes="Auto memory is powerful — it captures preferences and decisions without you doing it manually. But it accumulates silently. After a few months you'll have conflicting memories, outdated facts, and cruft from dead-end experiments. A monthly 10-minute prune session is the cure. Delete anything that contradicts current behavior or is tied to a finished project. Accurate beats comprehensive.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">07</div>
-      <div class="kicker">Concept 03 — Memory</div>
-      <h1>Memory that's never pruned becomes a source of lies.</h1>
-      <ul class="bullets">
-        <li>Auto memory captures decisions and preferences across sessions — great on day 1</li>
-        <li>Over time: conflicting entries, stale project context, dead-end notes accumulate</li>
-        <li>Claude can't tell the difference between a current preference and a 6-month-old one</li>
-        <li>Fix: 10-minute monthly prune — read every memory file, delete anything stale</li>
-        <li>Goal: accurate memory, not comprehensive memory</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 08 — Agents and Hooks -->
-  <div class="slide" data-notes="Hooks are the most stable primitive — wire once, test once, leave alone. Agents need more attention because they depend on external APIs and delegation patterns. The practical rule: audit agents when you audit their upstream dependencies. If an API the agent calls has been updated, the agent needs a review.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">08</div>
-      <div class="kicker">Concept 04 — Agents &amp; Hooks</div>
-      <h1>Hooks are set-and-forget. Agents follow their APIs.</h1>
-      <div class="two-col">
-        <div>
-          <div class="kicker" style="margin-bottom: 0.5rem;">Hooks (stable)</div>
-          <ul class="bullets">
-            <li>PreToolUse / PostToolUse / Stop / Notification</li>
-            <li>Wire once, test once, leave alone</li>
-            <li>Review only if shell environment changes</li>
-            <li>Most common failure: path or env var changes</li>
-          </ul>
-        </div>
-        <div>
-          <div class="kicker" style="margin-bottom: 0.5rem;">Agents (API-coupled)</div>
-          <ul class="bullets">
-            <li>Delegate to specialist workers with isolated context</li>
-            <li>Review when upstream APIs or tools change</li>
-            <li>Review when the workflow they handle changes scope</li>
-            <li>Document which APIs each agent calls</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 09 — Update Trigger System -->
-  <div class="slide" data-notes="Four concrete events that should trigger a review of your Claude Code system. Don't wait for things to break. The most important is 'skill failed' — that's a trailing indicator. The most underused is 'monthly audit' — that's a leading one. If you only implement one trigger, implement the monthly audit.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">09</div>
-      <div class="kicker">The Update Trigger System</div>
-      <h1>Four events that force a review before things break.</h1>
-      <div class="triggers">
-        <div class="trigger">
-          <div class="t-num">01</div>
-          <div class="t-title">New feature shipped</div>
-          <div class="t-body">Any skill that touches the changed workflow gets reviewed, updated, or deleted.</div>
-        </div>
-        <div class="trigger">
-          <div class="t-num">02</div>
-          <div class="t-title">Workflow changed</div>
-          <div class="t-body">If how your team works changes — new tools, new structure — audit CLAUDE.md and agents.</div>
-        </div>
-        <div class="trigger">
-          <div class="t-num">03</div>
-          <div class="t-title">Skill failed</div>
-          <div class="t-body">A skill that produced a bad output is a trailing signal. Fix it — then ask: what else has drifted?</div>
-        </div>
-        <div class="trigger">
-          <div class="t-num">04</div>
-          <div class="t-title">Monthly audit</div>
-          <div class="t-body">10 minutes. Review memory files, check skill headers, delete anything unused in 60 days.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 10 — Freshness Pyramid -->
-  <div class="slide" data-notes="The layered freshness model gives you a mental shortcut: if you only have time to maintain one thing, maintain CLAUDE.md. If you have more time, add skills. The pyramid reflects real-world update velocity — the things at the top change most often and have the highest leverage. The things at the bottom are stable foundations that rarely need touching.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">10</div>
-      <div class="kicker">How It All Fits — The Freshness Pyramid</div>
-      <h1>Maintain the layers in order. Start at the top.</h1>
-      <div class="layers">
-        <div class="layer">
-          <span class="l-label">CLAUDE.md</span>
-          <span class="l-title">Project context, goals, conventions</span>
-          <span class="l-freq">Every sprint</span>
-        </div>
-        <div class="layer" style="margin-left: clamp(1rem, 2vw, 2rem);">
-          <span class="l-label">Skills</span>
-          <span class="l-title">Reusable workflows triggered by slash command</span>
-          <span class="l-freq">On ship</span>
-        </div>
-        <div class="layer" style="margin-left: clamp(2rem, 4vw, 4rem);">
-          <span class="l-label">Memory</span>
-          <span class="l-title">Decisions, preferences, user context</span>
-          <span class="l-freq">Monthly</span>
-        </div>
-        <div class="layer" style="margin-left: clamp(3rem, 6vw, 6rem);">
-          <span class="l-label">Sub Agents</span>
-          <span class="l-title">Specialist workers with isolated context</span>
-          <span class="l-freq">On API change</span>
-        </div>
-        <div class="layer" style="margin-left: clamp(4rem, 8vw, 8rem);">
-          <span class="l-label">Hooks</span>
-          <span class="l-title">PreToolUse / PostToolUse / Stop / Notification</span>
-          <span class="l-freq">Rarely</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 11 — Next 3 Steps -->
-  <div class="slide" data-notes="End with action. These three steps can be done today, this week, and this month — they don't require a full audit or a team meeting. The first (audit CLAUDE.md) takes 5 minutes and has immediate leverage. The second (add one update trigger) is a process change that pays off compounding. The third (delete one stale skill) starts the pruning habit before you drown in six months.">
-    <div class="bar"></div>
-    <div class="body">
-      <div class="grid"></div>
-      <div class="bg-num">11</div>
-      <div class="kicker">Your Next 3 Steps</div>
-      <h1>Today, this week, and this&nbsp;month.</h1>
-      <div class="steps">
-        <div class="step">
-          <div class="s-num">1</div>
-          <div class="s-text">
-            <div class="s-title">Today — Audit your CLAUDE.md (5 min)</div>
-            <div class="s-body">Is the project context still accurate? Are the active priorities current? Fix anything stale now. This has the highest leverage of anything in this deck.</div>
+  <!-- ==================== SLIDE 2: WHY NOW ==================== -->
+  <div class="slide" data-notes="The window is open right now. Organizations are scrambling to deploy AI but most rollouts fail — not because the AI is bad, but because no one is governing the programs. That's a PMO problem.">
+    <div class="bg-grid"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">The Moment</div>
+        <h2 class="headline" style="font-size: clamp(1.8rem,3.6vw,3.4rem); max-width:18ch; margin-bottom: clamp(1.2rem,2.5vh,2rem);">
+          Every org is deploying AI.<br>Almost none are<br><em>governing it well.</em>
+        </h2>
+        <div class="spacer"></div>
+        <div class="stat-row" style="flex-direction:column; gap: clamp(0.8rem,1.8vh,1.4rem);">
+          <div class="stat">
+            <span class="stat-val">85%</span>
+            <span class="stat-label">of AI projects fail to reach production scale</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">3×</span>
+            <span class="stat-label">more AI program manager roles posted YoY</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">$0</span>
+            <span class="stat-label">new technical skills needed to start this transition</span>
           </div>
         </div>
-        <div class="step">
-          <div class="s-num">2</div>
-          <div class="s-text">
-            <div class="s-title">This week — Add one update trigger to your ship checklist</div>
-            <div class="s-body">Pick the trigger that fits your workflow: "when we ship, review the skills that touch the changed area." Add it as a checklist item. That's it.</div>
+      </div>
+      <div class="img-pane">
+        <img src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=900&q=80" alt="Abstract AI network sphere">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 3: YOUR PMO SKILLS ARE THE BRIDGE ==================== -->
+  <div class="slide" data-notes="Reframe: PMO skills aren't obstacles to the transition — they're the bridge. Change management, stakeholder alignment, risk frameworks, delivery governance — these are precisely what AI rollouts need and almost no AI team has.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">Your Unfair Advantage</div>
+        <h2 class="headline" style="font-size: clamp(1.8rem,3.6vw,3.4rem); max-width:16ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+          PMO skills are the<br><em>missing ingredient</em><br>in most AI programs.
+        </h2>
+        <p class="sub narrow">AI teams know how to build models. They don't know how to govern enterprise adoption at scale. That's your domain.</p>
+      </div>
+      <div class="split-col right">
+        <div class="kicker white">What you already own</div>
+        <div class="spacer-sm"></div>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">✓</div>
+            <div class="phase-content">
+              <div class="phase-title">Program Governance</div>
+              <div class="phase-desc">Managing scope, milestones, and accountability across complex initiatives</div>
+            </div>
           </div>
-        </div>
-        <div class="step">
-          <div class="s-num">3</div>
-          <div class="s-text">
-            <div class="s-title">This month — Delete one stale skill</div>
-            <div class="s-body">Find a skill unused in 60 days, or one whose SKILL.md no longer matches reality. Delete it. Fewer, accurate skills beat many drifting ones every time.</div>
+          <div class="phase">
+            <div class="phase-num">✓</div>
+            <div class="phase-content">
+              <div class="phase-title">Stakeholder Alignment</div>
+              <div class="phase-desc">Getting executives, business units, and tech teams rowing the same direction</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">✓</div>
+            <div class="phase-content">
+              <div class="phase-title">Risk & Change Frameworks</div>
+              <div class="phase-desc">Identifying failure modes before they happen and managing org-level change</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-</div><!-- /deck -->
+  <!-- ==================== SLIDE 4: THE SKILL GAP ==================== -->
+  <div class="slide" data-notes="Don't let people feel overwhelmed. The gap is real but narrow. AI literacy doesn't mean knowing matrix algebra — it means understanding what AI is good at, what it fails at, and how to measure its impact on workflows.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=1400&q=70" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.05;">
+    </div>
+    <div class="col-center">
+      <div class="kicker">The Gap</div>
+      <h2 class="headline" style="max-width:22ch; margin-bottom: clamp(1.2rem,2.5vh,2rem);">
+        The skill gap is <em>smaller</em><br>than you think — and<br>it's very specific.
+      </h2>
+      <div class="spacer"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap: clamp(0.8rem,1.5vw,1.2rem); max-width: 820px;">
+        <div class="card cyan">
+          <div class="card-label">You already have</div>
+          <div class="card-body">
+            Program governance · Stakeholder management · Risk frameworks · Delivery methodology · Executive communication · Change management
+          </div>
+        </div>
+        <div class="card purple">
+          <div class="card-label purple">What to add (the actual gap)</div>
+          <div class="card-body">
+            AI literacy (not engineering) · Evaluating AI output quality · Prompt-to-process thinking · AI ROI measurement · Responsible AI principles
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 5: 5 NEW CAPABILITIES ==================== -->
+  <div class="slide" data-notes="These are the 5 things to build. The key is they are all learnable in 3-6 months through a combination of courses, reading, and hands-on piloting. None require a CS background.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-center"></div>
+    <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=1400&q=70" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.05; object-position: right center;">
+    </div>
+    <div class="col-center stretch">
+      <div class="kicker">5 Capabilities to Build</div>
+      <h2 class="headline" style="font-size: clamp(1.5rem,2.8vw,2.6rem); margin-bottom: clamp(0.8rem,1.5vh,1.2rem);">
+        Build these 5 and you are<br><em>fully qualified</em> for the role.
+      </h2>
+      <div class="spacer-sm"></div>
+      <div class="card-grid" style="flex:1; grid-template-rows: 1fr 1fr; align-content: stretch;">
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">🧠</span>
+          <div class="grid-card-title">AI Literacy</div>
+          <div class="grid-card-desc">How LLMs work, what they can't do, and how to evaluate output quality</div>
+        </div>
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">📊</span>
+          <div class="grid-card-title">AI ROI Measurement</div>
+          <div class="grid-card-desc">Define success metrics for AI programs before they launch</div>
+        </div>
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">🔄</span>
+          <div class="grid-card-title">Change Management for AI</div>
+          <div class="grid-card-desc">Human adoption is the bottleneck — not the technology</div>
+        </div>
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">⚖️</span>
+          <div class="grid-card-title">Responsible AI Governance</div>
+          <div class="grid-card-desc">Bias, compliance, data privacy, and ethical deployment guardrails</div>
+        </div>
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">🔌</span>
+          <div class="grid-card-title">Prompt-to-Process Thinking</div>
+          <div class="grid-card-desc">Redesign workflows around AI — not AI bolted onto old workflows</div>
+        </div>
+        <div class="grid-card" style="display:flex; flex-direction:column; justify-content:center;">
+          <span class="grid-card-icon">🗺️</span>
+          <div class="grid-card-title">AI Roadmapping</div>
+          <div class="grid-card-desc">Sequence AI initiatives by value, readiness, and org risk appetite</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 6: THE 3-PHASE ROADMAP ==================== -->
+  <div class="slide" data-notes="The three phases are sequential but overlap. Phase 1 (3 months) is about knowledge. Phase 2 (1-2 months) is about repositioning your identity and narrative. Phase 3 (ongoing) is about building evidence. You need all three.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">Your Roadmap</div>
+        <h2 class="headline" style="font-size: clamp(1.8rem,3.6vw,3.5rem); max-width:16ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+          Three phases.<br><em>Six months.</em><br>New title.
+        </h2>
+        <p class="sub narrow">This isn't a multi-year transformation. Most PMO leads can make this shift in one focused half-year.</p>
+      </div>
+      <div class="split-col right">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=800&q=80" alt="Team meeting">
+        </div>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">01</div>
+            <div class="phase-content">
+              <div class="phase-title">Build AI Fluency (Months 1–3)</div>
+              <div class="phase-desc">Take one structured AI course. Run experiments with AI tools. Build a personal mental model of what AI can and can't do.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">02</div>
+            <div class="phase-content">
+              <div class="phase-title">Reframe Your Identity (Months 2–4)</div>
+              <div class="phase-desc">Update your resume, LinkedIn, and how you talk about your work. Start calling yourself an AI change leader — in your own team first.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">03</div>
+            <div class="phase-content">
+              <div class="phase-title">Lead an AI Pilot (Months 4–6)</div>
+              <div class="phase-desc">Sponsor or run one real AI initiative end-to-end. Measure it. Present results. Use it as your proof point and portfolio piece.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 7: THE AI PILOT PLAYBOOK ==================== -->
+  <div class="slide" data-notes="A PMO-run AI pilot looks different from an engineering-run one. It starts with a business problem, not a technology. It has a change management plan, a measurement framework, and a stakeholder communication rhythm baked in from day 1.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div class="col-center">
+      <div class="kicker">Phase 3 Deep Dive</div>
+      <h2 class="headline" style="font-size: clamp(1.7rem,3.4vw,3.2rem); max-width:22ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+        A PMO-run AI pilot is <em>fundamentally<br>different</em> — and more likely to succeed.
+      </h2>
+      <div class="spacer-sm"></div>
+      <div style="display:grid; grid-template-columns: repeat(4,1fr); gap: clamp(0.6rem,1.2vw,1rem); max-width:900px;">
+        <div class="grid-card">
+          <span class="grid-card-icon">🎯</span>
+          <div class="grid-card-title">Start with the problem</div>
+          <div class="grid-card-desc">Define the business outcome before touching any tool</div>
+        </div>
+        <div class="grid-card">
+          <span class="grid-card-icon">📐</span>
+          <div class="grid-card-title">Measure from day 1</div>
+          <div class="grid-card-desc">Baseline + success metrics locked before pilot starts</div>
+        </div>
+        <div class="grid-card">
+          <span class="grid-card-icon">👥</span>
+          <div class="grid-card-title">Change plan first</div>
+          <div class="grid-card-desc">Who needs to change behavior and how — mapped upfront</div>
+        </div>
+        <div class="grid-card">
+          <span class="grid-card-icon">📣</span>
+          <div class="grid-card-title">Communicate results</div>
+          <div class="grid-card-desc">Package the learnings into a case study you can share widely</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 8: THE NEW JOB DESCRIPTION ==================== -->
+  <div class="slide" data-notes="This is the actual job. Increasingly called AI Transformation Lead, Head of AI Enablement, or Chief AI Officer. The salary premium is 30-50% over a PMO Lead at the same seniority level. The demand is real.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">The Role</div>
+        <h2 class="headline" style="font-size: clamp(1.8rem,3.6vw,3.5rem); max-width:16ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+          The job is real.<br>The demand is <em>now.</em>
+        </h2>
+        <div class="divider"></div>
+        <div class="stat-row" style="gap: 1.5rem;">
+          <div class="stat">
+            <span class="stat-val" style="font-size: clamp(2rem,3.5vw,3rem);">+40%</span>
+            <span class="stat-label">salary premium over<br>PMO Lead equivalent</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val" style="font-size: clamp(2rem,3.5vw,3rem);">↑3×</span>
+            <span class="stat-label">AI program roles<br>posted this year</span>
+          </div>
+        </div>
+      </div>
+      <div class="split-col right">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="People collaborating with laptops">
+        </div>
+        <div class="kicker white">What the job actually entails</div>
+        <div class="spacer-sm"></div>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">→</div>
+            <div class="phase-content">
+              <div class="phase-title">Own the AI adoption strategy</div>
+              <div class="phase-desc">Set the sequence, success criteria, and governance model for all AI initiatives</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">→</div>
+            <div class="phase-content">
+              <div class="phase-title">Lead cross-functional AI programs</div>
+              <div class="phase-desc">Bridge engineering, product, legal, HR, and finance around shared AI goals</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">→</div>
+            <div class="phase-content">
+              <div class="phase-title">Govern responsible deployment</div>
+              <div class="phase-desc">Ensure AI is deployed safely, fairly, and in compliance with policy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 9: COMMON BLOCKERS ==================== -->
+  <div class="slide" data-notes="Address the objections directly. These are the three things that hold PMO leads back. For each one, the reframe is simple and honest.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-center"></div>
+    <div class="col-center">
+      <div class="kicker">Objections Addressed</div>
+      <h2 class="headline" style="font-size: clamp(1.7rem,3.3vw,3.1rem); max-width:22ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+        The three things that<br>hold PMO leads back —<br>and the <em>honest reframe.</em>
+      </h2>
+      <div class="spacer-sm"></div>
+      <div style="display:grid; grid-template-columns: repeat(3,1fr); gap: clamp(0.8rem,1.4vw,1.2rem); max-width:880px;">
+        <div class="card">
+          <div class="card-label">"I'm not technical"</div>
+          <div class="card-body">The role doesn't require you to code. It requires you to evaluate AI outputs and govern programs — which you already do.</div>
+        </div>
+        <div class="card">
+          <div class="card-label purple">"I don't have AI experience"</div>
+          <div class="card-body">Neither did anyone 3 years ago. The people hiring for these roles want governance instincts far more than AI credentials.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">"I don't know where to start"</div>
+          <div class="card-body">You start by running one AI pilot inside your current role. You don't need a new title to begin building the new skillset.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 10: YOUR MOVE ==================== -->
+  <div class="slide" data-notes="End with a clear call to action. Not 'think about this' — three specific things to do in the next 30 days. Make it concrete enough that someone can start tomorrow.">
+    <div class="bg-grid"></div>
+    <div class="glow-tr"></div>
+    <div class="glow-bl"></div>
+    <div class="split">
+      <div class="split-col">
+        <div class="kicker">Your Move</div>
+        <h2 class="headline" style="font-size: clamp(1.8rem,3.6vw,3.5rem); max-width:14ch; margin-bottom: clamp(1rem,2vh,1.6rem);">
+          Three things to<br>do in the <em>next<br>30 days.</em>
+        </h2>
+        <p class="sub narrow">Don't wait for permission. The transition starts with the work you take on inside your current role.</p>
+      </div>
+      <div class="split-col right">
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">01</div>
+            <div class="phase-content">
+              <div class="phase-title">Audit your current programs for AI readiness</div>
+              <div class="phase-desc">Which 2-3 workflows could be improved with AI? Write a one-pager on each. This is your roadmap draft.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">02</div>
+            <div class="phase-content">
+              <div class="phase-title">Take one AI fluency course</div>
+              <div class="phase-desc">Not a technical deep dive. A practical course on how to evaluate and deploy AI in enterprise workflows.</div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">03</div>
+            <div class="phase-content">
+              <div class="phase-title">Propose one AI pilot to your leadership</div>
+              <div class="phase-desc">Small scope, clear metric, 60-day timeline. You don't need budget approval to write the proposal. Start there.</div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="pills">
+          <span class="pill pill-cyan">Start today</span>
+          <span class="pill pill-purple">No new title needed</span>
+          <span class="pill pill-white">The window is open</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#deck -->
+
+<!-- ===== UI ELEMENTS ===== -->
+<div id="progress-bar" style="width:10%"></div>
+<div id="counter">1 / 10</div>
+<button class="nav-btn" id="nav-prev" aria-label="Previous slide">&#8592;</button>
+<button class="nav-btn" id="nav-next" aria-label="Next slide">&#8594;</button>
+<div id="notes-panel">
+  <div id="notes-label">Speaker Notes</div>
+  <div id="notes-text"></div>
+</div>
 
 <script>
 (function() {
   const slides = Array.from(document.querySelectorAll('.slide'));
   const total = slides.length;
-  const fill = document.getElementById('progressFill');
-  const counter = document.getElementById('counter');
-  const notesEl = document.getElementById('notesOverlay');
   let current = 0;
   let notesVisible = false;
 
-  function goTo(n) {
-    if (n < 0 || n >= total) return;
+  function go(n) {
     slides[current].classList.remove('active');
-    slides[current].classList.add('exit');
-    const prev = current;
-    current = n;
+    current = Math.max(0, Math.min(total - 1, n));
     slides[current].classList.add('active');
-    setTimeout(function() { slides[prev].classList.remove('exit'); }, 400);
-    fill.style.width = ((current + 1) / total * 100) + '%';
-    counter.textContent = (current + 1) + ' / ' + total;
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress-bar').style.width = ((current + 1) / total * 100) + '%';
     if (notesVisible) showNotes();
   }
 
   function showNotes() {
-    const notes = slides[current].dataset.notes || '';
-    notesEl.textContent = notes ? '🗒 ' + notes : '(no notes for this slide)';
-    notesEl.classList.add('visible');
+    const note = slides[current].dataset.notes || '';
+    document.getElementById('notes-text').textContent = note;
+    document.getElementById('notes-panel').classList.add('visible');
   }
 
   function toggleNotes() {
     notesVisible = !notesVisible;
-    if (notesVisible) showNotes();
-    else notesEl.classList.remove('visible');
+    if (notesVisible) { showNotes(); }
+    else { document.getElementById('notes-panel').classList.remove('visible'); }
   }
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(current - 1); }
     if (e.key === 'n' || e.key === 'N') toggleNotes();
   });
 
-  document.getElementById('deck').addEventListener('click', function(e) {
-    var mid = window.innerWidth / 2;
-    if (e.clientX > mid) goTo(current + 1);
-    else goTo(current - 1);
-  });
+  document.getElementById('nav-next').addEventListener('click', () => go(current + 1));
+  document.getElementById('nav-prev').addEventListener('click', () => go(current - 1));
 
-  var tx = 0;
-  document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
-  document.addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 40) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+  // Touch/swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) go(dx < 0 ? current + 1 : current - 1);
   }, { passive: true });
-
-  fill.style.width = (1 / total * 100) + '%';
 })();
 </script>
 </body>

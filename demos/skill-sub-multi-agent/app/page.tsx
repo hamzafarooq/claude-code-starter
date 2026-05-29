@@ -7,23 +7,24 @@ import SimulationView from '@/components/SimulationView';
 import ConceptCallout from '@/components/ConceptCallout';
 
 function Stepper({ levelId }: { levelId: number }) {
+  const total = LEVELS.length;
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 6 }} aria-label="level progress">
-      {[1, 2, 3].map((n) => (
-        <div key={n} style={{ display: 'flex', alignItems: 'center' }}>
+      {LEVELS.map((l) => (
+        <div key={l.id} style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{
             width: 30, height: 30, borderRadius: '50%',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            border: `1px solid ${n === levelId ? 'var(--ink)' : 'var(--rule)'}`,
-            background: n === levelId ? 'var(--ink)' : n < levelId ? 'var(--plate)' : 'var(--surface)',
-            color: n === levelId ? 'var(--surface)' : n < levelId ? 'var(--ink-2)' : 'var(--ink-3)',
+            border: `1px solid ${l.id === levelId ? 'var(--ink)' : 'var(--rule)'}`,
+            background: l.id === levelId ? 'var(--ink)' : l.id < levelId ? 'var(--plate)' : 'var(--surface)',
+            color: l.id === levelId ? 'var(--surface)' : l.id < levelId ? 'var(--ink-2)' : 'var(--ink-3)',
             fontSize: 10.5,
             fontFamily: 'inherit',
             transition: 'all 200ms ease',
           }}>
-            {String(n).padStart(2, '0')}
+            {String(l.id).padStart(2, '0')}
           </div>
-          {n < 3 && <div style={{ width: 18, height: 1, background: 'var(--rule)' }} />}
+          {l.id < total && <div style={{ width: 18, height: 1, background: 'var(--rule)' }} />}
         </div>
       ))}
     </div>

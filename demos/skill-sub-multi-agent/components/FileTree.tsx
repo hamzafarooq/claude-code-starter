@@ -555,6 +555,79 @@ If you encounter a decision not covered by memory or specs,
 make the call and store it in memory with your reasoning.`,
           },
           {
+            name: 'hooks.py',
+            type: 'file',
+            content: `# hooks.py — PreToolUse and PostToolUse hooks
+# Wire these into your agent via the hooks parameter.
+#
+# hooks = {
+#     "pre_tool_use": pre_tool_use,
+#     "post_tool_use": post_tool_use,
+# }
+
+import datetime
+
+verified_customer_id: str | None = None
+
+
+def pre_tool_use(tool_name: str, tool_input: dict) -> dict | None:
+    """
+    Fires BEFORE a tool executes.
+    Return None  → allow (tool runs normally).
+    Return dict  → block (tool is skipped, dict is the result).
+    """
+    global verified_customer_id
+
+    # Gate: identity must be verified before order/refund ops
+    if tool_name in ("lookup_order", "process_refund"):
+        if not verified_customer_id:
+            return {
+                "isError": True,
+                "errorCategory": "validation",
+                "isRetryable": False,
+                "content": "Call get_customer first to obtain a verified customer_id",
+            }
+
+    # Policy gate: block refunds above $500 before they hit the backend
+    if tool_name == "process_refund":
+        amount = tool_input.get("amount", 0)
+        if amount > 500:
+            return {
+                "isError": True,
+                "errorCategory": "permission",
+                "isRetryable": False,
+                "content": f"Refund of {amount} exceeds the $500 limit. Use escalate_to_human instead.",
+            }
+
+    return None  # allowed — tool executes normally
+
+
+def post_tool_use(tool_name: str, result: dict) -> dict:
+    """
+    Fires AFTER a tool returns, before the model sees the result.
+    Normalise, trim, and enrich the result here.
+    """
+    global verified_customer_id
+
+    # Store verified customer_id after a successful get_customer call
+    if tool_name == "get_customer" and not result.get("isError"):
+        verified_customer_id = result.get("customer_id")
+
+    # Normalise Unix timestamps → ISO 8601
+    for key in ("created_at", "updated_at", "last_login", "processed_at"):
+        if key in result and isinstance(result[key], (int, float)):
+            result[key] = datetime.datetime.fromtimestamp(
+                result[key], tz=datetime.timezone.utc
+            ).isoformat()
+
+    # Trim verbose order responses to only the fields the agent needs
+    if tool_name == "lookup_order" and not result.get("isError"):
+        keep = {"order_id", "status", "amount", "date", "items"}
+        result = {k: v for k, v in result.items() if k in keep}
+
+    return result`,
+          },
+          {
             name: 'project-lead.md',
             type: 'file',
             content: `---

@@ -2,3 +2,6 @@ course-modules/
 docs/
 .DS_Store
 .playwright-mcp/
+*.pdf
+SB-AI-Enablement-Proposal.md
+agent-engineering-course
