@@ -5,3 +5,14 @@ docs/
 *.pdf
 SB-AI-Enablement-Proposal.md
 agent-engineering-course
+.env
+generate_images.py
+
+# Wall of Love
+scrape_reviews.py
+build_wall.py
+reviews.json
+wall-of-love.html
+wall-of-love-new-theme.html
+wall*.png
+sb-ai-proposal.html
