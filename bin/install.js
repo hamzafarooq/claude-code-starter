@@ -9,7 +9,8 @@ const os = require("os");
 // Constants
 // ---------------------------------------------------------------------------
 
-const SKILLS_SRC = path.join(__dirname, "..", ".claude", "skills");
+const SKILLS_SRC   = path.join(__dirname, "..", ".claude", "skills");
+const COMMANDS_SRC = path.join(__dirname, "..", ".claude", "commands");
 
 const YELLOW = "\x1b[33m";
 const GREEN  = "\x1b[32m";
@@ -164,7 +165,8 @@ if (configDirOverride) {
   claudeRoot = path.join(os.homedir(), ".claude");
 }
 
-const skillsTarget = path.join(claudeRoot, "skills");
+const skillsTarget   = path.join(claudeRoot, "skills");
+const commandsTarget = path.join(claudeRoot, "commands");
 
 // ---------------------------------------------------------------------------
 // Validate requested skills
@@ -200,6 +202,11 @@ if (doUninstall) {
     } else {
       console.log(`  skipped  ${destName} (not found)`);
     }
+    // Also remove the matching command file if present
+    const commandDest = path.join(commandsTarget, `${destName}.md`);
+    if (fs.existsSync(commandDest)) {
+      fs.rmSync(commandDest);
+    }
   }
   console.log(`\nDone. Removed ${removed} skill(s).\n`);
   process.exit(0);
@@ -228,6 +235,15 @@ for (const name of selectedSkills) {
   }
 
   copyRecursive(src, dest);
+
+  // Copy the matching command file if one exists
+  const commandSrc  = path.join(COMMANDS_SRC, `${name}.md`);
+  const commandDest = path.join(commandsTarget, `${destName}.md`);
+  if (fs.existsSync(commandSrc) && (!fs.existsSync(commandDest) || force)) {
+    fs.mkdirSync(commandsTarget, { recursive: true });
+    fs.copyFileSync(commandSrc, commandDest);
+  }
+
   console.log(`  ${GREEN}✔ installed${RESET}  ${destName}`);
   installed++;
 }

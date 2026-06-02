@@ -3,7 +3,7 @@ name: research-agent
 description: Research competitors, market trends, or background context.
   Use when asked to research, analyze competitors, or gather market
   information about a product, company, or industry.
-model: claude-opus-4-6
+model: claude-opus-4-8
 tools:
   - WebSearch
   - WebFetch

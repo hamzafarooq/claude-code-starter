@@ -120,7 +120,7 @@ More projects get added as the course runs.
 
 ## 🧩 Skills Library
 
-Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`, and every skill has a matching slash command file in `.claude/commands/<name>.md` so you can invoke it as `/<name>` directly from Claude Code.
+Skills are triggered with a `/command`. Install them once; Claude runs them on demand. All skills live in `.claude/skills/<name>/SKILL.md`. Most skills have a matching slash command file in `.claude/commands/<name>.md` so you can invoke them as `/<name>` directly from Claude Code.
 
 ```
 .claude/
@@ -128,9 +128,9 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 └── commands/<name>.md        ← thin wrapper that triggers the skill via /<name>
 ```
 
-To install a skill in your own project, copy both the `skills/<name>/` folder and the matching `commands/<name>.md` file into your project's `.claude/` directory.
+To install a skill in your own project, copy the `skills/<name>/` folder and, if present, the matching `commands/<name>.md` file into your project's `.claude/` directory. Note: a few entries appear only in one location — `explain-me-a-repo` is a command with no skill folder (it runs inline), and `claude-code-deck` is a skill folder with no command wrapper.
 
-**35 skills across 7 categories.** Click any skill name to open its SKILL.md file.
+**36 skills across 7 categories.** Click any skill name to open its SKILL.md file.
 
 ---
 
@@ -228,7 +228,7 @@ Inspired by how the best practitioners actually use Claude Code. These skills en
 
 ### Skills Library — Inspiration & Credits
 
-The 25 skills in this library were designed for this course, informed by research across the community. Key sources:
+The 36 skills in this library were designed for this course, informed by research across the community. Key sources:
 
 | Source | What we learned from it |
 |--------|------------------------|
@@ -430,12 +430,12 @@ If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. 
 
 ## ⚡ Install the PM Skill Pack (npx)
 
-Get all 34 PM-focused Claude Code skills in one command — no cloning required.
+Get all 36 PM-focused Claude Code skills in one command — no cloning required.
 
 **Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
 
 ```bash
-# Install all 34 skills globally (~/.claude/skills/)
+# Install all 36 skills globally (~/.claude/skills/)
 npx github:hamzafarooq/claude-code-starter@main --global
 
 # Install only specific skills
@@ -525,7 +525,7 @@ source ~/.zshrc
 Requires [Node.js](https://nodejs.org) (LTS version).
 
 ```bash
-npm install -g @anthropic/claude-code
+npm install -g @anthropic-ai/claude-code
 
 # Verify:
 claude --version
@@ -581,7 +581,7 @@ You're in. Explore `demos/` for apps, `.claude/skills/` for skills, and `.claude
 ## 🔧 Troubleshooting
 
 **`command not found: claude`**
-Run `npm install -g @anthropic/claude-code` again. Check Node.js is installed: `node --version`.
+Run `npm install -g @anthropic-ai/claude-code` again. Check Node.js is installed: `node --version`.
 
 **API key error**
 Run `export ANTHROPIC_API_KEY=your-key-here`. Make sure the key includes `sk-ant-`.
