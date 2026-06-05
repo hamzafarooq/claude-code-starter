@@ -130,7 +130,7 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 To install a skill in your own project, copy the `skills/<name>/` folder and, if present, the matching `commands/<name>.md` file into your project's `.claude/` directory. Note: a few entries appear only in one location — `explain-me-a-repo` is a command with no skill folder (it runs inline), and `claude-code-deck` is a skill folder with no command wrapper.
 
-**36 skills across 7 categories.** Click any skill name to open its SKILL.md file.
+**51 skills across 8 categories.** Click any skill name to open its SKILL.md file.
 
 ---
 
@@ -226,9 +226,33 @@ Inspired by how the best practitioners actually use Claude Code. These skills en
 
 ---
 
+### 🎨 Design & UI (auto-triggered by description — no command needed)
+
+A set of design-focused skills that Claude pulls in automatically when you ask it to build, redesign, or art-direct an interface. No `/command` — Claude matches them to your request, the same way it does sub-agents.
+
+| Skill | What it does |
+|-------|-------------|
+| [Taste (design-taste-frontend)](.claude/skills/taste-skill/SKILL.md) | Anti-slop frontend skill for landing pages, portfolios, and redesigns — infers the right direction and ships interfaces that don't look templated |
+| [Taste v1](.claude/skills/taste-skill-v1/SKILL.md) | The original v1 taste-skill, preserved for projects that depend on its exact behavior |
+| [UI/UX Pro Max](.claude/skills/ui-ux-pro-max/SKILL.md) | Design intelligence: 67 styles, 96 palettes, 57 font pairings, 25 charts, 13 stacks (React, Next.js, Vue, Svelte, SwiftUI, Flutter, Tailwind, shadcn/ui) |
+| [High-End Visual Design (soft)](.claude/skills/soft-skill/SKILL.md) | Designs like a high-end agency — exact fonts, spacing, shadows, and animations that make a site feel expensive; blocks cheap AI defaults |
+| [Minimalist UI](.claude/skills/minimalist-skill/SKILL.md) | Clean editorial interfaces — warm monochrome palette, typographic contrast, flat bento grids, no heavy shadows |
+| [Industrial Brutalist UI](.claude/skills/brutalist-skill/SKILL.md) | Raw mechanical interfaces — Swiss typographic print meets military terminal, rigid grids, extreme type-scale contrast |
+| [Redesign Existing Projects](.claude/skills/redesign-skill/SKILL.md) | Audits an existing site/app, flags generic AI patterns, and upgrades it to premium without breaking functionality |
+| [GPT Taste](.claude/skills/gpt-tasteskill/SKILL.md) | Elite UX/UI + GSAP motion engineer — randomized layout variance, strict AIDA structure, scroll-driven animation |
+| [Stitch Design Taste](.claude/skills/stitch-skill/SKILL.md) | Semantic design-system skill for Google Stitch — generates agent-friendly `DESIGN.md` files enforcing premium UI standards |
+| [Beautiful HTML](.claude/skills/beautiful-html/SKILL.md) | Turns any document, proposal, or outline into a stunning single-file HTML presentation using 34 pre-built templates |
+| [Brand Kit](.claude/skills/brandkit/SKILL.md) | Premium brand-kit image generation — brand-guideline boards, logo systems, identity decks, visual-world presentations |
+| [Imagegen — Web](.claude/skills/imagegen-frontend-web/SKILL.md) | Generates premium, conversion-aware website design references — one image per section, consistent palette |
+| [Imagegen — Mobile](.claude/skills/imagegen-frontend-mobile/SKILL.md) | Generates premium app-native screen concepts and flows for iOS, Android, and cross-platform mobile |
+| [Image to Code](.claude/skills/image-to-code-skill/SKILL.md) | Generates the design image first, analyzes it, then builds the website to match it as closely as possible |
+| [Full Output Enforcement](.claude/skills/output-skill/SKILL.md) | Overrides LLM truncation — enforces complete code generation, bans placeholders, handles token-limit splits cleanly |
+
+---
+
 ### Skills Library — Inspiration & Credits
 
-The 36 skills in this library were designed for this course, informed by research across the community. Key sources:
+The 51 skills in this library were designed for this course, informed by research across the community. Key sources:
 
 | Source | What we learned from it |
 |--------|------------------------|
@@ -428,14 +452,14 @@ If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. 
 
 ---
 
-## ⚡ Install the PM Skill Pack (npx)
+## ⚡ Install the Skill Pack (npx)
 
-Get all 36 PM-focused Claude Code skills in one command — no cloning required.
+Get all 51 Claude Code skills in one command — no cloning required.
 
 **Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
 
 ```bash
-# Install all 36 skills globally (~/.claude/skills/)
+# Install all 51 skills globally (~/.claude/skills/)
 npx github:hamzafarooq/claude-code-starter@main --global
 
 # Install only specific skills
