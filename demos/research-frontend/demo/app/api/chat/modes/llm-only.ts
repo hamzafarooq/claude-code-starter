@@ -1,9 +1,10 @@
 import type Anthropic from "@anthropic-ai/sdk";
-import { anthropic, MODEL } from "@/lib/anthropic";
+import { getAnthropic, MODEL } from "@/lib/anthropic";
 import type { ChatMessage } from "@/components/ChatPane";
 import { buildStickies } from "@/lib/stickies";
 
-export async function runLlmOnly(messages: ChatMessage[]) {
+export async function runLlmOnly(messages: ChatMessage[], apiKey?: string) {
+  const anthropic = getAnthropic(apiKey);
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 1024,

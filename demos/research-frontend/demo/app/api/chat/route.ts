@@ -8,19 +8,19 @@ import { runLongTerm } from "./modes/long-term";
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  const { mode, messages } = await req.json();
+  const { mode, messages, apiKey } = await req.json();
   try {
     switch (mode) {
       case "llm":
-        return NextResponse.json(await runLlmOnly(messages));
+        return NextResponse.json(await runLlmOnly(messages, apiKey));
       case "short-term":
-        return NextResponse.json(await runShortTerm(messages));
+        return NextResponse.json(await runShortTerm(messages, apiKey));
       case "long-term":
-        return NextResponse.json(await runLongTerm(messages));
+        return NextResponse.json(await runLongTerm(messages, apiKey));
       case "tools":
-        return NextResponse.json(await runLlmTools(messages));
+        return NextResponse.json(await runLlmTools(messages, apiKey));
       case "memory":
-        return NextResponse.json(await runLlmToolsMemory(messages));
+        return NextResponse.json(await runLlmToolsMemory(messages, apiKey));
       default:
         return NextResponse.json({ error: `Unknown mode: ${mode}` }, { status: 400 });
     }

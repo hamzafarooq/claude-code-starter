@@ -62,6 +62,19 @@ export default function Home() {
   const [histories, setHistories] = useState<Record<Mode, ChatMessage[]>>(EMPTY_HISTORIES);
   const [loading, setLoading] = useState(false);
   const [mem, setMem] = useState({ claudeMd: "", skillMd: "" });
+  const [apiKey, setApiKey] = useState("");
+
+  // Restore a previously entered key from this browser.
+  useEffect(() => {
+    const saved = localStorage.getItem("anthropic_api_key");
+    if (saved) setApiKey(saved);
+  }, []);
+
+  function updateApiKey(value: string) {
+    setApiKey(value);
+    if (value.trim()) localStorage.setItem("anthropic_api_key", value.trim());
+    else localStorage.removeItem("anthropic_api_key");
+  }
 
   const activeTab = TABS.find((t) => t.id === active)!;
   const showPanel = active === "long-term" || active === "memory";
@@ -91,7 +104,7 @@ export default function Home() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: active, messages: next }),
+        body: JSON.stringify({ mode: active, messages: next, apiKey }),
       });
       const data = await res.json();
       const reply: ChatMessage = {
@@ -117,6 +130,20 @@ export default function Home() {
       <header className="mb-6 flex items-center gap-3">
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-orange font-bold text-white">✻</div>
         <h1 className="text-base font-semibold">Competitor Research Agent — Agentic AI PM Course</h1>
+        <div className="ml-auto flex items-center gap-2">
+          <input
+            type="password"
+            value={apiKey}
+            onChange={(e) => updateApiKey(e.target.value)}
+            placeholder="Anthropic API key (sk-ant-…)"
+            spellCheck={false}
+            autoComplete="off"
+            className="w-72 rounded-md border border-line bg-white px-3 py-1.5 text-xs text-ink placeholder:text-ink-3 focus:border-orange focus:outline-none"
+          />
+          <span className={"text-[10px] " + (apiKey.trim() ? "text-ink-3" : "text-orange")}>
+            {apiKey.trim() ? "key set" : "uses server key"}
+          </span>
+        </div>
       </header>
 
       <div className="rounded-2xl border border-line bg-white shadow-sm">

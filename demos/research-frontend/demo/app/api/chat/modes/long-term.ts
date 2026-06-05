@@ -1,4 +1,4 @@
-import { anthropic, MODEL } from "@/lib/anthropic";
+import { getAnthropic, MODEL } from "@/lib/anthropic";
 import { toolsForLongTermMode } from "@/lib/tools";
 import { executeToolUse, formatTrace } from "@/lib/tool-loop";
 import { readMemory } from "@/lib/memory";
@@ -9,7 +9,8 @@ import type { ChatMessage } from "@/components/ChatPane";
 // Only remember_fact is available here, so a short loop is plenty (the capstone uses 6 for multi-tool research).
 const MAX_ITERATIONS = 4;
 
-export async function runLongTerm(messages: ChatMessage[]) {
+export async function runLongTerm(messages: ChatMessage[], apiKey?: string) {
+  const anthropic = getAnthropic(apiKey);
   const claudeMd = await readMemory();
 
   const system = [

@@ -1,4 +1,4 @@
-import { anthropic, MODEL } from "@/lib/anthropic";
+import { getAnthropic, MODEL } from "@/lib/anthropic";
 import { toolsForToolsMode } from "@/lib/tools";
 import { executeToolUse, formatTrace } from "@/lib/tool-loop";
 import { buildStickies, type ObservedToolCall } from "@/lib/stickies";
@@ -16,7 +16,8 @@ Tool priority:
 
 If rag_search returns nothing relevant, say "the corpus is silent on this" briefly, then fall back to web_search. Never invent facts.`;
 
-export async function runLlmTools(messages: ChatMessage[]) {
+export async function runLlmTools(messages: ChatMessage[], apiKey?: string) {
+  const anthropic = getAnthropic(apiKey);
   const traces: string[] = [];
   const toolCalls: ObservedToolCall[] = [];
   let webSearchUsed = false;
