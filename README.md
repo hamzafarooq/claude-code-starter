@@ -94,6 +94,63 @@ All course code, templates, skills, and commands live here. Come back here whene
 
 ---
 
+## 📝 Course Assignments
+
+> If you're following the live cohort or self-paced course, these are the hands-on assignments for each module.
+
+---
+
+### Module 1 — From Idea to Shipped Product
+
+| Assignment | What you'll do |
+|-----------|----------------|
+| **1a: Set up your CLAUDE.md** | Write your project context file — tells Claude who you are, what you're building, and how to work with you |
+| **1b: Install your skills** | Test [`/prd-generator`](.claude/skills/prd-generator/SKILL.md) and [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md) on a real feature idea; read the SKILL.md to understand how it works |
+| **1c (Bonus): Idea → PRD → MVP** | Take a real product idea through the full workflow: generate a PRD, write user stories, build the MVP with Claude Code |
+
+**Skills used:** [`/prd-generator`](.claude/skills/prd-generator/SKILL.md), [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md)
+
+---
+
+### Module 2 — How the Web Works
+
+| Assignment | What you'll do |
+|-----------|----------------|
+| **2a: Build your first custom skill** | Write the [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md) skill from scratch — a skill that reads a GitHub URL and returns a full repo briefing |
+| **2b: Set up Brave MCP** | Install and register Brave MCP so Claude can browse live pages; verify with a real repo URL |
+| **2c: Use `/explain-me-a-repo` on a real repo** | Run the skill on a repo Claude has never seen; compare the output with and without MCP |
+
+**Skills used:** [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md), [`/youtube-deepdive`](.claude/skills/youtube-deepdive/SKILL.md), [`/youtube-researcher`](.claude/skills/youtube-researcher/SKILL.md)
+
+---
+
+### Module 3 — Sub-Agents: Your Team of Specialists
+
+| Assignment | What you'll do |
+|-----------|----------------|
+| **3a: Build your research-agent** | Create a [`research-agent`](.claude/agents/research-agent.md) sub-agent that searches the web and returns structured findings with sources |
+| **3b: Build your prd-reviewer** | Create a [`prd-reviewer`](.claude/agents/prd-reviewer.md) that reads any PRD and returns exactly 3 risks, 3 edge cases, 1 scope creep flag |
+| **3c: Build a sub-agent pipeline** | Chain research → PRD → review in one prompt: competitor research to reviewed spec in 3–5 minutes |
+| **3d: Add your code-reviewer** | Create a read-only [`code-reviewer`](.claude/agents/code-reviewer.md) sub-agent to audit code before committing or sharing with engineering |
+| **3e: Add remaining agents (optional)** | Add [`data-analyst`](.claude/agents/data-analyst.md) and [`copy-writer`](.claude/agents/copy-writer.md) to your agent team |
+| **3f (Bonus): Design your agent team blueprint** | Map out your ideal agent team for your actual job — what agents would save you the most time? |
+
+**Agents used:** [`research-agent`](.claude/agents/research-agent.md), [`prd-reviewer`](.claude/agents/prd-reviewer.md), [`code-reviewer`](.claude/agents/code-reviewer.md), [`data-analyst`](.claude/agents/data-analyst.md), [`copy-writer`](.claude/agents/copy-writer.md)
+
+---
+
+### Module 4 — Evals, Deploy & Production
+
+| Assignment | What you'll do |
+|-----------|----------------|
+| **4a: Write evals for your Skill** | Score your skill against ground truth using [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md) — know it works before you ship it |
+| **4b: Deploy to Vercel** | Get your product to a live URL using `vercel --prod` — see the [Deploy to Vercel](#-deploy-to-vercel) section |
+| **4c: Skills in Production** | Convert your Claude Code skill pipeline into a FastAPI app that runs on a server |
+
+**Skills used:** [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md), [`/deploy-checklist`](.claude/skills/deploy-checklist/SKILL.md)
+
+---
+
 ## 🛠️ Projects
 
 Real apps built live in class using Claude Code — no engineering team. Fork them, break them, learn from them.
@@ -318,63 +375,6 @@ Both let Claude interact with a browser. Here's when to use each:
 | **In this course** | Not covered (engineering territory) | Used in Module 2 for `/explain-me-a-repo` and `/youtube-deepdive` |
 
 **Simple rule of thumb:** Use MCP when you want Claude to browse something *now*, in conversation. Use Playwright when you need browser automation to run reliably at scale or on a schedule — that's usually an engineering task.
-
----
-
-## 📝 Course Assignments
-
-> If you're following the live cohort or self-paced course, these are the hands-on assignments for each module.
-
----
-
-### Module 1 — From Idea to Shipped Product
-
-| Assignment | What you'll do |
-|-----------|----------------|
-| **1a: Set up your CLAUDE.md** | Write your project context file — tells Claude who you are, what you're building, and how to work with you |
-| **1b: Install your skills** | Test [`/prd-generator`](.claude/skills/prd-generator/SKILL.md) and [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md) on a real feature idea; read the SKILL.md to understand how it works |
-| **1c (Bonus): Idea → PRD → MVP** | Take a real product idea through the full workflow: generate a PRD, write user stories, build the MVP with Claude Code |
-
-**Skills used:** [`/prd-generator`](.claude/skills/prd-generator/SKILL.md), [`/user-story-writer`](.claude/skills/user-story-writer/SKILL.md)
-
----
-
-### Module 2 — How the Web Works
-
-| Assignment | What you'll do |
-|-----------|----------------|
-| **2a: Build your first custom skill** | Write the [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md) skill from scratch — a skill that reads a GitHub URL and returns a full repo briefing |
-| **2b: Set up Brave MCP** | Install and register Brave MCP so Claude can browse live pages; verify with a real repo URL |
-| **2c: Use `/explain-me-a-repo` on a real repo** | Run the skill on a repo Claude has never seen; compare the output with and without MCP |
-
-**Skills used:** [`/explain-me-a-repo`](.claude/commands/explain-me-a-repo.md), [`/youtube-deepdive`](.claude/skills/youtube-deepdive/SKILL.md), [`/youtube-researcher`](.claude/skills/youtube-researcher/SKILL.md)
-
----
-
-### Module 3 — Sub-Agents: Your Team of Specialists
-
-| Assignment | What you'll do |
-|-----------|----------------|
-| **3a: Build your research-agent** | Create a [`research-agent`](.claude/agents/research-agent.md) sub-agent that searches the web and returns structured findings with sources |
-| **3b: Build your prd-reviewer** | Create a [`prd-reviewer`](.claude/agents/prd-reviewer.md) that reads any PRD and returns exactly 3 risks, 3 edge cases, 1 scope creep flag |
-| **3c: Build a sub-agent pipeline** | Chain research → PRD → review in one prompt: competitor research to reviewed spec in 3–5 minutes |
-| **3d: Add your code-reviewer** | Create a read-only [`code-reviewer`](.claude/agents/code-reviewer.md) sub-agent to audit code before committing or sharing with engineering |
-| **3e: Add remaining agents (optional)** | Add [`data-analyst`](.claude/agents/data-analyst.md) and [`copy-writer`](.claude/agents/copy-writer.md) to your agent team |
-| **3f (Bonus): Design your agent team blueprint** | Map out your ideal agent team for your actual job — what agents would save you the most time? |
-
-**Agents used:** [`research-agent`](.claude/agents/research-agent.md), [`prd-reviewer`](.claude/agents/prd-reviewer.md), [`code-reviewer`](.claude/agents/code-reviewer.md), [`data-analyst`](.claude/agents/data-analyst.md), [`copy-writer`](.claude/agents/copy-writer.md)
-
----
-
-### Module 4 — Evals, Deploy & Production
-
-| Assignment | What you'll do |
-|-----------|----------------|
-| **4a: Write evals for your Skill** | Score your skill against ground truth using [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md) — know it works before you ship it |
-| **4b: Deploy to Vercel** | Get your product to a live URL using `vercel --prod` — see the [Deploy to Vercel](#-deploy-to-vercel) section |
-| **4c: Skills in Production** | Convert your Claude Code skill pipeline into a FastAPI app that runs on a server |
-
-**Skills used:** [`/skill-evaluator`](.claude/skills/skill-evaluator/SKILL.md), [`/deploy-checklist`](.claude/skills/deploy-checklist/SKILL.md)
 
 ---
 

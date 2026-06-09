@@ -44,6 +44,48 @@ Update this file after major changes or decisions.
 
 ---
 
+## Wall of Love (built 2026-05-31)
+
+Scrapes all Maven reviews for maven.com/boring-bot and renders a filterable HTML page.
+
+### Files
+| File | Purpose |
+|------|---------|
+| `scrape_reviews.py` | Hits Maven's public API (`api.maven.com/courses/{id}/reviews`) — no browser needed. Saves `reviews.json`. |
+| `build_wall.py` | Reads `reviews.json`, generates `wall-of-love.html` with all reviews embedded. |
+| `reviews.json` | 239 scraped reviews (gitignore candidate — regenerate with scraper). |
+| `wall-of-love.html` | Self-contained wall of love page. White theme, Inter font, course filter tabs, real profile photos. |
+
+### Course IDs (Maven API)
+| Course | ID | Reviews |
+|--------|-----|---------|
+| Claude Code in Practice | 19374 | 34 |
+| Agentic AI for Product Managers | 3847 | 110 |
+| Agent Engineering Bootcamp | 10144 | 82 |
+| Workshop | 11426 | 13 |
+
+### Usage
+```bash
+# Full refresh — scrape all reviews then rebuild page
+python3 build_wall.py --run-scraper
+
+# Rebuild from existing reviews.json (faster)
+python3 build_wall.py
+```
+
+### How it works
+- Maven's review API is public (no auth): `GET https://api.maven.com/courses/{id}/reviews?page=N&limit=50`
+- Response includes `metadata.total`, `metadata.pages` for pagination
+- Reviews with null `preferred_name` are filtered out (~46 anonymous reviews)
+- Profile photos come from `user.attrs.bio.profile_image_url`, proxied through Maven's Next.js image endpoint
+
+### Next steps
+- [ ] Add `reviews.json` to `.gitignore` (large, regeneratable)
+- [ ] Embed wall-of-love in course landing page or Substack
+- [ ] Run scraper periodically to pick up new cohort reviews
+
+---
+
 ## Open items
 
 - [x] Add Module 2 folder and materials
