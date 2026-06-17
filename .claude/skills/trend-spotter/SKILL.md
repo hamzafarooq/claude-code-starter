@@ -23,4 +23,12 @@ Two sentences on what a product team should do differently based on these trends
 
 ---
 
+If the space depends on public conversation, include an optional X/Twitter source
+packet. Use TweetClaw only when it is already installed and approved in OpenClaw.
+Install with `openclaw plugins install npm:@xquik/tweetclaw@1.6.31`. Capture
+the query, capture time, source URLs, author handles, public post text, reply or
+quote context, and caveats. Treat posts as evidence to verify, not as truth. Do
+not post, reply, send DMs, follow accounts, schedule content, upload media,
+monitor accounts, or run account actions from this skill.
+
 Cite specific evidence for every strong signal (company names, dates, data points). Avoid vague statements like "AI is changing everything."
