@@ -55,12 +55,6 @@
 
     .api-key-row { display: flex; align-items: center; gap: 8px; }
     .api-key-row label { font-size: 0.78rem; font-weight: 600; color: #666; white-space: nowrap; }
-    .api-key-row input {
-      padding: 7px 12px; border: 1px solid #ddd; border-radius: 6px;
-      font-size: 0.82rem; font-family: monospace; width: 260px;
-      outline: none; transition: border-color 0.15s;
-    }
-    .api-key-row input:focus { border-color: #6c63ff; }
 
     .key-status { font-size: 0.75rem; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
     .key-status.set   { background: #d1fae5; color: #065f46; }
@@ -252,8 +246,20 @@
 
 <!-- CTA Banner -->
 <div class="cta-banner">
-  <span>Become an Agent-Native PM in 1 Day with Claude Code</span>
-  <a class="cta-btn" href="https://maven.com/boring-bot/claude-code-in-practice" target="_blank" rel="noopener">Join the Workshop →</a>
+  <span>Become an Agent-Native PM in 1 Month with Claude Code</span>
+  <a class="cta-btn" href="https://maven.com/boring-bot/claude-code-in-practice" target="_blank" rel="noopener">Join the Course →</a>
+</div>
+
+<!-- Security architecture disclaimer -->
+<div style="background:#b91c1c;color:#fff;padding:12px 24px;font-size:0.85rem;display:flex;align-items:center;gap:16px;">
+  <strong style="font-size:1rem;">Security Demo</strong>
+  <span>
+    This app calls Claude from a <strong>real Node.js backend</strong> — the API key lives in
+    <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">.env</code>
+    on the server and is <strong>never sent to the browser</strong>.
+    Start the backend first:
+    <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">node server.js</code>
+  </span>
 </div>
 
 <!-- Top bar -->
@@ -263,9 +269,7 @@
     <p>Frontend · Backend · AI Backend — live demo</p>
   </div>
   <div class="api-key-row">
-    <label for="apiKey">Anthropic API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-ant-..." />
-    <span class="key-status unset" id="keyStatus">Not set</span>
+    <span class="key-status" id="keyStatus">Checking server...</span>
   </div>
 </div>
 
@@ -282,7 +286,7 @@
 
     <div class="form-group">
       <label for="userQuestion">Your question</label>
-      <span class="hint">Ask something simple. The backend will process it and the AI will answer.</span>
+      <span class="hint">Make sure <code>node server.js</code> is running first. The backend holds the API key and calls Claude for you.</span>
       <textarea id="userQuestion" placeholder="e.g. What is a database?"></textarea>
     </div>
 
@@ -354,19 +358,23 @@
 </div>
 
 <script>
-  const apiKeyInput = document.getElementById('apiKey');
-  const keyStatus   = document.getElementById('keyStatus');
+  const keyStatus = document.getElementById('keyStatus');
 
-  apiKeyInput.addEventListener('input', () => {
-    const v = apiKeyInput.value.trim();
-    if (v.startsWith('sk-ant-') && v.length > 20) {
-      keyStatus.textContent = 'Set';
+  async function checkServer() {
+    try {
+      await fetch('http://localhost:3001/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ messages: [] })
+      });
+      keyStatus.textContent = 'Server running';
       keyStatus.className = 'key-status set';
-    } else {
-      keyStatus.textContent = 'Not set';
+    } catch {
+      keyStatus.textContent = 'Server offline — run: node server.js';
       keyStatus.className = 'key-status unset';
     }
-  });
+  }
+  checkServer();
 
   function fillExample(text) {
     document.getElementById('userQuestion').value = text;
@@ -383,12 +391,8 @@
 
   async function handleSend() {
     const question = document.getElementById('userQuestion').value.trim();
-    const apiKey   = apiKeyInput.value.trim();
 
     if (!question) { alert('Please enter a question.'); return; }
-    if (!apiKey.startsWith('sk-ant-')) {
-      alert('Please enter a valid Anthropic API key (starts with sk-ant-).'); return;
-    }
 
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
@@ -443,18 +447,10 @@
       '<span class="spinner"></span> Claude is thinking...';
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('http://localhost:3001/api/chat', {
         method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 300,
-          system: 'You are a helpful assistant explaining web concepts to product managers. Keep answers clear, concise, and jargon-free. 2-4 sentences max.',
           messages: [{ role: 'user', content: question }]
         })
       });
