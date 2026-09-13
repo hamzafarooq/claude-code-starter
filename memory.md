@@ -32,6 +32,7 @@ Update this file after major changes or decisions.
 | prd-generator | `/prd-generator` | `module-1/.claude/skills/prd-generator/SKILL.md` | Live |
 | user-story-writer | `/user-story-writer` | `module-1/.claude/skills/user-story-writer/SKILL.md` | Live |
 | explain-me-a-repo | `/explain-me-a-repo` | `module-2/.claude/skills/explain-me-a-repo/SKILL.md` | Live — requires Brave MCP for live browsing |
+| sharpen | `/sharpen` | `.claude/skills/sharpen/SKILL.md` | Live — added 2026-09-13; critiques a draft message (rating + critique + rewrite) |
 
 ---
 

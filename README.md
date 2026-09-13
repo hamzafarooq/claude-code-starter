@@ -187,7 +187,7 @@ Skills are triggered with a `/command`. Install them once; Claude runs them on d
 
 To install a skill in your own project, copy the `skills/<name>/` folder and, if present, the matching `commands/<name>.md` file into your project's `.claude/` directory. Note: a few entries appear only in one location — `explain-me-a-repo` is a command with no skill folder (it runs inline), and `claude-code-deck` is a skill folder with no command wrapper.
 
-**51 skills across 8 categories.** Click any skill name to open its SKILL.md file.
+**52 skills across 8 categories.** Click any skill name to open its SKILL.md file.
 
 ---
 
@@ -216,6 +216,7 @@ To install a skill in your own project, copy the `skills/<name>/` folder and, if
 | [Email Writer](.claude/skills/email-writer/SKILL.md) | `/email-writer` | Writes launch, follow-up, re-engagement, or cold outreach emails with 3 subject line options |
 | [Content Repurposer](.claude/skills/content-repurposer/SKILL.md) | `/content-repurposer` | Turns one long-form piece into 5 formats: tweet thread, LinkedIn, newsletter blurb, Substack Note, TL;DR |
 | [SEO Optimizer](.claude/skills/seo-optimizer/SKILL.md) | `/seo-optimizer` | Analyzes a draft for keyword gaps, rewrites title/meta/H2s for search without killing the voice |
+| [Sharpen](.claude/skills/sharpen/SKILL.md) | `/sharpen` | Critiques a draft email, Slack message, or exec update — signal-strength rating, what's weak and why, and a ready-to-send rewrite |
 
 ---
 
@@ -309,7 +310,7 @@ A set of design-focused skills that Claude pulls in automatically when you ask i
 
 ### Skills Library — Inspiration & Credits
 
-The 51 skills in this library were designed for this course, informed by research across the community. Key sources:
+The 52 skills in this library were designed for this course, informed by research across the community. Key sources:
 
 | Source | What we learned from it |
 |--------|------------------------|
@@ -454,12 +455,12 @@ If your app uses an `ANTHROPIC_API_KEY` (or any other secret), don't commit it. 
 
 ## ⚡ Install the Skill Pack (npx)
 
-Get all 51 Claude Code skills in one command — no cloning required.
+Get all 52 Claude Code skills in one command — no cloning required.
 
 **Prerequisite:** Node.js 20 or later must be installed. Check with `node --version`. If you don't have it, install from [nodejs.org](https://nodejs.org) or run `nvm install 22 && nvm use 22` if you use nvm.
 
 ```bash
-# Install all 51 skills globally (~/.claude/skills/)
+# Install all 52 skills globally (~/.claude/skills/)
 npx github:hamzafarooq/claude-code-starter@main --global
 
 # Install only specific skills
