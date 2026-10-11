@@ -247,6 +247,7 @@ To install a skill in your own project, copy the `skills/<name>/` folder and, if
 | [Code Reviewer](.claude/agents/code-reviewer.md) | (sub-agent) | Read-only audit: security vulnerabilities, logic errors, missing test coverage |
 | [Skill Evaluator](.claude/skills/skill-evaluator/SKILL.md) | `/skill-evaluator` | Scores a Skill's output against ground truth, identifies failure patterns |
 | [Deploy Checklist](.claude/skills/deploy-checklist/SKILL.md) | `/deploy-checklist` | Pre-deploy checks before pushing to Vercel or Fly.io — catches the five most common failures |
+| [Skill to SDK](.claude/skills/skill-to-sdk/SKILL.md) | `/skill-to-sdk` | Wraps any SKILL.md into a standalone Python app on the Anthropic SDK — run it outside Claude Code |
 
 ---
 
